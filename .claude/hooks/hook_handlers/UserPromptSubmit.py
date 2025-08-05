@@ -12,7 +12,7 @@ from typing import List, Tuple, Dict, Any
 # Import the simplified logger and state manager
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from hook_logger import logger
-from state_manager import state_manager
+from hook_tools.state_manager import state_manager
 
 # Load constants from JSON file
 def load_constants() -> Dict[str, Any]:
