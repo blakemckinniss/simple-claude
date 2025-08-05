@@ -1,0 +1,49 @@
+{
+  "sessions": {
+    "42641088-2dba-43a7-8354-2c914bf1d19a": {
+      "continuation_id": "50745d22-675f-4540-9cdf-52cb1d1d6f93",
+      "created_at": "2025-08-05T15:24:42.633570",
+      "last_updated": "2025-08-05T15:35:21.067546",
+      "tool_count": 25
+    },
+    "f1193e53-0aef-4100-aa10-f4565b0a935d": {
+      "continuation_id": "e4bce1dc-f7e2-45b4-8709-eb306d3b4c6f",
+      "created_at": "2025-08-05T15:40:27.319538",
+      "last_updated": "2025-08-05T15:43:15.867105",
+      "tool_count": 10
+    },
+    "83f80c4b-d607-4f8b-a13c-831f6db7c118": {
+      "continuation_id": "6c9bbf52-6ef2-4a0a-a437-e16404fc675e",
+      "created_at": "2025-08-05T15:43:29.500680",
+      "last_updated": "2025-08-05T15:47:16.552740",
+      "tool_count": 6
+    },
+    "8e1c99aa-a070-4f86-b68a-20ac5fd47928": {
+      "continuation_id": null,
+      "created_at": "2025-08-05T15:54:55.820796",
+      "last_updated": "2025-08-05T15:56:35.429012",
+      "tool_count": 6
+    },
+    "test-session": {
+      "continuation_id": null,
+      "created_at": "2025-08-05T15:56:35.273536",
+      "last_updated": "2025-08-05T15:56:35.273558"
+    },
+    "f3f043f2-57e7-45e0-a63e-a6e59ca7c621": {
+      "continuation_id": null,
+      "created_at": "2025-08-05T16:10:17.748182",
+      "last_updated": "2025-08-05T16:10:17.748208"
+    },
+    "15a091e0-328f-48ac-a7f9-3c2737d99c8b": {
+      "continuation_id": null,
+      "created_at": "2025-08-05T16:10:30.523380",
+      "last_updated": "2025-08-05T16:13:21.273215",
+      "tool_count": 2
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-05T13:45:04.647646",
+    "version": "1.0",
+    "last_updated": "2025-08-05T16:13:21.273224"
+  }
+}

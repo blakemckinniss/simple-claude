@@ -168,6 +168,7 @@ public
 # Temporary folders
 tmp/
 temp/
+tests/
 
 # Editor directories and files
 .vscode/*
@@ -213,3 +214,9 @@ temp/
 .claude/tmp/
 .claude/*.cache
 .claude/**/*.cache
+.ruff_cache
+
+# Prevent nested .claude directories (they should never exist)
+**/.claude/**/.claude/
+.claude/**/.semantic_outline_verbose.json
+!.claude/.semantic_outline_verbose.json

@@ -44,7 +44,7 @@ Every enhanced prompt MUST contain:
 4. ENHANCED REQUEST
    - Primary Task: [User's request]
    - Relevant Context: [Structured context]
-   - Recommended Approach: [Based on analysis]
+   - MUST USE Approach: [Based on analysis]
 
 5. CLAUDE CODE META ANALYSIS
    - 20-point questionnaire with context-based answers
@@ -124,7 +124,7 @@ Balanced approach:
 - Overview of current state
 - Available resources
 - Potential challenges
-- Recommended approach
+- MUST USE approach
 
 ## 6. AI Enhancement Pipeline
 

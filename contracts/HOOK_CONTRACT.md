@@ -1,7 +1,7 @@
 # Claude Code Hook Handler Contract
 
 ## Purpose
-This contract establishes the governing rules and principles that Claude Code MUST respect when expanding or editing hook functionality within the `/home/devcontainers/better-claude/.claude/hooks/hook_handlers` directory. This contract is based on the official Claude Code hooks documentation and is designed to prevent destructive misuse.
+This contract establishes the governing rules and principles that Claude Code MUST respect when expanding or editing hook functionality within the `$CLAUDE_PROJECT_DIR + /.claude/hooks/hook_handlers` directory. This contract is based on the official Claude Code hooks documentation and is designed to prevent destructive misuse.
 
 ## Core Principles
 
@@ -177,7 +177,7 @@ if ".." in file_path or file_path.startswith("/etc"):
 ### 5. Implementation Requirements
 
 #### 5.1 File Organization
-- Hook handlers must be placed in `/home/devcontainers/better-claude/.claude/hooks/hook_handlers/`
+- Hook handlers must be placed in `$CLAUDE_PROJECT_DIR + /.claude/hooks/hook_handlers/`
 - Each event type should have its own module or directory
 - Common utilities should be factored into shared modules
 

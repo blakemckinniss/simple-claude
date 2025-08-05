@@ -12,7 +12,7 @@ This contract establishes standards for integrating and managing external CLI to
 {
   "tools": {
     "search": ["rg", "fd", "fzf"],
-    "file_ops": ["bat", "lsd", "exa", "tree"],
+    "file_ops": ["lsd", "exa", "tree"],
     "text_processing": ["sd", "jq", "yq", "mlr"],
     "development": ["ctags", "delta", "tokei", "scc"],
     "system": ["zoxide", "dust", "duf", "procs"],

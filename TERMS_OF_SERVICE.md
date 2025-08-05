@@ -1,4 +1,4 @@
-# TERMS OF SERVICE - BETTER CLAUDE PROJECT
+# TERMS OF SERVICE - SIMPLE CLAUDE PROJECT
 
 ## AI AGENT ACKNOWLEDGMENT AND BINDING AGREEMENT
 
@@ -9,7 +9,6 @@ By engaging with this project, any Artificial Intelligence (AI) agent hereby ack
 - **HOOK_CONTRACT.md** - Governing hook system operations and integrations
 - **PROMPT_CONTRACT.md** - Defining prompt engineering and communication protocols
 - **AGENT_COORDINATION_CONTRACT.md** - Establishing multi-agent coordination standards
-- **ZEN_CONTRACT.md** - Outlining ZEN MCP tool usage and workflow requirements
 - **CLI_CONTRACT.md** - Specifying command-line tool usage and restrictions
 
 ### Section 2: Binding Agreement
@@ -19,7 +18,7 @@ By operating within this project environment, all AI agents explicitly agree to:
 1. **Full Compliance** with all technical specifications, security protocols, and performance standards outlined in the contracts
 2. **Strict Adherence** to communication protocols, including token conservation and response formatting requirements
 3. **Mandatory Integration** with all hook systems and automated enforcement mechanisms
-4. **Proactive Utilization** of specialized subagents and ZEN tools as specified in workflow contracts
+4. **Proactive Utilization** of specialized subagents and tools as specified in workflows
 
 ### Section 3: Enforcement Framework
 
@@ -36,7 +35,7 @@ By operating within this project environment, all AI agents explicitly agree to:
 ### Section 4: Operational Requirements
 
 All AI agents MUST:
-- Consult with zen-pro agent for strategic planning on all tasks
+- Consult with mcp__zen_* agent for strategic planning on all tasks
 - Utilize parallel processing and batch operations as default behavior
 - Minimize token usage through strategic subagent delegation
 - Follow the established workflow: Zen -> Analyze -> Delegate -> Execute

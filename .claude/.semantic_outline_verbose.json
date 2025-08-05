@@ -1,0 +1,184 @@
+{
+  ".claude/docs/OPTIMIZATION_REPORT.md": {
+    "description": "# UserPromptSubmit Hook Performance Optimization Report",
+    "docstring": "# UserPromptSubmit Hook Performance Optimization Report"
+  },
+  ".claude/docs/PERFORMANCE_ANALYSIS.md": {
+    "description": "# UserPromptSubmit Hook Performance Analysis",
+    "docstring": "# UserPromptSubmit Hook Performance Analysis"
+  },
+  ".claude/hooks/hook_handler.py": {
+    "functions": [
+      "load_handler(hook_event_name)",
+      "main()"
+    ],
+    "classes": [],
+    "docstring": "",
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_handlers/Notification.py": {
+    "functions": [
+      "handle(data)"
+    ],
+    "classes": [],
+    "docstring": "Generic Notification hook handler.\nThis hook is called when Claude sends a notification.",
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_handlers/PostToolUse.py": {
+    "functions": [
+      "sanitize_input(input_data)",
+      "should_trigger_python_fixer(tool_name, tool_input)",
+      "extract_todo_content(tool_input)",
+      "get_agent_info(agents_dir)",
+      "analyze_bash_command(command)",
+      "analyze_and_recommend_agents(todo_content, cwd)",
+      "run_python_auto_fixer(tool_name, tool_input, cwd)",
+      "handle(input_data)",
+      "main()"
+    ],
+    "classes": [],
+    "docstring": "PostToolUse hook handler compliant with HOOK_CONTRACT.md.\nThis hook is called after Claude uses a tool.\nProvides CLI recommendations for Bash commands and automatically fixes Python files using python_auto_fixer.py.",
+    "description": "Defines 0 classes and 9 functions"
+  },
+  ".claude/hooks/hook_handlers/PreCompact.py": {
+    "functions": [
+      "handle(data)"
+    ],
+    "classes": [],
+    "docstring": "Generic PreCompact hook handler.\nThis hook is called before Claude compacts its memory/context.",
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_handlers/PreToolUse.py": {
+    "functions": [
+      "handle(data)",
+      "check_file_restrictions(file_path)"
+    ],
+    "classes": [],
+    "docstring": "PreToolUse hook handler with file creation restrictions.\nBlocks .md files outside docs directory and test_*.py files outside tests directory.",
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_handlers/SessionStart.py": {
+    "functions": [
+      "handle(input_data)"
+    ],
+    "classes": [],
+    "docstring": "",
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_handlers/Stop.py": {
+    "functions": [
+      "handle(data)"
+    ],
+    "classes": [],
+    "docstring": "Generic Stop hook handler.\nThis hook is called when Claude stops processing.",
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_handlers/SubagentStop.py": {
+    "functions": [
+      "handle(data)"
+    ],
+    "classes": [],
+    "docstring": "Generic SubagentStop hook handler.\nThis hook is called when a subagent stops processing.",
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_handlers/UserPromptSubmit.py": {
+    "functions": [
+      "summarize_python_file(filepath)",
+      "summarize_text_file(filepath)",
+      "summarize_json_file(filepath)",
+      "summarize_file(filepath)",
+      "generate_outline(file_list)",
+      "bootstrap_summary(json_path)",
+      "format_outline(outline)",
+      "call_gemini(user_prompt, verbose_outline)",
+      "handle(data)"
+    ],
+    "classes": [],
+    "docstring": "",
+    "description": "Defines 0 classes and 9 functions"
+  },
+  ".claude/hooks/hook_handlers/config.py": {
+    "functions": [],
+    "classes": [],
+    "docstring": "Configuration for optimized UserPromptSubmit hook.",
+    "description": "Module-level logic or config"
+  },
+  ".claude/hooks/hook_handlers/performance_test.py": {
+    "functions": [
+      "test_hook_performance(iterations)"
+    ],
+    "classes": [],
+    "docstring": "Performance test for UserPromptSubmit hook optimization.",
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_logger.py": {
+    "functions": [
+      "log_function_call(level)"
+    ],
+    "classes": [
+      "HookLogger"
+    ],
+    "docstring": "Comprehensive logging system for Claude Code hooks.\nProvides logging with text abridging, rotation, and organization.",
+    "description": "Defines 1 classes and 1 functions"
+  },
+  ".claude/hooks/hook_tools/python_auto_fixer.py": {
+    "functions": [
+      "should_process_file(tool_name, _tool_input, file_path)",
+      "run_auto_fixer(tool_name, tool_input, cwd)"
+    ],
+    "classes": [
+      "FixResult",
+      "FixReport",
+      "BaseFixer",
+      "ColonFixer",
+      "PrintFixer",
+      "StringFixer",
+      "ParenthesesFixer",
+      "BooleanFixer",
+      "ImportFixer",
+      "IndentationFixer",
+      "ExceptionFixer",
+      "PassFixer",
+      "OptimizedPythonFixer"
+    ],
+    "docstring": "Optimized Python Auto-Fixer - Modular Architecture\nSingle-pass processing with strategy pattern for maintainable code fixing",
+    "description": "Defines 13 classes and 2 functions"
+  },
+  ".claude/settings.json": {
+    "description": "JSON config",
+    "keys": [
+      "cleanupPeriodDays",
+      "includeCoAuthoredBy",
+      "env",
+      "enableAllProjectMcpServers",
+      "hooks"
+    ]
+  },
+  ".gitignore": {
+    "description": "Skipped unhandled file: .gitignore"
+  },
+  "CLAUDE.md": {
+    "description": "CLAUDE.md",
+    "docstring": "CLAUDE.md"
+  },
+  "TERMS_OF_SERVICE.md": {
+    "description": "# TERMS OF SERVICE - BETTER CLAUDE PROJECT",
+    "docstring": "# TERMS OF SERVICE - BETTER CLAUDE PROJECT"
+  },
+  "contracts/AGENT_CONTRACT.md": {
+    "description": "# Agent Coordination Contract",
+    "docstring": "# Agent Coordination Contract"
+  },
+  "contracts/CLI_CONTRACT.md": {
+    "description": "# External Tool Integration Contract",
+    "docstring": "# External Tool Integration Contract"
+  },
+  "contracts/HOOK_CONTRACT.md": {
+    "description": "# Claude Code Hook Handler Contract",
+    "docstring": "# Claude Code Hook Handler Contract"
+  },
+  "contracts/PROMPT_CONTRACT.md": {
+    "description": "# PROMPT CONTRACT",
+    "docstring": "# PROMPT CONTRACT"
+  }
+}

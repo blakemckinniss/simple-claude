@@ -1,0 +1,108 @@
+{
+  "file_paths": {
+    "summary_output": ".claude/.semantic_outline_verbose.json",
+    "env_file_relative_path": ".env",
+    "agents_dir_relative_path": ".claude/agents"
+  },
+  "file_extensions": {
+    "python": ".py",
+    "json": ".json",
+    "markdown": ".md",
+    "text": ".txt"
+  },
+  "environment_variables": {
+    "openrouter_api_key": "OPENROUTER_API_KEY"
+  },
+  "api": {
+    "gemini_model": "google/gemini-2.5-flash:online",
+    "endpoint": "https://openrouter.ai/api/v1/chat/completions"
+  },
+  "text_limits": {
+    "description_truncate_length": 100,
+    "max_json_keys_display": 10,
+    "truncate_suffix": "..."
+  },
+  "git_commands": {
+    "list_files": ["git", "ls-files"]
+  },
+  "yaml_frontmatter": {
+    "delimiter": "---",
+    "name_key": "name:",
+    "description_key": "description:",
+    "model_key": "model:"
+  },
+  "mcp_servers": [
+    {
+      "name": "mcp__filesystem",
+      "description": "Filesystem interaction and management - read, write, edit files, manage directories"
+    },
+    {
+      "name": "mcp__serena",
+      "description": "Code intelligence and symbolic manipulation - analyze code structure, find/replace symbols, manage project memory"
+    },
+    {
+      "name": "mcp__ide",
+      "description": "IDE interactions - get diagnostics, execute code in Jupyter"
+    },
+    {
+      "name": "mcp__github",
+      "description": "GitHub repository management - create/update files, manage issues, PRs, search repos"
+    },
+    {
+      "name": "mcp__tavily-remote",
+      "description": "Web search and content extraction - search web, extract page content, crawl sites"
+    },
+    {
+      "name": "mcp__zen",
+      "description": "AI model interactions - chat, debug, analyze, refactor, test generation, and other specialized AI workflows"
+    }
+  ],
+  "http_headers": {
+    "content_type": "application/json",
+    "authorization_prefix": "Bearer "
+  },
+  "json_structure": {
+    "hook_event_name": "UserPromptSubmit",
+    "hook_specific_output_key": "hookSpecificOutput",
+    "additional_context_key": "additionalContext",
+    "decision_key": "decision",
+    "reason_key": "reason",
+    "block_decision": "block"
+  },
+  "file_encoding": {
+    "default": "utf-8",
+    "error_handling": "ignore"
+  },
+  "json_formatting": {
+    "indent": 2
+  },
+  "response_template": {
+    "context_prefix": "Context analysis for your request:\n\n",
+    "gemini_failure_prefix": "Gemini request failed: "
+  },
+  "file_summary": {
+    "unreadable_python": "Unreadable or invalid Python file",
+    "unreadable_text": "Unreadable text file",
+    "unreadable_json": "Unreadable JSON file",
+    "empty_text": "Empty text file",
+    "json_config": "JSON config",
+    "json_non_dict": "JSON array or non-dict structure",
+    "skipped_file_prefix": "Skipped unhandled file: ",
+    "classes_functions_template": "Defines {classes_count} classes and {functions_count} functions",
+    "module_level_fallback": "Module-level logic or config"
+  },
+  "gemini_prompt_template": {
+    "user_prompt_header": "User Prompt:",
+    "outline_header": "# Project Semantic Outline",
+    "mcp_tools_header": "\n# Available MCP Tools\n",
+    "agents_header": "\n# Available Agents\n",
+    "analysis_request": "Analyze the user prompt and provide:",
+    "relevant_files_section": "1. **Relevant Files**: List files relevant to this prompt in format:\n   filename: reason",
+    "mcp_tools_section": "2. **MUST USE MCP Tools**: Based on the user's request, recommend specific MCP tools that would be most helpful:\n   - tool_name: why this tool is relevant to the task",
+    "agents_section": "3. **MUST USE Agents**: Based on the user's request, recommend specific agents that would be most helpful:\n   - agent_name: why this agent is relevant to the task",
+    "format_header": "Format your response as:",
+    "relevant_files_format": "## Relevant Files\nfilename: reason",
+    "mcp_tools_format": "## MUST USE MCP Tools  \ntool_name: explanation of relevance",
+    "agents_format": "## MUST USE Agents\nagent_name: explanation of relevance"
+  }
+}

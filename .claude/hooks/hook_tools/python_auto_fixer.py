@@ -2,6 +2,17 @@
 """
 Optimized Python Auto-Fixer - Modular Architecture
 Single-pass processing with strategy pattern for maintainable code fixing
+
+Features:
+- Custom fixers for common Python syntax issues
+- Ruff integration for fast linting and auto-fixing (optional)
+- Black integration for consistent code formatting (optional)
+- docformatter integration for automatic docstring formatting (optional)
+- flynt integration for automatic f-string conversion (optional)
+- Project configuration auto-detection (.ruff.toml, pyproject.toml)
+- Graceful fallback to autopep8 if modern tools not available
+- Performance-focused with proper error handling and logging
+- Optimal tool execution order for best results
 """
 
 import os
@@ -28,6 +39,13 @@ try:
 except ImportError:
     HAS_AUTOPEP8 = False
     autopep8 = None
+
+try:
+    import subprocess
+    HAS_SUBPROCESS = True
+except ImportError:
+    HAS_SUBPROCESS = False
+    subprocess = None  # type: ignore
 
 
 class FixResult(Enum):
@@ -244,6 +262,7 @@ class OptimizedPythonFixer:
         self.log_file = log_file
         self.fixers = self._initialize_fixers()
         self.stats = {'files_processed': 0, 'total_fixes': 0}
+        self._check_external_tools()
     
     def _initialize_fixers(self) -> List[BaseFixer]:
         """Initialize all fixer strategies"""
@@ -422,30 +441,359 @@ class OptimizedPythonFixer:
                 return i
         return 0
     
-    def _run_external_formatters(self, filepath: str) -> List[str]:
-        """Run external formatters with proper error handling"""
-        results = []
+    def _check_external_tools(self):
+        """Check availability of external tools"""
+        self.has_ruff = False
+        self.has_black = False
+        self.has_docformatter = False
+        self.has_flynt = False
+        self._detect_config_files()
         
-        # Run autopep8 if available
-        if HAS_AUTOPEP8 and autopep8:
+        if HAS_SUBPROCESS and subprocess is not None:
+            try:
+                # Check for Ruff
+                result = subprocess.run(['ruff', '--version'],
+                                      capture_output=True, text=True, timeout=5)
+                if result.returncode == 0:
+                    self.has_ruff = True
+                    self._log(f"Ruff available: {result.stdout.strip()}")
+            except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
+                self._log(f"Ruff not available: {e}", "DEBUG")
+            
+            try:
+                # Check for Black
+                result = subprocess.run(['black', '--version'],
+                                      capture_output=True, text=True, timeout=5)
+                if result.returncode == 0:
+                    self.has_black = True
+                    self._log(f"Black available: {result.stdout.strip()}")
+            except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
+                self._log(f"Black not available: {e}", "DEBUG")
+            
+            try:
+                # Check for docformatter
+                result = subprocess.run(['docformatter', '--version'],
+                                      capture_output=True, text=True, timeout=5)
+                if result.returncode == 0:
+                    self.has_docformatter = True
+                    self._log(f"docformatter available: {result.stdout.strip()}")
+            except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
+                self._log(f"docformatter not available: {e}", "DEBUG")
+            
+            try:
+                # Check for flynt
+                result = subprocess.run(['flynt', '--version'],
+                                      capture_output=True, text=True, timeout=5)
+                if result.returncode == 0:
+                    self.has_flynt = True
+                    self._log(f"flynt available: {result.stdout.strip()}")
+            except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
+                self._log(f"flynt not available: {e}", "DEBUG")
+    
+    def _detect_config_files(self):
+        """Detect project configuration files"""
+        self.project_configs: Dict[str, Any] = {
+            'ruff_config': None,
+            'black_config': None,
+            'pyproject_toml': None
+        }
+        
+        # Start from current directory and walk up
+        current_dir = os.getcwd()
+        while current_dir != os.path.dirname(current_dir):  # Stop at root
+            # Check for ruff.toml
+            ruff_toml = os.path.join(current_dir, 'ruff.toml')
+            if os.path.exists(ruff_toml):
+                self.project_configs['ruff_config'] = ruff_toml
+            
+            # Check for pyproject.toml
+            pyproject = os.path.join(current_dir, 'pyproject.toml')
+            if os.path.exists(pyproject):
+                self.project_configs['pyproject_toml'] = pyproject
+                # Check if it contains ruff or black config
+                try:
+                    with open(pyproject, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        if '[tool.ruff' in content:
+                            self.project_configs['ruff_config'] = pyproject
+                        if '[tool.black' in content:
+                            self.project_configs['black_config'] = pyproject
+                except Exception:
+                    pass
+            
+            current_dir = os.path.dirname(current_dir)
+        
+        configs_found = [k for k, v in self.project_configs.items() if v]
+        if configs_found:
+            self._log(f"Project configs found: {configs_found}")
+    
+    def _run_ruff(self, filepath: str) -> Tuple[bool, List[str]]:
+        """Run Ruff linter and auto-fixer with detailed results"""
+        if not self.has_ruff or not HAS_SUBPROCESS or subprocess is None:
+            return False, []
+        
+        changes_made = []
+        try:
+            # Store original content to detect changes
+            with open(filepath, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+            
+            # Run Ruff check with fix and import sorting
+            cmd = ['ruff', 'check', '--fix', '--unsafe-fixes']
+            
+            # Add config file if found
+            if self.project_configs['ruff_config']:
+                cmd.extend(['--config', self.project_configs['ruff_config']])
+            
+            cmd.append(filepath)
+            
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            # Check if content changed
+            with open(filepath, 'r', encoding='utf-8') as f:
+                new_content = f.read()
+            
+            if new_content != original_content:
+                changes_made.append("ruff-fix")
+                self._log(f"Ruff fixed issues in {filepath}")
+            
+            # Run Ruff format (equivalent to isort + other formatting)
+            format_cmd = ['ruff', 'format', '-q']
+            if self.project_configs['ruff_config']:
+                format_cmd.extend(['--config', self.project_configs['ruff_config']])
+            format_cmd.append(filepath)
+            
+            format_result = subprocess.run(format_cmd, capture_output=True, text=True, timeout=30)
+            
+            # Check if formatting changed anything
+            with open(filepath, 'r', encoding='utf-8') as f:
+                formatted_content = f.read()
+            
+            if formatted_content != new_content:
+                changes_made.append("ruff-format")
+                self._log(f"Ruff formatted {filepath}")
+            
+            # Log any output from ruff check
+            if result.stdout.strip():
+                self._log(f"Ruff check output: {result.stdout.strip()}")
+            if result.stderr.strip():
+                self._log(f"Ruff check stderr: {result.stderr.strip()}")
+            
+            # Ruff returns 0 if no issues or all fixed, 1 if unfixable issues remain
+            success = result.returncode in [0, 1] and format_result.returncode == 0
+            return success, changes_made
+                
+        except subprocess.TimeoutExpired:
+            self._log("Ruff timed out", "WARNING")
+            return False, []
+        except Exception as e:
+            self._log(f"Ruff execution failed: {e}", "WARNING")
+            return False, []
+    
+    def _run_black(self, filepath: str) -> Tuple[bool, List[str]]:
+        """Run Black code formatter with detailed results"""
+        if not self.has_black or not HAS_SUBPROCESS or subprocess is None:
+            return False, []
+        
+        changes_made = []
+        try:
+            # Store original content to detect changes
+            with open(filepath, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+            
+            # Build Black command
+            cmd = ['black', '--quiet', '--diff', '--color']
+            
+            # Add config if available, otherwise use sensible defaults
+            if self.project_configs['black_config'] or self.project_configs['pyproject_toml']:
+                # Black will automatically find pyproject.toml
+                pass
+            else:
+                # Use sensible defaults if no config found
+                cmd.extend(['--line-length', '100'])
+            
+            cmd.append(filepath)
+            
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            # Check if content changed
+            with open(filepath, 'r', encoding='utf-8') as f:
+                new_content = f.read()
+            
+            if new_content != original_content:
+                changes_made.append("black-format")
+                self._log(f"Black formatted {filepath}")
+                
+                # Log the diff if available
+                if result.stdout.strip():
+                    self._log(f"Black diff:\n{result.stdout}")
+            
+            if result.returncode == 0:
+                return True, changes_made
+            else:
+                self._log(f"Black failed with code {result.returncode}: {result.stderr}", "WARNING")
+                return False, []
+                
+        except subprocess.TimeoutExpired:
+            self._log("Black timed out", "WARNING")
+            return False, []
+        except Exception as e:
+            self._log(f"Black execution failed: {e}", "WARNING")
+            return False, []
+    
+    def _run_docformatter(self, filepath: str) -> Tuple[bool, List[str]]:
+        """Run docformatter for automatic docstring formatting"""
+        if not self.has_docformatter or not HAS_SUBPROCESS or subprocess is None:
+            return False, []
+        
+        changes_made = []
+        try:
+            # Store original content to detect changes
+            with open(filepath, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+            
+            # Build docformatter command with sensible defaults
+            cmd = [
+                'docformatter',
+                '--in-place',  # Modify files in place
+                '--wrap-summaries=88',  # Match Black's default line length
+                '--wrap-descriptions=88',
+                '--make-summary-multi-line',  # Improve readability
+                '--close-quotes-on-newline',  # Better formatting
+                '--pre-summary-newline',  # Add newline before summary
+                filepath
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            # Check if content changed
+            with open(filepath, 'r', encoding='utf-8') as f:
+                new_content = f.read()
+            
+            if new_content != original_content:
+                changes_made.append("docformatter")
+                self._log(f"docformatter formatted docstrings in {filepath}")
+            
+            if result.returncode == 0:
+                return True, changes_made
+            else:
+                self._log(f"docformatter failed with code {result.returncode}: {result.stderr}", "WARNING")
+                return False, []
+                
+        except subprocess.TimeoutExpired:
+            self._log("docformatter timed out", "WARNING")
+            return False, []
+        except Exception as e:
+            self._log(f"docformatter execution failed: {e}", "WARNING")
+            return False, []
+    
+    def _run_flynt(self, filepath: str) -> Tuple[bool, List[str]]:
+        """Run flynt for automatic f-string conversion"""
+        if not self.has_flynt or not HAS_SUBPROCESS or subprocess is None:
+            return False, []
+        
+        changes_made = []
+        try:
+            # Store original content to detect changes
+            with open(filepath, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+            
+            # Build flynt command
+            cmd = [
+                'flynt',
+                '--line-length=88',  # Match Black's default
+                '--transform-concats',  # Also convert string concatenations
+                '--fail-on-change',  # Return exit code 1 if changes made
+                filepath
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            # Check if content changed
+            with open(filepath, 'r', encoding='utf-8') as f:
+                new_content = f.read()
+            
+            if new_content != original_content:
+                changes_made.append("flynt")
+                self._log(f"flynt converted strings to f-strings in {filepath}")
+                
+                # Log flynt output if available
+                if result.stdout.strip():
+                    self._log(f"flynt output: {result.stdout.strip()}")
+            
+            # flynt returns 1 when changes are made (due to --fail-on-change), 0 when no changes
+            if result.returncode in [0, 1]:
+                return True, changes_made
+            else:
+                self._log(f"flynt failed with code {result.returncode}: {result.stderr}", "WARNING")
+                return False, []
+                
+        except subprocess.TimeoutExpired:
+            self._log("flynt timed out", "WARNING")
+            return False, []
+        except Exception as e:
+            self._log(f"flynt execution failed: {e}", "WARNING")
+            return False, []
+    
+    def _run_external_formatters(self, filepath: str) -> List[str]:
+        """Run external formatters with proper error handling in optimal order"""
+        all_results = []
+        
+        # Order of operations:
+        # 1. Ruff (linting/fixing)
+        # 2. Ruff format OR Black (code formatting)
+        # 3. docformatter (docstring formatting)
+        # 4. flynt (f-string conversion)
+        # 5. autopep8 (fallback)
+        
+        # 1. Run Ruff first (fast linting, auto-fixing, and formatting)
+        ruff_success, ruff_changes = self._run_ruff(filepath)
+        if ruff_success and ruff_changes:
+            all_results.extend(ruff_changes)
+            self._log(f"Ruff applied: {', '.join(ruff_changes)}")
+        
+        # 2. Only run Black if Ruff formatting wasn't applied
+        if not any('ruff-format' in change for change in ruff_changes):
+            black_success, black_changes = self._run_black(filepath)
+            if black_success and black_changes:
+                all_results.extend(black_changes)
+                self._log(f"Black applied: {', '.join(black_changes)}")
+        else:
+            self._log("Skipped Black (Ruff format was used)")
+        
+        # 3. Run docformatter for docstring formatting (after code formatting)
+        docformatter_success, docformatter_changes = self._run_docformatter(filepath)
+        if docformatter_success and docformatter_changes:
+            all_results.extend(docformatter_changes)
+            self._log(f"docformatter applied: {', '.join(docformatter_changes)}")
+        
+        # 4. Run flynt for f-string conversion (after docstring formatting)
+        flynt_success, flynt_changes = self._run_flynt(filepath)
+        if flynt_success and flynt_changes:
+            all_results.extend(flynt_changes)
+            self._log(f"flynt applied: {', '.join(flynt_changes)}")
+        
+        # 5. Run autopep8 as fallback if no modern tools are available
+        if not self.has_ruff and not self.has_black and HAS_AUTOPEP8 and autopep8:
             try:
                 with open(filepath, 'r', encoding='utf-8') as f:
-                    original = f.read()
+                    original_content = f.read()
                 
-                fixed = autopep8.fix_code(original, options={
+                fixed = autopep8.fix_code(original_content, options={
                     'aggressive': 1,
                     'max_line_length': 100,
                     'ignore': ['E501']
                 })
                 
-                if fixed != original:
+                if fixed != original_content:
                     with open(filepath, 'w', encoding='utf-8') as f:
                         f.write(fixed)
-                    results.append("autopep8")
+                    all_results.append("autopep8-fallback")
+                    self._log(f"autopep8 formatted {filepath} (fallback)")
             except Exception as e:
-                self._log(f"autopep8 failed: {e}", "ERROR")
+                self._log(f"autopep8 fallback failed: {e}", "ERROR")
         
-        return results
+        return all_results
     
     def fix_file(self, filepath: str) -> FixReport:
         """Main file fixing method with comprehensive error handling"""
@@ -475,10 +823,11 @@ class OptimizedPythonFixer:
                     self.stats['total_fixes'] += len(report.changes_made)
                     self._log(f"Fixed {filepath}: {len(report.changes_made)} changes")
                 
-                # Run external formatters
+                # Run external formatters (Ruff, Black, autopep8)
                 formatter_results = self._run_external_formatters(filepath)
                 if formatter_results:
-                    report.changes_made.extend(f"Formatter: {fmt}" for fmt in formatter_results)
+                    report.changes_made.extend(f"External tool: {fmt}" for fmt in formatter_results)
+                    self._log(f"External formatters applied: {', '.join(formatter_results)}")
                 
                 return report
                 
@@ -488,17 +837,28 @@ class OptimizedPythonFixer:
             return FixReport(FixResult.ERROR, [], [error_msg], 0)
 
 
-def should_process_file(tool_name: str, _tool_input: dict, file_path: str) -> bool:
+def should_process_file(tool_name: str, tool_input: dict, file_path: str) -> bool:
     """Determine if file should be processed with proper validation"""
     if not file_path.endswith('.py'):
         return False
     
-    if tool_name not in ['Write', 'Edit', 'MultiEdit', 'write_to_file', 'apply_diff']:
+    # Check tool name
+    valid_tools = {'Write', 'Edit', 'MultiEdit', 'write_to_file', 'apply_diff', 'write_file', 'edit_file'}
+    if tool_name not in valid_tools:
         return False
     
-    # Skip test files and hooks
+    # Skip test files, hooks, and certain patterns
     skip_patterns = ['test', '__pycache__', '.pyc', 'python_auto_fixer', 'hook']
-    return not any(pattern in file_path.lower() for pattern in skip_patterns)
+    if any(pattern in file_path.lower() for pattern in skip_patterns):
+        return False
+    
+    # Additional safety: don't process if content indicates it's a test or special file
+    if 'content' in tool_input:
+        content = str(tool_input['content']).lower()
+        if any(pattern in content[:200] for pattern in ['pytest', 'unittest', 'test_']):
+            return False
+    
+    return True
 
 
 def run_auto_fixer(tool_name: str, tool_input: dict, cwd: str) -> None:

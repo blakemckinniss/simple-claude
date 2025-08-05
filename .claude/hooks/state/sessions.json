@@ -1,0 +1,31 @@
+{
+  "sessions": {
+    "2426dc57-e3aa-48ed-9817-40892c3057d8": {
+      "continuation_id": "bc99e1ee-2b5c-4ae5-9852-9aced900f4a0",
+      "created_at": "2025-08-05T16:24:28.742816",
+      "last_updated": "2025-08-05T16:29:10.209506",
+      "tool_count": 10
+    },
+    "3fe0b15f-471a-43ec-9450-07227bd79682": {
+      "continuation_id": null,
+      "created_at": "2025-08-05T16:29:10.062579",
+      "last_updated": "2025-08-05T16:29:10.062592"
+    },
+    "394cc9a7-f3b1-4a51-8f56-ecc13ab728fb": {
+      "continuation_id": null,
+      "created_at": "2025-08-05T16:29:47.747325",
+      "last_updated": "2025-08-05T16:29:47.747349"
+    },
+    "b07f81ca-830e-47e2-9f99-7669e367178d": {
+      "continuation_id": "c434dee0-c9be-4a7a-bb24-6665f5138da4",
+      "created_at": "2025-08-05T16:30:05.618121",
+      "last_updated": "2025-08-05T16:33:33.111776",
+      "tool_count": 9
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-05T16:24:28.742790",
+    "version": "1.0",
+    "last_updated": "2025-08-05T16:33:33.111782"
+  }
+}
