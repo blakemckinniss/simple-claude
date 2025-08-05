@@ -95,12 +95,46 @@ To continue previous conversations, use the continuation_id parameter in any mcp
 Session info: {json.dumps(session_info, indent=2) if session_info else 'Available'}
 
 ALWAYS USE:
+- zen for planning and recommendations
 - serena for semantic code retrieval and editing tools
 - context7 for up to date documentation on third party code
 - sequential thinking for any decision making
-READ the CLAUDE.MD root file before you do anything.
 
-""".strip()
+READ the CLAUDE.MD root file before you do anything."""
+    
+    # Add git ls-files output for context
+    try:
+        git_files_result = subprocess.run(
+            ['git', 'ls-files'],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if git_files_result.returncode == 0:
+            git_files_list = git_files_result.stdout.strip()
+            if git_files_list:
+                context_message += f"\n\nGIT TRACKED FILES:\n{git_files_list}"
+    except Exception as e:
+        print(f"Warning: Could not retrieve git ls-files: {e}", file=sys.stderr)
+    
+    # Add session IDs from sessions.json
+    try:
+        sessions_file = Path(__file__).parent.parent / "state" / "sessions.json"
+        if sessions_file.exists():
+            with open(sessions_file, 'r') as f:
+                sessions_data = json.load(f)
+            
+            if "sessions" in sessions_data:
+                session_ids = list(sessions_data["sessions"].keys())
+                if session_ids:
+                    # Limit to the latest 3 session IDs
+                    recent_session_ids = session_ids[-3:] if len(session_ids) > 3 else session_ids
+                    context_message += f"\n\nRECENT SESSION IDS IN claude/state/sessions.json:\n" + "\n".join(recent_session_ids)
+    except Exception as e:
+        print(f"Warning: Could not retrieve session IDs: {e}", file=sys.stderr)
+    
+    # Strip any trailing whitespace from final message
+    context_message = context_message.strip()
     
     # Output JSON with additionalContext for Claude to see
     output = {

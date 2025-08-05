@@ -197,6 +197,32 @@ def handle(data: Dict[str, Any]) -> None:
             # Try to extract from session_info or generate placeholder
             session_id = session_info.get("session_id", "unknown_session")
         
+        # Update session with stop_time before cleanup
+        if session_id and session_id != "unknown_session":
+            try:
+                # Load current sessions
+                sessions_file = Path(__file__).parent.parent / "state" / "sessions.json"
+                if sessions_file.exists():
+                    with open(sessions_file, 'r') as f:
+                        sessions_data = json.load(f)
+                    
+                    # Update session with stop_time
+                    if "sessions" in sessions_data and session_id in sessions_data["sessions"]:
+                        sessions_data["sessions"][session_id]["stop_time"] = datetime.now().isoformat()
+                        sessions_data["sessions"][session_id]["stop_reason"] = stop_reason
+                        
+                        # Update metadata
+                        sessions_data["metadata"]["last_updated"] = datetime.now().isoformat()
+                        
+                        # Write back atomically
+                        temp_file = sessions_file.with_suffix('.tmp')
+                        with open(temp_file, 'w') as f:
+                            json.dump(sessions_data, f, indent=2)
+                        temp_file.replace(sessions_file)
+            except Exception as e:
+                # Log but don't fail - this is non-critical
+                print(f"Warning: Could not update session stop_time: {e}", file=sys.stderr)
+        
         # Perform thread-safe cleanup
         if session_id and session_id != "unknown_session":
             # Run cleanup in current thread for immediate execution
