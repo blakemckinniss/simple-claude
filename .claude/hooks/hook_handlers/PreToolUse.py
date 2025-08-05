@@ -18,27 +18,28 @@ def handle(data: Dict[str, Any]) -> None:
         data: Hook event data containing tool information
     """
     try:
-        # Extract relevant information
+        # Extract relevant information - use tool_input per schema
         hook_event_name = data.get("hook_event_name", "")
         tool_name = data.get("tool_name", "")
-        tool_args = data.get("tool_args", {})
+        tool_input = data.get("tool_input", {})
         
-        # Only check file creation tools
+        
+        # Only check file creation tools for restrictions
         file_creation_tools = ["Write", "MultiEdit", "mcp__filesystem__write_file", 
                               "mcp__filesystem__create_directory", "create_or_update_file"]
         
         if tool_name not in file_creation_tools:
             return
             
-        # Extract file path from various tool argument structures
+        # Extract file path from various tool input structures
         file_path = None
-        if "file_path" in tool_args:
-            file_path = tool_args["file_path"]
-        elif "path" in tool_args:
-            file_path = tool_args["path"]
-        elif "files" in tool_args and isinstance(tool_args["files"], list):
+        if "file_path" in tool_input:
+            file_path = tool_input["file_path"]
+        elif "path" in tool_input:
+            file_path = tool_input["path"]
+        elif "files" in tool_input and isinstance(tool_input["files"], list):
             # Handle MultiEdit with multiple files
-            for file_info in tool_args["files"]:
+            for file_info in tool_input["files"]:
                 if isinstance(file_info, dict) and "path" in file_info:
                     check_file_restrictions(file_info["path"])
             return
@@ -62,7 +63,7 @@ def check_file_restrictions(file_path: str) -> None:
     """
     # Normalize path to absolute
     abs_path = os.path.abspath(file_path)
-    project_root = "/home/devcontainers/simple-claude"
+    project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/devcontainers/simple-claude")
     docs_dir = os.path.join(project_root, ".claude", "docs")
     tests_dir = os.path.join(project_root, ".claude", "tests")
     

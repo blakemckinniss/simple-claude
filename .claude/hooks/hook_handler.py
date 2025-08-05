@@ -12,13 +12,13 @@ from hook_logger import logger  # type: ignore  # noqa: E402
 
 # Circuit breaker switches - Set to False to disable specific hooks
 ENABLE_USER_PROMPT_SUBMIT = True
-ENABLE_PRE_TOOL_USE = False
+ENABLE_PRE_TOOL_USE = True
 ENABLE_POST_TOOL_USE = True
 ENABLE_NOTIFICATION = False
 ENABLE_STOP = False
 ENABLE_SUBAGENT_STOP = False
 ENABLE_PRE_COMPACT = False
-ENABLE_SESSION_START = False
+ENABLE_SESSION_START = True
 
 # Master switch - Set to False to disable all hooks
 ENABLE_ALL_HOOKS = True

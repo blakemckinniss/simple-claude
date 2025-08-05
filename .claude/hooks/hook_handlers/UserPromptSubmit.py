@@ -1,181 +1,172 @@
 #!/usr/bin/env python3
 """
-UserPromptSubmit hook handler compliant with HOOK_CONTRACT.md.
-This hook is called before a user prompt is submitted to Claude.
+Ultra-optimized UserPromptSubmit hook handler.
+Target: <50ms execution time with aggressive optimizations.
 """
 
 import json
 import sys
 import os
-from typing import Dict, Any
-from openai import OpenAI
+import subprocess
+import time
+from typing import Dict, Any, Optional
+from threading import Thread
+from functools import lru_cache
 
+# Optimized cache with memory management
+_cache = {}
+_cache_timestamps = {}
+CACHE_TTL = 45  # Reduced TTL for fresher data
+CACHE_MAX_SIZE = 50  # Smaller cache to reduce memory overhead
 
-def load_env_file(env_path: str) -> None:
-    """Load environment variables from .env file."""
-    if os.path.exists(env_path):
-        with open(env_path, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#') and '=' in line:
-                    key, value = line.split('=', 1)
-                    os.environ[key.strip()] = value.strip()
+@lru_cache(maxsize=16)
+def _get_env_path() -> str:
+    """Cached environment PATH."""
+    return os.environ.get('PATH', '')
 
+def _get_cache(key: str) -> Optional[Any]:
+    """Get cached value if still valid."""
+    if key in _cache:
+        if time.time() - _cache_timestamps.get(key, 0) < CACHE_TTL:
+            return _cache[key]
+        # Expired - remove immediately
+        _cache.pop(key, None)
+        _cache_timestamps.pop(key, None)
+    return None
 
-def sanitize_input(input_data: Dict[str, Any]) -> bool:
-    """
-    Sanitize and validate input data according to security requirements.
+def _set_cache(key: str, value: Any) -> None:
+    """Set cached value with aggressive cleanup."""
+    # Aggressive cache cleanup
+    if len(_cache) >= CACHE_MAX_SIZE:
+        # Remove oldest 20% of entries
+        oldest_keys = sorted(_cache_timestamps.items(), key=lambda x: x[1])[:10]
+        for k, _ in oldest_keys:
+            _cache.pop(k, None)
+            _cache_timestamps.pop(k, None)
     
-    Args:
-        input_data: Hook event data
-        
-    Returns:
-        True if input is safe, False otherwise
-    """
-    # Check for required fields
-    required_fields = ["session_id", "transcript_path", "cwd", "hook_event_name"]
-    for field in required_fields:
-        if field not in input_data:
-            return False
-    
-    # Validate paths for traversal attacks
-    transcript_path = input_data.get("transcript_path", "")
-    cwd = input_data.get("cwd", "")
-    
-    if ".." in transcript_path or ".." in cwd:
-        print("Security: Path traversal blocked", file=sys.stderr)
-        return False
-    
-    # Skip if no prompt provided
-    if not input_data.get("prompt", ""):
-        return False
-        
-    return True
+    _cache[key] = value
+    _cache_timestamps[key] = time.time()
 
-
-def enhance_prompt_with_gemini(user_prompt: str, context_data: Dict[str, Any]) -> str:
-    """
-    Send user prompt to OpenRouter Gemini for enhancement.
-    
-    Args:
-        user_prompt: Original user prompt
-        context_data: Additional context information
-        
-    Returns:
-        Enhanced context or empty string if enhancement fails
-    """
+def _run_ultra_fast(command: list, cwd: str) -> Optional[str]:
+    """Ultra-fast command execution with minimal overhead."""
     try:
-        # Load .env file if it exists
-        project_dir = context_data.get("cwd", "")
-        env_path = os.path.join(project_dir, ".env")
-        load_env_file(env_path)
-        
-        # Get OpenRouter API key from environment
-        api_key = os.getenv('OPENROUTER_API_KEY')
-        if not api_key:
-            return ""
-        
-        # Prepare safe context summary (no sensitive data)
-        context_summary = {
-            "hook_event": context_data.get("hook_event_name", ""),
-            "working_directory": context_data.get("cwd", "")
-        }
-        
-        # Enhancement prompt for Gemini
-        enhancement_prompt = f"""Analyze this user request and provide helpful context for an AI assistant:
-
-User prompt: "{user_prompt}"
-
-Context: {json.dumps(context_summary, indent=2)}
-
-Provide 2-3 sentences of relevant technical context that would help understand the request better. Focus on likely programming tasks, file operations, or development workflows."""
-
-        # Create OpenAI client for OpenRouter
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key,
+        # Pre-allocate result for speed
+        result = subprocess.run(
+            command, cwd=cwd, capture_output=True, text=True, timeout=0.15,
+            env={'PATH': _get_env_path()}, bufsize=0, shell=False
         )
-        
-        completion = client.chat.completions.create(
-            extra_headers={
-                "HTTP-Referer": "https://claude-code",
-                "X-Title": "Claude Code Hook Enhancement",
-            },
-            model="google/gemini-2.5-flash:online",
-            messages=[
-                {
-                    "role": "user",
-                    "content": enhancement_prompt
-                }
-            ],
-            temperature=0.3,
-            max_tokens=500,
-            timeout=5
-        )
-        
-        # Safely extract content with null checks
-        if (completion.choices and
-            len(completion.choices) > 0 and
-            completion.choices[0].message and
-            completion.choices[0].message.content):
-            enhanced_context = completion.choices[0].message.content.strip()
-            
-            # Validate response length and content
-            if enhanced_context and 50 <= len(enhanced_context) <= 1000:
-                return enhanced_context
-                
-    except Exception as e:
-        # Log the error for debugging while providing fallback context
-        print(f"Warning: Gemini enhancement failed: {e}", file=sys.stderr)
-        # Fallback: provide basic context even if API call fails
-        return f"User is working in directory: {context_data.get('cwd', 'unknown')}"
-        
-    return ""
+        return result.stdout.strip() if result.returncode == 0 else None
+    except:
+        return None
 
+@lru_cache(maxsize=16)
+def _is_git_repo(cwd: str) -> bool:
+    """Cached git repo detection."""
+    return os.path.exists(os.path.join(cwd, '.git'))
+
+def _collect_git_minimal(cwd: str) -> Dict[str, Any]:
+    """Minimal git collection - only essential info."""
+    # Time-bucketed cache key (30-second buckets)
+    bucket = int(time.time() // 30)
+    cache_key = f"git_{hash(cwd)}_{bucket}"
+    
+    cached = _get_cache(cache_key)
+    if cached:
+        return cached
+    
+    if not _is_git_repo(cwd):
+        result = {"git": False}
+        _set_cache(cache_key, result)
+        return result
+    
+    # Single git command for all info
+    git_info = _run_ultra_fast(['git', 'symbolic-ref', '--short', 'HEAD'], cwd)
+    result = {
+        "git": True,
+        "branch": git_info[:20] if git_info else "unknown"  # Truncate branch name
+    }
+    
+    _set_cache(cache_key, result)
+    return result
+
+def _collect_files_minimal(cwd: str) -> Dict[str, Any]:
+    """Minimal file collection - count only."""
+    # Time-bucketed cache (60-second buckets for file counts)
+    bucket = int(time.time() // 60)
+    cache_key = f"files_{hash(cwd)}_{bucket}"
+    
+    cached = _get_cache(cache_key)
+    if cached:
+        return cached
+    
+    # Try fd with strict limits
+    fd_output = _run_ultra_fast(['fd', '.', '-t', 'f', '--max-results', '200'], cwd)
+    if fd_output:
+        count = len(fd_output.split('\n'))
+        result = {"files": min(count, 200)}  # Cap at 200 for consistency
+    else:
+        # Ultra-fast fallback
+        try:
+            items = os.listdir(cwd)
+            count = sum(1 for _ in items if os.path.isfile(os.path.join(cwd, _)))
+            result = {"files": count}
+        except:
+            result = {"files": 0}
+    
+    _set_cache(cache_key, result)
+    return result
+
+def _collect_context_minimal(cwd: str) -> str:
+    """Minimal context collection - return formatted string directly."""
+    git_data = _collect_git_minimal(cwd)
+    file_data = _collect_files_minimal(cwd)
+    
+    # Build context string directly (no JSON overhead)
+    parts = []
+    if git_data.get("git"):
+        parts.append(f"git:{git_data.get('branch', 'main')}")
+    parts.append(f"files:{file_data['files']}")
+    parts.append(f"dir:{os.path.basename(cwd)[:15]}")  # Truncate long dir names
+    
+    return " ".join(parts)
 
 def handle(input_data: Dict[str, Any]) -> None:
-    """Handle UserPromptSubmit hook event - called by hook_handler.py."""
-    # Validate input data
-    if not sanitize_input(input_data):
-        sys.exit(1)
+    """Ultra-optimized hook handler - target <50ms execution."""
+    # Fast validation
+    if (input_data.get("hook_event_name") != "UserPromptSubmit" or 
+        not input_data.get("cwd")):
+        sys.exit(2)
     
     try:
-        user_prompt = input_data.get("prompt", "")
+        cwd = input_data["cwd"]
         
-        # Try to enhance with Gemini
-        additional_context = enhance_prompt_with_gemini(user_prompt, input_data) + "\n\n Think deeply."
+        # Get minimal context
+        context = _collect_context_minimal(cwd)
         
-        # Output according to UserPromptSubmit contract
-        output: Dict[str, Any] = {
-            "continue": True,
-            "suppressOutput": False
-        }
+        # Pre-built output structure (avoid dict creation overhead)
+        output_json = f'{{"continue":true,"hookSpecificOutput":{{"hookEventName":"UserPromptSubmit","additionalContext":"{context}"}}}}'
         
-        if additional_context:
-            output["hookSpecificOutput"] = {
-                "hookEventName": "UserPromptSubmit",
-                "additionalContext": additional_context
-            }
-        
-        print(json.dumps(output))
+        print(output_json)
         sys.exit(0)
         
-    except Exception as e:
-        print(f"Error in UserPromptSubmit handler: {e}", file=sys.stderr)
-        sys.exit(1)
-
+    except:
+        # Ultra-minimal fallback
+        print('{"continue":true,"hookSpecificOutput":{"hookEventName":"UserPromptSubmit"}}')
+        sys.exit(0)
 
 def main():
-    """Main entry point for standalone execution."""
+    """Ultra-optimized main entry point."""
     try:
-        # Read and validate JSON input from stdin
-        input_data = json.load(sys.stdin)
-    except json.JSONDecodeError as e:
-        print(f"Error: Invalid JSON input: {e}", file=sys.stderr)
-        sys.exit(1)
-    
-    handle(input_data)
-
+        # Read with size limit
+        raw_input = sys.stdin.read(50000)  # 50KB limit
+        if not raw_input:
+            sys.exit(2)
+        
+        input_data = json.loads(raw_input)
+        handle(input_data)
+        
+    except:
+        sys.exit(2)
 
 if __name__ == "__main__":
     main()
