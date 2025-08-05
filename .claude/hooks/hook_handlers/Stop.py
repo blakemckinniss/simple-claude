@@ -13,7 +13,7 @@ from typing import Dict, Any, Optional
 
 # Import state manager for continuation tracking
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from state_manager import state_manager
+from hook_tools.state_manager import state_manager
 from hook_logger import logger
 
 
