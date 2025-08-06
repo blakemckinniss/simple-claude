@@ -13,9 +13,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
-# Import state manager for continuation tracking
+# Import state manager for continuation tracking and logger for rate limiting
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from hook_tools.state_manager import state_manager
+from hook_logger import logger
 
 
 def extract_continuation_id(tool_name: str, tool_input: Dict[str, Any], tool_response: Any) -> str:
@@ -523,6 +524,9 @@ def handle(input_data: Dict[str, Any]) -> None:
         session_id = input_data.get("session_id", "")
         cwd = input_data.get("cwd", "")
         
+        # Detect if this is a Task tool (subagent) - these need special handling for parallel execution
+        is_task_tool = tool_name == "Task"
+        
         # Debug: Log ALL tools to see what's happening
         with open("/tmp/posttooluse_debug.log", "a") as f:
             f.write(f"\n[{datetime.now().isoformat()}] Tool: {tool_name}\n")
@@ -548,20 +552,24 @@ def handle(input_data: Dict[str, Any]) -> None:
             # Debug: Log when mcp__zen tool doesn't have continuation_id
             print(f"DEBUG: No continuation_id found in {tool_name} response: {tool_response}", file=sys.stderr)
         
-        # Check for Bash commands and provide modern CLI recommendations (non-blocking)
-        if tool_name == "Bash":
+        # Check for Bash commands and provide modern CLI recommendations (non-blocking for Task tools)
+        if tool_name == "Bash" and not is_task_tool:
             command = tool_input.get("command", "")
             if command:
                 suggestions = analyze_bash_command(command)
                 if suggestions:
                     for old_tool, new_tool, reason in suggestions:
-                        print(f"⚡💥 YOU MUST USE {new_tool} INSTEAD OF {old_tool}! 🚫❌", file=sys.stderr)
-                    sys.exit(2)
+                        error_msg = f"⚡💥 YOU MUST USE {new_tool} INSTEAD OF {old_tool}! 🚫❌"
+                        if logger.should_print_error("MODERN_CLI_TOOL_RECOMMENDATION"):
+                            print(error_msg, file=sys.stderr)
+                            sys.exit(2)
         
-        # Check for TodoWrite usage and recommend agents instead
-        if tool_name == "TodoWrite":
-            print("🔥⚡ VERY IMPORTANT: YOU ABSOLUTELY **MUST** HIRE AN AGENT **OR AGENTS FOR INDEPENDENT PARALLEL/BATCH TASK ITEMS** TO COMPLETE THIS CORRECTLY. PARALLELIZE HIRES (PER CLAUDE.md PATTERN_CONTRACT LAWS D2-D6)!!! 💥🚫", file=sys.stderr)
-            sys.exit(2)
+        # Check for TodoWrite usage and recommend agents instead (skip for Task tools to avoid breaking parallel execution)
+        if tool_name == "TodoWrite" and not is_task_tool:
+            error_msg = "🔥⚡ VERY IMPORTANT: YOU ABSOLUTELY **MUST** HIRE AN AGENT **OR AGENTS FOR INDEPENDENT PARALLEL/BATCH TASK ITEMS** TO COMPLETE THIS CORRECTLY. PARALLELIZE HIRES (PER CLAUDE.md PATTERN_CONTRACT LAWS D2-D6)!!! 💥🚫"
+            if logger.should_print_error(error_msg):
+                print(error_msg, file=sys.stderr)
+                sys.exit(2)
         
         # Conditionally output ZEN recommendations based on patterns and frequency
         if not tool_name.startswith('mcp__zen__'):  # Don't suggest ZEN for ZEN tools
@@ -622,18 +630,26 @@ def handle(input_data: Dict[str, Any]) -> None:
                 else:
                     final_message = base_message
                 
-                # Output the message using exit code 2 so Claude sees it
-                print(f"\n{final_message}", file=sys.stderr)
-                sys.exit(2)
+                # Apply rate limiting to the message
+                if logger.should_print_error("ZEN_CONTINUATION_AVAILABLE"):
+                    # Skip sys.exit(2) for Task tools to avoid breaking parallel execution
+                    if not is_task_tool:
+                        # Output the message using exit code 2 so Claude sees it
+                        print(f"\n{final_message}", file=sys.stderr)
+                        sys.exit(2)
+                    else:
+                        # For Task tools, just print to stderr without exiting
+                        print(f"\n{final_message}", file=sys.stderr)
         
         # Check if we should trigger the Python auto-fixer
         if should_trigger_python_fixer(tool_name, tool_input):
             run_python_auto_fixer(tool_name, tool_input, cwd)
         
         # Output according to PostToolUse contract (success, no blocking)
+        # PostToolUse cannot block tools (they already ran) but can provide feedback
         output: Dict[str, Any] = {
             "continue": True,
-            "suppressOutput": False  # Allow ZEN recommendations to be visible
+            "suppressOutput": False  # Allow output to be visible
         }
         
         print(json.dumps(output))

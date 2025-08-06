@@ -1,0 +1,35 @@
+{
+  "global_exemptions": [
+    "Deep_Nesting",
+    "Todo_Comments"
+  ],
+  "file_exemptions": {
+    "legacy/": [
+      "God_File",
+      "High_Cyclomatic_Complexity"
+    ],
+    "migrations/": [
+      "SQL_Injection_Risk",
+      "Database_Layer_Violation"
+    ],
+    "tests/": [
+      "Debug_Code",
+      "Magic_Numbers"
+    ],
+    ".claude/hooks/": [
+      "High_Cyclomatic_Complexity",
+      "Too_Many_Parameters"
+    ]
+  },
+  "justifications": {
+    "Deep_Nesting": "Project structure requires deep nesting for module organization",
+    "Todo_Comments": "Active development - TODOs are tracked in issue tracker",
+    "God_File": "Legacy code - scheduled for refactoring in Q2",
+    "High_Cyclomatic_Complexity": "Complex business logic requires multiple decision paths",
+    "SQL_Injection_Risk": "Migration scripts use parameterized queries at runtime",
+    "Database_Layer_Violation": "Database migrations require direct DB access",
+    "Debug_Code": "Test files require debug statements for assertions",
+    "Magic_Numbers": "Test data uses specific numeric values for validation",
+    "Too_Many_Parameters": "Hook handlers require multiple parameters for context"
+  }
+}

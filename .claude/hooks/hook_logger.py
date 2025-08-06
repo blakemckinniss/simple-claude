@@ -9,16 +9,22 @@ import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional
+from collections import defaultdict
+import time
 
 
 class UserPromptLogger:
     """Simple logger focused on UserPromptSubmit hook events."""
     
-    def __init__(self, base_dir: str = "/home/blake/simple-claude/.claude/logs/userprompt"):
+    def __init__(self, base_dir: str = "/home/devcontainers/simple-claude/.claude/logs/userprompt"):
         """Initialize the logger."""
         self.log_dir = Path(base_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
         self.session_id = str(uuid.uuid4())
+        # Rate limiting: track last occurrence of each error message
+        self._error_last_logged = defaultdict(float)
+        self._rate_limit_seconds = 30  # Rate limit to once per 30 seconds
+        # Add test comment to verify PostToolUse feedback
     
     def _cleanup_old_logs(self):
         """Remove logs older than 7 days."""
@@ -53,7 +59,7 @@ class UserPromptLogger:
             with open(log_file, "a") as f:
                 f.write(json.dumps(log_entry) + "\n")
                 
-        except Exception as e:
+        except Exception:
             # Silent failure - don't break the main process
             pass
     
@@ -82,13 +88,25 @@ class UserPromptLogger:
             "context_length": len(context) if context else 0
         })
     
+    def should_print_error(self, error_message: str) -> bool:
+        """Check if an error should be printed based on rate limiting."""
+        current_time = time.time()
+        last_logged = self._error_last_logged[error_message]
+        
+        if current_time - last_logged >= self._rate_limit_seconds:
+            self._error_last_logged[error_message] = current_time
+            return True
+        return False
+    
     def log_error(self, error_message: str, error_details: Optional[Dict[str, Any]] = None):
-        """Log an error."""
-        self.log_event({
-            "event_type": "error",
-            "error_message": error_message,
-            "error_details": error_details or {}
-        })
+        """Log an error with rate limiting (once per 30 seconds for the same error)."""
+        if self.should_print_error(error_message):
+            self.log_event({
+                "event_type": "error",
+                "error_message": error_message,
+                "error_details": error_details or {}
+            })
+        # else: silently skip logging this error due to rate limiting
     
     def log_hook_call(self, data: Dict[str, Any]):
         """Compatibility method for hook_handler.py - only logs UserPromptSubmit events."""

@@ -1,11 +1,18 @@
 {
-  ".claude/docs/OPTIMIZATION_REPORT.md": {
-    "description": "# UserPromptSubmit Hook Performance Optimization Report",
-    "docstring": "# UserPromptSubmit Hook Performance Optimization Report"
-  },
-  ".claude/docs/PERFORMANCE_ANALYSIS.md": {
-    "description": "# UserPromptSubmit Hook Performance Analysis",
-    "docstring": "# UserPromptSubmit Hook Performance Analysis"
+  ".claude/.semantic_outline_verbose.json": {
+    "description": "JSON config",
+    "keys": [
+      ".claude/.semantic_outline_verbose.json",
+      ".claude/hooks/hook_handler.py",
+      ".claude/hooks/hook_handlers/Notification.py",
+      ".claude/hooks/hook_handlers/PostToolUse.py",
+      ".claude/hooks/hook_handlers/PreCompact.py",
+      ".claude/hooks/hook_handlers/PreToolUse.py",
+      ".claude/hooks/hook_handlers/SessionStart.py",
+      ".claude/hooks/hook_handlers/Stop.py",
+      ".claude/hooks/hook_handlers/SubagentStop.py",
+      ".claude/hooks/hook_handlers/UserPromptSubmit.py"
+    ]
   },
   ".claude/hooks/hook_handler.py": {
     "functions": [
@@ -14,6 +21,43 @@
     ],
     "classes": [],
     "docstring": "",
+    "imports": [
+      "importlib.util",
+      "json",
+      "os",
+      "sys",
+      "hook_logger"
+    ],
+    "todos": [],
+    "complexity": 12,
+    "function_calls": {
+      "load_handler": [
+        "spec_from_file_location",
+        "abspath",
+        "join",
+        "module_from_spec",
+        "dirname",
+        "exists",
+        "exec_module"
+      ],
+      "main": [
+        "get",
+        "exit",
+        "hasattr",
+        "handle",
+        "load",
+        "log_hook_call",
+        "print",
+        "load_handler"
+      ]
+    },
+    "type_hints": {},
+    "metrics": {
+      "lines_of_code": 67,
+      "comment_ratio": 0.149,
+      "avg_line_length": 27.6,
+      "is_test_file": false
+    },
     "description": "Defines 0 classes and 2 functions"
   },
   ".claude/hooks/hook_handlers/Notification.py": {
@@ -22,10 +66,42 @@
     ],
     "classes": [],
     "docstring": "Generic Notification hook handler.\nThis hook is called when Claude sends a notification.",
+    "imports": [
+      "json",
+      "sys",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 2,
+    "function_calls": {
+      "handle": [
+        "get",
+        "print",
+        "exit"
+      ]
+    },
+    "type_hints": {
+      "handle": {
+        "args": {
+          "data": "Dict[str, Any]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 20,
+      "comment_ratio": 0.289,
+      "avg_line_length": 27.8,
+      "is_test_file": false
+    },
     "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_handlers/PostToolUse.py": {
     "functions": [
+      "extract_continuation_id(tool_name, tool_input, tool_response)",
+      "detect_zen_usage_patterns(tool_name, tool_input, session_id, cwd)",
+      "generate_zen_prompt_template(tool_name, recommendations, has_continuation, continuation_id)",
+      "store_continuation_id(session_id, continuation_id)",
       "sanitize_input(input_data)",
       "should_trigger_python_fixer(tool_name, tool_input)",
       "extract_todo_content(tool_input)",
@@ -38,7 +114,96 @@
     ],
     "classes": [],
     "docstring": "PostToolUse hook handler compliant with HOOK_CONTRACT.md.\nThis hook is called after Claude uses a tool.\nProvides CLI recommendations for Bash commands and automatically fixes Python files using python_auto_fixer.py.",
-    "description": "Defines 0 classes and 9 functions"
+    "imports": [
+      "json",
+      "sys",
+      "os",
+      "re",
+      "datetime"
+    ],
+    "todos": [],
+    "complexity": 140,
+    "function_calls": {
+      "extract_continuation_id": [
+        "get",
+        "isinstance",
+        "loads",
+        "len",
+        "startswith"
+      ],
+      "detect_zen_usage_patterns": [
+        "get",
+        "append",
+        "str",
+        "join",
+        "endswith",
+        "len",
+        "add",
+        "lower",
+        "any",
+        "set"
+      ],
+      "generate_zen_prompt_template": [
+        "append",
+        "join",
+        "enumerate"
+      ],
+      "store_continuation_id": [
+        "set_continuation_id"
+      ],
+      "sanitize_input": [
+        "get",
+        "print"
+      ]
+    },
+    "type_hints": {
+      "extract_continuation_id": {
+        "args": {
+          "tool_name": "str",
+          "tool_input": "Dict[str, Any]",
+          "tool_response": "Any"
+        },
+        "return": "str"
+      },
+      "detect_zen_usage_patterns": {
+        "args": {
+          "tool_name": "str",
+          "tool_input": "Dict[str, Any]",
+          "session_id": "str",
+          "cwd": "str"
+        },
+        "return": "List[str]"
+      },
+      "generate_zen_prompt_template": {
+        "args": {
+          "tool_name": "str",
+          "recommendations": "List[str]",
+          "has_continuation": "bool",
+          "continuation_id": "str"
+        },
+        "return": "str"
+      },
+      "store_continuation_id": {
+        "args": {
+          "session_id": "str",
+          "continuation_id": "str"
+        },
+        "return": "None"
+      },
+      "sanitize_input": {
+        "args": {
+          "input_data": "Dict[str, Any]"
+        },
+        "return": "bool"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 462,
+      "comment_ratio": 0.121,
+      "avg_line_length": 42.1,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 13 functions"
   },
   ".claude/hooks/hook_handlers/PreCompact.py": {
     "functions": [
@@ -46,32 +211,303 @@
     ],
     "classes": [],
     "docstring": "Generic PreCompact hook handler.\nThis hook is called before Claude compacts its memory/context.",
+    "imports": [
+      "json",
+      "sys",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 2,
+    "function_calls": {
+      "handle": [
+        "get",
+        "print",
+        "exit"
+      ]
+    },
+    "type_hints": {
+      "handle": {
+        "args": {
+          "data": "Dict[str, Any]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 20,
+      "comment_ratio": 0.289,
+      "avg_line_length": 27.5,
+      "is_test_file": false
+    },
     "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_handlers/PreToolUse.py": {
     "functions": [
       "handle(data)",
-      "check_file_restrictions(file_path)"
+      "check_file_restrictions(file_path, content)",
+      "analyze_ast_patterns(file_path, content)",
+      "_calculate_function_complexities(tree)",
+      "_count_class_methods(tree)",
+      "_analyze_inheritance_depth(tree)",
+      "_find_unused_imports(tree, content)",
+      "_find_unused_variables(tree)",
+      "_analyze_parameter_counts(tree)",
+      "_analyze_nested_function_depth(tree)",
+      "_analyze_return_complexity(tree)",
+      "detect_anti_patterns(file_path, content)"
     ],
-    "classes": [],
-    "docstring": "PreToolUse hook handler with file creation restrictions.\nBlocks .md files outside docs directory and test_*.py files outside tests directory.",
-    "description": "Defines 0 classes and 2 functions"
+    "classes": [
+      "ExemptionManager"
+    ],
+    "docstring": "PreToolUse hook handler with comprehensive anti-pattern detection.\nBlocks file creation that would lead to technical debt or dangerous patterns.\nSupports exemption mechanisms for legitimate exceptions with proper justification.",
+    "imports": [
+      "ast",
+      "json",
+      "os",
+      "re",
+      "sys"
+    ],
+    "todos": [
+      "/FIXME accumulation"
+    ],
+    "complexity": 160,
+    "function_calls": {
+      "handle": [
+        "get",
+        "isinstance",
+        "exit",
+        "is_master_block_enabled",
+        "FileBlocker",
+        "check_file_restrictions",
+        "_is_claude_directory_operation",
+        "print"
+      ],
+      "check_file_restrictions": [
+        "get",
+        "append",
+        "abspath",
+        "log_exemption",
+        "exit",
+        "join",
+        "basename",
+        "endswith",
+        "detect_anti_patterns",
+        "ExemptionManager"
+      ],
+      "analyze_ast_patterns": [
+        "_find_unused_imports",
+        "append",
+        "strip",
+        "parse",
+        "items",
+        "_count_class_methods",
+        "join",
+        "_analyze_parameter_counts",
+        "_find_unused_variables",
+        "endswith"
+      ],
+      "_calculate_function_complexities": [
+        "isinstance",
+        "walk",
+        "len"
+      ],
+      "_count_class_methods": [
+        "isinstance",
+        "walk"
+      ]
+    },
+    "type_hints": {
+      "handle": {
+        "args": {
+          "data": "Dict[str, Any]"
+        },
+        "return": "None"
+      },
+      "check_file_restrictions": {
+        "args": {
+          "file_path": "str",
+          "content": "str"
+        },
+        "return": "None"
+      },
+      "analyze_ast_patterns": {
+        "args": {
+          "file_path": "str",
+          "content": "str"
+        },
+        "return": "List[Tuple[str, str, str]]"
+      },
+      "_calculate_function_complexities": {
+        "args": {
+          "tree": "ast.AST"
+        },
+        "return": "Dict[str, int]"
+      },
+      "_count_class_methods": {
+        "args": {
+          "tree": "ast.AST"
+        },
+        "return": "Dict[str, int]"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 496,
+      "comment_ratio": 0.103,
+      "avg_line_length": 41.3,
+      "is_test_file": false
+    },
+    "description": "Defines 1 classes and 12 functions"
   },
   ".claude/hooks/hook_handlers/SessionStart.py": {
     "functions": [
       "handle(input_data)"
     ],
     "classes": [],
-    "docstring": "",
+    "docstring": "SessionStart hook handler for initializing global continuation tracking.\nEnsures thread-safe initialization of session state and outputs initialization context for Claude.",
+    "imports": [
+      "sys",
+      "subprocess",
+      "json",
+      "uuid",
+      "pathlib"
+    ],
+    "todos": [],
+    "complexity": 18,
+    "function_calls": {
+      "handle": [
+        "items",
+        "get_session_info",
+        "len",
+        "keys",
+        "get",
+        "initialize_session",
+        "run",
+        "join",
+        "exists",
+        "cleanup_old_sessions"
+      ]
+    },
+    "type_hints": {
+      "handle": {
+        "args": {
+          "input_data": "Dict[str, Any]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 120,
+      "comment_ratio": 0.123,
+      "avg_line_length": 37.3,
+      "is_test_file": false
+    },
     "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_handlers/Stop.py": {
     "functions": [
-      "handle(data)"
+      "calculate_session_duration(session_info)",
+      "archive_session_data(session_id, session_info, archive_dir)",
+      "cleanup_session_state(session_id, archive_session)",
+      "cleanup_old_archives(archive_dir, retention_days)",
+      "log_session_end(session_id, stop_reason, cleanup_stats)",
+      "handle(data)",
+      "main()"
     ],
     "classes": [],
-    "docstring": "Generic Stop hook handler.\nThis hook is called when Claude stops processing.",
-    "description": "Defines 0 classes and 1 functions"
+    "docstring": "Stop hook handler with session cleanup and archival logic.\nThis hook is called when Claude stops processing.",
+    "imports": [
+      "json",
+      "sys",
+      "threading",
+      "datetime",
+      "pathlib"
+    ],
+    "todos": [],
+    "complexity": 28,
+    "function_calls": {
+      "calculate_session_duration": [
+        "get",
+        "total_seconds",
+        "fromisoformat",
+        "now"
+      ],
+      "archive_session_data": [
+        "with_suffix",
+        "open",
+        "isoformat",
+        "strftime",
+        "dump",
+        "mkdir",
+        "replace",
+        "now"
+      ],
+      "cleanup_session_state": [
+        "Path",
+        "isoformat",
+        "str",
+        "calculate_session_duration",
+        "get_session_info",
+        "archive_session_data",
+        "now"
+      ],
+      "cleanup_old_archives": [
+        "timedelta",
+        "unlink",
+        "glob",
+        "exists",
+        "fromtimestamp",
+        "now",
+        "stat"
+      ],
+      "log_session_end": [
+        "log_event"
+      ]
+    },
+    "type_hints": {
+      "calculate_session_duration": {
+        "args": {
+          "session_info": "Dict[str, Any]"
+        },
+        "return": "Optional[float]"
+      },
+      "archive_session_data": {
+        "args": {
+          "session_id": "str",
+          "session_info": "Dict[str, Any]",
+          "archive_dir": "Path"
+        },
+        "return": "bool"
+      },
+      "cleanup_session_state": {
+        "args": {
+          "session_id": "str",
+          "archive_session": "bool"
+        },
+        "return": "Dict[str, Any]"
+      },
+      "cleanup_old_archives": {
+        "args": {
+          "archive_dir": "Path",
+          "retention_days": "int"
+        },
+        "return": "None"
+      },
+      "log_session_end": {
+        "args": {
+          "session_id": "str",
+          "stop_reason": "str",
+          "cleanup_stats": "Dict[str, Any]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 191,
+      "comment_ratio": 0.126,
+      "avg_line_length": 35.0,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 7 functions"
   },
   ".claude/hooks/hook_handlers/SubagentStop.py": {
     "functions": [
@@ -79,29 +515,157 @@
     ],
     "classes": [],
     "docstring": "Generic SubagentStop hook handler.\nThis hook is called when a subagent stops processing.",
+    "imports": [
+      "json",
+      "sys",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 2,
+    "function_calls": {
+      "handle": [
+        "get",
+        "print",
+        "exit"
+      ]
+    },
+    "type_hints": {
+      "handle": {
+        "args": {
+          "data": "Dict[str, Any]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 21,
+      "comment_ratio": 0.282,
+      "avg_line_length": 28.6,
+      "is_test_file": false
+    },
     "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_handlers/UserPromptSubmit.py": {
     "functions": [
+      "load_constants()",
+      "load_env()",
+      "extract_imports(tree)",
+      "extract_todos(source)",
+      "extract_function_calls(tree)",
+      "_extract_call_name(func_node)",
+      "extract_type_hints(tree)",
+      "_annotation_to_string(annotation)",
+      "calculate_complexity(tree)",
       "summarize_python_file(filepath)",
       "summarize_text_file(filepath)",
       "summarize_json_file(filepath)",
       "summarize_file(filepath)",
+      "extract_keywords(prompt)",
+      "score_file_relevance(prompt, filepath, summary)",
+      "filter_relevant_files(prompt, outline, top_k)",
       "generate_outline(file_list)",
+      "get_git_context(keywords)",
+      "get_error_context()",
+      "get_project_config()",
+      "get_project_documentation()",
+      "get_test_context()",
+      "get_environment_context()",
+      "calculate_file_metrics(filepath, source)",
       "bootstrap_summary(json_path)",
+      "get_agent_info(agents_dir)",
+      "build_import_graph()",
       "format_outline(outline)",
-      "call_gemini(user_prompt, verbose_outline)",
+      "call_gemini(user_prompt, verbose_outline, mcp_servers, agents, session_id, git_context, error_context, project_config, project_docs, test_context, env_context, import_graph)",
+      "get_current_continuation_id(session_id)",
+      "set_continuation_id(session_id, continuation_id)",
+      "has_active_continuation(session_id)",
       "handle(data)"
     ],
     "classes": [],
     "docstring": "",
-    "description": "Defines 0 classes and 9 functions"
-  },
-  ".claude/hooks/hook_handlers/config.py": {
-    "functions": [],
-    "classes": [],
-    "docstring": "Configuration for optimized UserPromptSubmit hook.",
-    "description": "Module-level logic or config"
+    "imports": [
+      "os",
+      "sys",
+      "ast",
+      "json",
+      "requests"
+    ],
+    "todos": [],
+    "complexity": 240,
+    "function_calls": {
+      "load_constants": [
+        "load",
+        "Path",
+        "open",
+        "RuntimeError"
+      ],
+      "load_env": [
+        "Path",
+        "open",
+        "exists",
+        "strip",
+        "split",
+        "startswith"
+      ],
+      "extract_imports": [
+        "extend",
+        "isinstance",
+        "walk",
+        "append"
+      ],
+      "extract_todos": [
+        "findall"
+      ],
+      "extract_function_calls": [
+        "append",
+        "isinstance",
+        "list",
+        "walk",
+        "set",
+        "_extract_call_name"
+      ]
+    },
+    "type_hints": {
+      "load_constants": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "extract_keywords": {
+        "args": {
+          "prompt": "str"
+        },
+        "return": "List[str]"
+      },
+      "score_file_relevance": {
+        "args": {
+          "prompt": "str",
+          "filepath": "str",
+          "summary": "dict"
+        },
+        "return": "float"
+      },
+      "filter_relevant_files": {
+        "args": {
+          "prompt": "str",
+          "outline": "dict",
+          "top_k": "int"
+        },
+        "return": "dict"
+      },
+      "get_git_context": {
+        "args": {
+          "keywords": "Optional[List[str]]"
+        },
+        "return": "dict"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 861,
+      "comment_ratio": 0.119,
+      "avg_line_length": 39.9,
+      "is_test_file": true
+    },
+    "description": "Defines 0 classes and 33 functions"
   },
   ".claude/hooks/hook_handlers/performance_test.py": {
     "functions": [
@@ -109,21 +673,210 @@
     ],
     "classes": [],
     "docstring": "Performance test for UserPromptSubmit hook optimization.",
+    "imports": [
+      "time",
+      "json",
+      "subprocess",
+      "sys",
+      "os"
+    ],
+    "todos": [],
+    "complexity": 5,
+    "function_calls": {
+      "test_hook_performance": [
+        "max",
+        "min",
+        "run",
+        "append",
+        "time",
+        "dumps",
+        "sum",
+        "getcwd",
+        "len",
+        "range"
+      ]
+    },
+    "type_hints": {},
+    "metrics": {
+      "lines_of_code": 50,
+      "comment_ratio": 0.06,
+      "avg_line_length": 28.4,
+      "is_test_file": true
+    },
     "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_logger.py": {
-    "functions": [
-      "log_function_call(level)"
-    ],
+    "functions": [],
     "classes": [
-      "HookLogger"
+      "UserPromptLogger"
     ],
-    "docstring": "Comprehensive logging system for Claude Code hooks.\nProvides logging with text abridging, rotation, and organization.",
-    "description": "Defines 1 classes and 1 functions"
+    "docstring": "Simplified logger for UserPromptSubmit hooks.\nLogs key events with minimal overhead and automatic cleanup.",
+    "imports": [
+      "json",
+      "uuid",
+      "datetime",
+      "pathlib",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 9,
+    "function_calls": {
+      "__init__": [
+        "Path",
+        "uuid4",
+        "str",
+        "defaultdict",
+        "mkdir"
+      ],
+      "_cleanup_old_logs": [
+        "is_file",
+        "timedelta",
+        "unlink",
+        "glob",
+        "fromtimestamp",
+        "now",
+        "stat"
+      ],
+      "_get_log_filename": [
+        "now",
+        "strftime"
+      ],
+      "log_event": [
+        "open",
+        "isoformat",
+        "_get_log_filename",
+        "_cleanup_old_logs",
+        "dumps",
+        "write",
+        "now"
+      ],
+      "log_gemini_request": [
+        "log_event",
+        "len"
+      ]
+    },
+    "type_hints": {
+      "__init__": {
+        "args": {
+          "base_dir": "str"
+        },
+        "return": null
+      },
+      "_get_log_filename": {
+        "args": {},
+        "return": "Path"
+      },
+      "log_event": {
+        "args": {
+          "event_data": "Dict[str, Any]"
+        },
+        "return": null
+      },
+      "log_gemini_request": {
+        "args": {
+          "user_prompt": "str",
+          "request_payload": "Dict[str, Any]"
+        },
+        "return": null
+      },
+      "log_gemini_response": {
+        "args": {
+          "response_data": "Dict[str, Any]",
+          "success": "bool"
+        },
+        "return": null
+      }
+    },
+    "metrics": {
+      "lines_of_code": 92,
+      "comment_ratio": 0.071,
+      "avg_line_length": 36.1,
+      "is_test_file": false
+    },
+    "description": "Defines 1 classes and 0 functions"
+  },
+  ".claude/hooks/hook_tools/continuation_helpers.py": {
+    "functions": [
+      "get_continuation_id(session_id)",
+      "set_continuation_id(session_id, continuation_id)",
+      "has_continuation(session_id)",
+      "format_continuation_context(session_id)",
+      "extract_and_store_continuation(session_id, tool_name, tool_output)"
+    ],
+    "classes": [],
+    "docstring": "Simple continuation tracking helpers for Claude hooks.\nProvides easy-to-use functions for continuation management.",
+    "imports": [
+      "typing",
+      "state_manager"
+    ],
+    "todos": [],
+    "complexity": 14,
+    "function_calls": {
+      "get_continuation_id": [
+        "get_continuation_id"
+      ],
+      "set_continuation_id": [
+        "set_continuation_id"
+      ],
+      "has_continuation": [
+        "has_continuation"
+      ],
+      "format_continuation_context": [
+        "get_continuation_id"
+      ],
+      "extract_and_store_continuation": [
+        "get",
+        "isinstance",
+        "startswith",
+        "set_continuation_id"
+      ]
+    },
+    "type_hints": {
+      "get_continuation_id": {
+        "args": {
+          "session_id": "str"
+        },
+        "return": "str"
+      },
+      "set_continuation_id": {
+        "args": {
+          "session_id": "str",
+          "continuation_id": "str"
+        },
+        "return": "None"
+      },
+      "has_continuation": {
+        "args": {
+          "session_id": "str"
+        },
+        "return": "bool"
+      },
+      "format_continuation_context": {
+        "args": {
+          "session_id": "str"
+        },
+        "return": "str"
+      },
+      "extract_and_store_continuation": {
+        "args": {
+          "session_id": "str",
+          "tool_name": "str",
+          "tool_output": "dict"
+        },
+        "return": "bool"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 78,
+      "comment_ratio": 0.028,
+      "avg_line_length": 27.3,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 5 functions"
   },
   ".claude/hooks/hook_tools/python_auto_fixer.py": {
     "functions": [
-      "should_process_file(tool_name, _tool_input, file_path)",
+      "should_process_file(tool_name, tool_input, file_path)",
       "run_auto_fixer(tool_name, tool_input, cwd)"
     ],
     "classes": [
@@ -141,8 +894,196 @@
       "PassFixer",
       "OptimizedPythonFixer"
     ],
-    "docstring": "Optimized Python Auto-Fixer - Modular Architecture\nSingle-pass processing with strategy pattern for maintainable code fixing",
+    "docstring": "Optimized Python Auto-Fixer - Modular Architecture\nSingle-pass processing with strategy pattern for maintainable code fixing\n\nFeatures:\n- Custom fixers for common Python syntax issues\n- Ruff integration for fast linting and auto-fixing (optional)\n- Black integration for consistent code formatting (optional)\n- docformatter integration for automatic docstring formatting (optional)\n- flynt integration for automatic f-string conversion (optional)\n- Project configuration auto-detection (.ruff.toml, pyproject.toml)\n- Graceful fallback to autopep8 if modern tools not available\n- Performance-focused with proper error handling and logging\n- Optimal tool execution order for best results",
+    "imports": [
+      "os",
+      "re",
+      "sys",
+      "time",
+      "abc"
+    ],
+    "todos": [],
+    "complexity": 149,
+    "function_calls": {
+      "should_process_file": [
+        "lower",
+        "str",
+        "any",
+        "endswith"
+      ],
+      "run_auto_fixer": [
+        "append",
+        "isinstance",
+        "_log",
+        "join",
+        "isabs",
+        "OptimizedPythonFixer",
+        "exists",
+        "should_process_file",
+        "fix_file"
+      ],
+      "__init__": [
+        "_check_external_tools",
+        "_initialize_fixers"
+      ],
+      "_compile_patterns": [
+        "compile"
+      ],
+      "can_fix_line": [
+        "strip",
+        "endswith"
+      ]
+    },
+    "type_hints": {
+      "should_process_file": {
+        "args": {
+          "tool_name": "str",
+          "tool_input": "dict",
+          "file_path": "str"
+        },
+        "return": "bool"
+      },
+      "run_auto_fixer": {
+        "args": {
+          "tool_name": "str",
+          "tool_input": "dict",
+          "cwd": "str"
+        },
+        "return": "None"
+      },
+      "can_fix_line": {
+        "args": {
+          "line": "str",
+          "line_num": "int",
+          "context": "Dict"
+        },
+        "return": "bool"
+      },
+      "fix_line": {
+        "args": {
+          "line": "str",
+          "line_num": "int",
+          "context": "Dict"
+        },
+        "return": "Tuple[str, bool]"
+      },
+      "get_dependencies": {
+        "args": {},
+        "return": "Set[str]"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 659,
+      "comment_ratio": 0.09,
+      "avg_line_length": 39.3,
+      "is_test_file": false
+    },
     "description": "Defines 13 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/state_manager.py": {
+    "functions": [
+      "migrate_from_settings_json()"
+    ],
+    "classes": [
+      "StateManager"
+    ],
+    "docstring": "Thread-safe state manager for Claude hooks continuation tracking.\nManages session state in separate JSON file outside of settings.json schema.",
+    "imports": [
+      "json",
+      "threading",
+      "uuid",
+      "datetime",
+      "pathlib"
+    ],
+    "todos": [],
+    "complexity": 27,
+    "function_calls": {
+      "migrate_from_settings_json": [
+        "migrate_from_settings",
+        "exists",
+        "Path",
+        "print"
+      ],
+      "__init__": [
+        "RLock",
+        "Path",
+        "_ensure_state_directory"
+      ],
+      "_ensure_state_directory": [
+        "mkdir"
+      ],
+      "_read_state": [
+        "open",
+        "isoformat",
+        "exists",
+        "load",
+        "now"
+      ],
+      "_write_state": [
+        "with_suffix",
+        "open",
+        "isoformat",
+        "dump",
+        "unlink",
+        "exists",
+        "replace",
+        "setdefault",
+        "now"
+      ]
+    },
+    "type_hints": {
+      "migrate_from_settings_json": {
+        "args": {},
+        "return": "None"
+      },
+      "_ensure_state_directory": {
+        "args": {},
+        "return": "None"
+      },
+      "_read_state": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "_write_state": {
+        "args": {
+          "state_data": "Dict[str, Any]"
+        },
+        "return": "None"
+      },
+      "generate_session_id": {
+        "args": {},
+        "return": "str"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 270,
+      "comment_ratio": 0.067,
+      "avg_line_length": 34.3,
+      "is_test_file": false
+    },
+    "description": "Defines 1 classes and 1 functions"
+  },
+  ".claude/hooks/state/sessions.json": {
+    "description": "JSON config",
+    "keys": [
+      "sessions",
+      "metadata"
+    ]
+  },
+  ".claude/json/constants.json": {
+    "description": "JSON config",
+    "keys": [
+      "file_paths",
+      "file_extensions",
+      "environment_variables",
+      "api",
+      "text_limits",
+      "git_commands",
+      "yaml_frontmatter",
+      "mcp_servers",
+      "http_headers",
+      "json_structure"
+    ]
   },
   ".claude/settings.json": {
     "description": "JSON config",
@@ -154,6 +1095,13 @@
       "hooks"
     ]
   },
+  ".claude/state/sessions.json": {
+    "description": "JSON config",
+    "keys": [
+      "sessions",
+      "metadata"
+    ]
+  },
   ".gitignore": {
     "description": "Skipped unhandled file: .gitignore"
   },
@@ -162,8 +1110,8 @@
     "docstring": "CLAUDE.md"
   },
   "TERMS_OF_SERVICE.md": {
-    "description": "# TERMS OF SERVICE - BETTER CLAUDE PROJECT",
-    "docstring": "# TERMS OF SERVICE - BETTER CLAUDE PROJECT"
+    "description": "# TERMS OF SERVICE - SIMPLE CLAUDE PROJECT",
+    "docstring": "# TERMS OF SERVICE - SIMPLE CLAUDE PROJECT"
   },
   "contracts/AGENT_CONTRACT.md": {
     "description": "# Agent Coordination Contract",
