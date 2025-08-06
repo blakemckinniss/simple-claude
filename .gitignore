@@ -169,6 +169,7 @@ public
 tmp/
 temp/
 tests/
+hooks/memory/
 
 # Editor directories and files
 .vscode/*
