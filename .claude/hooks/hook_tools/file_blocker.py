@@ -46,8 +46,8 @@ class FileBlockerConfig:
     CLAUDE_DIR_PATTERNS = [
         "*/.claude/*",
         "*/.claude/**/*",
-        "/home/devcontainers/simple-claude/.claude/*",
-        "/home/devcontainers/simple-claude/.claude/**/*"
+        "/home/blake/simple-claude/.claude/*",
+        "/home/blake/simple-claude/.claude/**/*"
     ]
     
     # Default blocking rules - can be overridden by configuration file
@@ -57,7 +57,7 @@ class FileBlockerConfig:
             path_patterns=[
                 "*/hooks/hook_handlers/*",
                 "*/.claude/hooks/hook_handlers/*",
-                "/home/devcontainers/simple-claude/.claude/hooks/hook_handlers/*"
+                "/home/blake/simple-claude/.claude/hooks/hook_handlers/*"
             ],
             blocked_extensions=[".py", ".pyc", ".pyo"],
             description="Protect hook handler directory from Python file creation to prevent system modification",
@@ -100,7 +100,7 @@ class FileBlockerConfig:
         Args:
             config_file: Path to JSON configuration file. If None, uses default location.
         """
-        self.project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/devcontainers/simple-claude")
+        self.project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/blake/simple-claude")
         self.config_file = config_file or os.path.join(
             self.project_root, ".claude", "file_blocker_config.json"
         )

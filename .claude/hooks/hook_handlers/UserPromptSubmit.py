@@ -9,11 +9,18 @@ import shutil
 from pathlib import Path
 from subprocess import check_output
 from typing import List, Tuple, Dict, Any, Optional
+from collections import defaultdict
+import time
 
-# Import the simplified logger and state manager
+# Import the simplified logger, state manager, and memory manager
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from hook_logger import logger
 from hook_tools.state_manager import state_manager
+from hook_tools.memory_manager import memory_manager, MemoryType
+
+# Tool output cache for synthesis
+TOOL_OUTPUT_CACHE = {}
+CACHE_TTL = 300  # 5 minutes
 
 # Load constants from JSON file
 def load_constants() -> Dict[str, Any]:
@@ -98,6 +105,219 @@ def _extract_call_name(func_node):
             return func_node.id
     except:
         pass
+
+def detect_performance_hotspots(tree, source):
+    """Detect performance bottlenecks and complexity issues."""
+    hotspots = []
+    
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef):
+            complexity = calculate_complexity(node)
+            
+            # High complexity function
+            if complexity > 10:
+                hotspots.append({
+                    "type": "high_complexity",
+                    "function": node.name,
+                    "complexity": complexity,
+                    "line": node.lineno
+                })
+            
+            # Nested loops detection (O(n²) or worse)
+            loop_depth = _get_loop_depth(node)
+            if loop_depth >= 2:
+                hotspots.append({
+                    "type": "nested_loops",
+                    "function": node.name,
+                    "depth": loop_depth,
+                    "line": node.lineno,
+                    "complexity_estimate": f"O(n^{loop_depth})"
+                })
+    
+    # Detect synchronous I/O in async context
+    if "async def" in source:
+        sync_io_patterns = [r'\bopen\(', r'\brequests\.', r'\btime\.sleep\(']
+        for pattern in sync_io_patterns:
+            if re.search(pattern, source):
+                hotspots.append({
+                    "type": "sync_io_in_async",
+                    "pattern": pattern
+                })
+    
+    return hotspots
+
+def _get_loop_depth(node, current_depth=0):
+    """Recursively calculate loop nesting depth."""
+    max_depth = current_depth
+    for child in ast.iter_child_nodes(node):
+        if isinstance(child, (ast.For, ast.While)):
+            child_depth = _get_loop_depth(child, current_depth + 1)
+            max_depth = max(max_depth, child_depth)
+    return max_depth
+
+def calculate_context_depth(prompt):
+    """Dynamically calculate context depth based on prompt complexity."""
+    prompt_lower = prompt.lower()
+    
+    # Deep analysis keywords
+    if any(word in prompt_lower for word in ['debug', 'deep dive', 'analyze', 'investigate', 'trace', 'why']):
+        return {"top_k": 50, "include_body": True, "depth": "deep"}
+    
+    # Refactoring keywords
+    elif any(word in prompt_lower for word in ['refactor', 'improve', 'optimize', 'clean', 'restructure']):
+        return {"top_k": 30, "include_body": True, "depth": "refactor", "focus": "complexity"}
+    
+    # Overview keywords
+    elif any(word in prompt_lower for word in ['summary', 'overview', 'quick', 'brief', 'what']):
+        return {"top_k": 10, "include_body": False, "depth": "overview"}
+    
+    # Performance keywords
+    elif any(word in prompt_lower for word in ['performance', 'slow', 'bottleneck', 'speed']):
+        return {"top_k": 25, "include_body": True, "depth": "performance", "focus": "hotspots"}
+    
+    # Default moderate depth
+    return {"top_k": 20, "include_body": False, "depth": "moderate"}
+
+def detect_code_quality_issues(filepath, content):
+    """Detect anti-patterns and code quality issues."""
+    issues = []
+    
+    try:
+        tree = ast.parse(content)
+        
+        # Check for various anti-patterns
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef):
+                # Long method
+                func_lines = content[node.lineno-1:node.end_lineno].count('\n') if hasattr(node, 'end_lineno') else 0
+                if func_lines > 50:
+                    issues.append({
+                        "type": "long_method",
+                        "name": node.name,
+                        "lines": func_lines,
+                        "suggestion": "Consider breaking into smaller functions"
+                    })
+                
+                # Too many parameters
+                if len(node.args.args) > 5:
+                    issues.append({
+                        "type": "too_many_parameters",
+                        "name": node.name,
+                        "count": len(node.args.args),
+                        "suggestion": "Consider using configuration object or builder pattern"
+                    })
+            
+            elif isinstance(node, ast.ClassDef):
+                # God class detection
+                methods = [n for n in node.body if isinstance(n, ast.FunctionDef)]
+                if len(methods) > 20:
+                    issues.append({
+                        "type": "god_class",
+                        "name": node.name,
+                        "method_count": len(methods),
+                        "suggestion": "Consider splitting into smaller, focused classes"
+                    })
+    except Exception:
+        pass
+    
+    return issues
+
+def aggregate_cross_file_patterns(verbose_outline):
+    """Aggregate patterns across multiple files for project-wide insights."""
+    patterns = {
+        "repeated_patterns": defaultdict(int),
+        "naming_inconsistencies": [],
+        "architectural_patterns": [],
+        "common_issues": defaultdict(list)
+    }
+    
+    # Analyze patterns across files
+    for filepath, summary in verbose_outline.items():
+        if 'imports' in summary:
+            # Track import patterns
+            for imp in summary['imports']:
+                patterns['repeated_patterns'][imp] += 1
+        
+        if 'todos' in summary:
+            # Aggregate TODOs by category
+            for todo in summary['todos']:
+                category = 'general'
+                if 'refactor' in todo.lower():
+                    category = 'refactor'
+                elif 'fix' in todo.lower() or 'bug' in todo.lower():
+                    category = 'bug'
+                elif 'optimize' in todo.lower() or 'performance' in todo.lower():
+                    category = 'performance'
+                
+                patterns['common_issues'][category].append({'file': filepath, 'todo': todo})
+    
+    # Identify architectural patterns
+    import_strs = str(patterns['repeated_patterns'])
+    if 'flask' in import_strs.lower():
+        patterns['architectural_patterns'].append('Flask Web Framework')
+    if 'django' in import_strs.lower():
+        patterns['architectural_patterns'].append('Django Web Framework')
+    if 'fastapi' in import_strs.lower():
+        patterns['architectural_patterns'].append('FastAPI')
+    
+    return dict(patterns)
+
+def extract_test_metrics(test_files):
+    """Extract test coverage and quality metrics."""
+    metrics = {
+        "test_count": 0,
+        "assertion_density": 0,
+        "mock_usage": False,
+        "coverage_estimate": "unknown"
+    }
+    
+    assertion_count = 0
+    for filepath in test_files:
+        try:
+            with open(filepath, 'r') as f:
+                content = f.read()
+                tree = ast.parse(content)
+                
+                for node in ast.walk(tree):
+                    if isinstance(node, ast.FunctionDef) and node.name.startswith('test_'):
+                        metrics['test_count'] += 1
+                    
+                    if isinstance(node, ast.Call):
+                        # Check for assertion calls - handle both attribute and name calls
+                        call_name = _extract_call_name(node.func)
+                        if call_name and 'assert' in str(call_name).lower():
+                            assertion_count += 1
+                        if call_name and 'mock' in str(call_name).lower():
+                            metrics['mock_usage'] = True
+        except Exception:
+            pass
+    
+    if metrics['test_count'] > 0:
+        metrics['assertion_density'] = assertion_count / metrics['test_count']
+    
+    return metrics
+
+def synthesize_tool_outputs(cache_key=None, output=None):
+    """Cache and synthesize tool outputs to reduce redundancy."""
+    global TOOL_OUTPUT_CACHE
+    current_time = time.time()
+    
+    # Clean expired cache entries
+    TOOL_OUTPUT_CACHE = {k: v for k, v in TOOL_OUTPUT_CACHE.items() 
+                        if current_time - v['timestamp'] < CACHE_TTL}
+    
+    if cache_key and output:
+        # Store output in cache
+        TOOL_OUTPUT_CACHE[cache_key] = {
+            'output': output,
+            'timestamp': current_time
+        }
+    elif cache_key:
+        # Retrieve from cache
+        cached = TOOL_OUTPUT_CACHE.get(cache_key)
+        if cached:
+            return cached['output']
+    
     return None
 
 def extract_type_hints(tree):
@@ -160,6 +380,291 @@ def calculate_complexity(tree):
             complexity += len(node.values) - 1
     return complexity
 
+def detect_performance_hotspots_old(filepath: str, tree: ast.AST, source: str) -> Dict[str, Any]:
+    """Detect performance hotspots in Python code.
+    
+    Identifies:
+    1. O(n²) or worse complexity patterns in loops
+    2. Synchronous I/O operations that could be async
+    3. Memory-intensive operations (large list comprehensions, unnecessary copies)
+    4. Cyclomatic complexity per function
+    5. Potential bottlenecks (repeated file I/O, redundant calculations)
+    
+    Returns:
+        Dict with performance issues categorized by type
+    """
+    hotspots = {
+        "nested_loops": [],
+        "sync_io_operations": [],
+        "memory_intensive": [],
+        "high_complexity_functions": [],
+        "potential_bottlenecks": [],
+        "redundant_operations": [],
+        "aggregate_risk_score": 0
+    }
+    
+    # Track function definitions for per-function analysis
+    function_nodes = {}
+    io_operations_by_func = {}
+    loop_depth_by_func = {}
+    
+    # First pass: collect all function definitions
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef) or isinstance(node, ast.AsyncFunctionDef):
+            function_nodes[node.name] = node
+            io_operations_by_func[node.name] = []
+            loop_depth_by_func[node.name] = 0
+    
+    # Analyze each function
+    for func_name, func_node in function_nodes.items():
+        # Calculate per-function cyclomatic complexity
+        func_complexity = 1
+        loop_depth = 0
+        max_loop_depth = 0
+        has_nested_loops = False
+        
+        # Walk through function body
+        for node in ast.walk(func_node):
+            # Cyclomatic complexity
+            if isinstance(node, (ast.If, ast.While, ast.For, ast.ExceptHandler)):
+                func_complexity += 1
+            elif isinstance(node, ast.BoolOp):
+                func_complexity += len(node.values) - 1
+            
+            # Track loop nesting depth
+            if isinstance(node, (ast.For, ast.While)):
+                # Check if this loop contains another loop
+                for child in ast.walk(node):
+                    if child != node and isinstance(child, (ast.For, ast.While)):
+                        has_nested_loops = True
+                        max_loop_depth = max(max_loop_depth, 2)
+                        
+                        # Check for triple nesting (O(n³) or worse)
+                        for grandchild in ast.walk(child):
+                            if grandchild != child and isinstance(grandchild, (ast.For, ast.While)):
+                                max_loop_depth = max(max_loop_depth, 3)
+                                hotspots["nested_loops"].append({
+                                    "function": func_name,
+                                    "line": node.lineno if hasattr(node, 'lineno') else 0,
+                                    "complexity": "O(n³) or worse",
+                                    "severity": "critical",
+                                    "description": f"Triple-nested loop detected in {func_name}"
+                                })
+                                break
+                
+                # Detect if loop contains expensive operations
+                for child in ast.walk(node):
+                    if isinstance(child, ast.Call):
+                        call_name = _extract_call_name(child.func)
+                        if call_name in ['sorted', 'sort', 'min', 'max', 'sum']:
+                            if has_nested_loops:
+                                hotspots["nested_loops"].append({
+                                    "function": func_name,
+                                    "line": child.lineno if hasattr(child, 'lineno') else 0,
+                                    "complexity": "O(n² log n) or worse",
+                                    "severity": "high",
+                                    "description": f"Sorting/aggregation inside nested loop in {func_name}"
+                                })
+        
+        # Flag high-complexity functions
+        if func_complexity > 10:
+            severity = "critical" if func_complexity > 20 else "high" if func_complexity > 15 else "medium"
+            hotspots["high_complexity_functions"].append({
+                "function": func_name,
+                "complexity": func_complexity,
+                "severity": severity,
+                "line": func_node.lineno if hasattr(func_node, 'lineno') else 0,
+                "description": f"Function {func_name} has cyclomatic complexity of {func_complexity}"
+            })
+        
+        # Detect synchronous I/O that could be async
+        if not isinstance(func_node, ast.AsyncFunctionDef):
+            for node in ast.walk(func_node):
+                if isinstance(node, ast.Call):
+                    call_name = _extract_call_name(node.func)
+                    
+                    # Check for sync I/O operations
+                    sync_io_indicators = [
+                        'open', 'read', 'write', 'requests.get', 'requests.post',
+                        'urlopen', 'subprocess.run', 'subprocess.call', 'check_output',
+                        'os.system', 'input', 'raw_input'
+                    ]
+                    
+                    if any(indicator in str(call_name) for indicator in sync_io_indicators):
+                        # Check if we're in a loop
+                        in_loop = False
+                        for parent in ast.walk(func_node):
+                            if isinstance(parent, (ast.For, ast.While)):
+                                for child in ast.walk(parent):
+                                    if child == node:
+                                        in_loop = True
+                                        break
+                        
+                        severity = "high" if in_loop else "medium"
+                        hotspots["sync_io_operations"].append({
+                            "function": func_name,
+                            "line": node.lineno if hasattr(node, 'lineno') else 0,
+                            "operation": call_name,
+                            "severity": severity,
+                            "in_loop": in_loop,
+                            "description": f"Synchronous I/O '{call_name}' in {func_name}" + 
+                                         (" inside loop" if in_loop else "")
+                        })
+    
+    # Detect memory-intensive operations
+    for node in ast.walk(tree):
+        # Large list comprehensions
+        if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp)):
+            # Check if comprehension is over a large range or has nested loops
+            has_large_range = False
+            has_nested = False
+            
+            for generator in node.generators:
+                if isinstance(generator.iter, ast.Call):
+                    call_name = _extract_call_name(generator.iter.func)
+                    if call_name == 'range':
+                        # Check if range might be large
+                        if len(generator.iter.args) > 0:
+                            if isinstance(generator.iter.args[0], ast.Constant):
+                                # Safely check if the constant is a numeric value > 10000
+                                try:
+                                    if isinstance(generator.iter.args[0].value, (int, float)) and generator.iter.args[0].value > 10000:
+                                        has_large_range = True
+                                except (TypeError, ValueError):
+                                    pass
+            
+            # Check for nested comprehensions
+            for child in ast.walk(node):
+                if child != node and isinstance(child, (ast.ListComp, ast.SetComp, ast.DictComp)):
+                    has_nested = True
+                    break
+            
+            if has_large_range or has_nested:
+                severity = "high" if has_nested else "medium"
+                hotspots["memory_intensive"].append({
+                    "line": node.lineno if hasattr(node, 'lineno') else 0,
+                    "type": "list_comprehension",
+                    "severity": severity,
+                    "nested": has_nested,
+                    "description": "Large or nested list comprehension detected"
+                })
+        
+        # Detect unnecessary copies
+        if isinstance(node, ast.Call):
+            call_name = _extract_call_name(node.func)
+            if call_name in ['copy', 'deepcopy', 'list', 'dict', 'set']:
+                # Check if this is inside a loop
+                in_loop = False
+                for parent in ast.walk(tree):
+                    if isinstance(parent, (ast.For, ast.While)):
+                        for child in ast.walk(parent):
+                            if child == node:
+                                in_loop = True
+                                break
+                
+                if in_loop:
+                    hotspots["memory_intensive"].append({
+                        "line": node.lineno if hasattr(node, 'lineno') else 0,
+                        "type": "copy_in_loop",
+                        "operation": call_name,
+                        "severity": "high",
+                        "description": f"Object copying '{call_name}' inside loop"
+                    })
+        
+        # String concatenation in loops (inefficient in Python)
+        if isinstance(node, ast.AugAssign) and isinstance(node.op, ast.Add):
+            if isinstance(node.target, ast.Name):
+                # Check if this is string concatenation in a loop
+                for parent in ast.walk(tree):
+                    if isinstance(parent, (ast.For, ast.While)):
+                        for child in ast.walk(parent):
+                            if child == node:
+                                hotspots["memory_intensive"].append({
+                                    "line": node.lineno if hasattr(node, 'lineno') else 0,
+                                    "type": "string_concatenation",
+                                    "severity": "medium",
+                                    "description": "String concatenation in loop (use list.append + join instead)"
+                                })
+                                break
+    
+    # Detect potential bottlenecks
+    file_operations = {}
+    repeated_calculations = {}
+    
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            call_name = _extract_call_name(node.func)
+            
+            # Track file operations
+            if call_name in ['open', 'read', 'write']:
+                # Try to extract filename if it's a constant
+                if len(node.args) > 0 and isinstance(node.args[0], ast.Constant):
+                    filename = node.args[0].value
+                    if filename not in file_operations:
+                        file_operations[filename] = []
+                    file_operations[filename].append(node.lineno if hasattr(node, 'lineno') else 0)
+            
+            # Track potentially expensive repeated calculations
+            expensive_funcs = ['sorted', 'sort', 'sum', 'max', 'min', 'len', 
+                             'compile', 'parse', 'load', 'loads', 'dump', 'dumps']
+            if call_name in expensive_funcs:
+                # Create a signature for the call
+                sig = f"{call_name}"
+                if sig not in repeated_calculations:
+                    repeated_calculations[sig] = []
+                repeated_calculations[sig].append(node.lineno if hasattr(node, 'lineno') else 0)
+    
+    # Flag repeated file I/O
+    for filename, lines in file_operations.items():
+        if len(lines) > 2:
+            hotspots["potential_bottlenecks"].append({
+                "type": "repeated_file_io",
+                "filename": filename,
+                "occurrences": len(lines),
+                "lines": lines[:5],  # Show first 5 occurrences
+                "severity": "medium",
+                "description": f"File '{filename}' accessed {len(lines)} times"
+            })
+    
+    # Flag redundant calculations
+    for calc, lines in repeated_calculations.items():
+        if len(lines) > 3:
+            hotspots["redundant_operations"].append({
+                "type": "repeated_calculation",
+                "operation": calc,
+                "occurrences": len(lines),
+                "lines": lines[:5],
+                "severity": "low" if len(lines) < 5 else "medium",
+                "description": f"Operation '{calc}' called {len(lines)} times - consider caching"
+            })
+    
+    # Calculate aggregate risk score
+    risk_score = 0
+    risk_score += len(hotspots["nested_loops"]) * 10
+    risk_score += len(hotspots["sync_io_operations"]) * 5
+    risk_score += len(hotspots["memory_intensive"]) * 7
+    risk_score += sum(1 for f in hotspots["high_complexity_functions"] if f["severity"] == "critical") * 15
+    risk_score += sum(1 for f in hotspots["high_complexity_functions"] if f["severity"] == "high") * 10
+    risk_score += sum(1 for f in hotspots["high_complexity_functions"] if f["severity"] == "medium") * 5
+    risk_score += len(hotspots["potential_bottlenecks"]) * 3
+    risk_score += len(hotspots["redundant_operations"]) * 2
+    
+    hotspots["aggregate_risk_score"] = risk_score
+    
+    # Add risk level classification
+    if risk_score >= 50:
+        hotspots["risk_level"] = "critical"
+    elif risk_score >= 30:
+        hotspots["risk_level"] = "high"
+    elif risk_score >= 15:
+        hotspots["risk_level"] = "medium"
+    elif risk_score > 0:
+        hotspots["risk_level"] = "low"
+    else:
+        hotspots["risk_level"] = "minimal"
+    
+    return hotspots
+
 def summarize_python_file(filepath):
     try:
         with open(filepath, 'r', encoding=CONSTANTS["file_encoding"]["default"], 
@@ -191,6 +696,16 @@ def summarize_python_file(filepath):
     
     type_hints = extract_type_hints(tree)
     summary["type_hints"] = dict(list(type_hints.items())[:5])  # Limit to 5 functions
+    
+    # Add performance hotspots
+    hotspots = detect_performance_hotspots(tree, source)
+    if hotspots:
+        summary["performance_hotspots"] = hotspots[:3]  # Limit to top 3 hotspots
+    
+    # Add code quality issues
+    quality_issues = detect_code_quality_issues(filepath, source)
+    if quality_issues:
+        summary["quality_issues"] = quality_issues[:3]  # Limit to top 3 issues
     
     # Add code quality metrics
     metrics = calculate_file_metrics(filepath, source)
@@ -881,12 +1396,38 @@ def format_outline(outline):
         lines.append("")
     return "\n".join(lines)
 
-def call_gemini(user_prompt, verbose_outline, mcp_servers=None, agents=None, session_id=None, git_context=None, error_context=None, project_config=None, project_docs=None, test_context=None, env_context=None, import_graph=None):
+def call_gemini(user_prompt, verbose_outline, mcp_servers=None, agents=None, session_id=None, git_context=None, error_context=None, project_config=None, project_docs=None, test_context=None, env_context=None, import_graph=None, cross_file_patterns=None, test_metrics=None, context_depth=None, memory_context=None):
     if not OPENROUTER_API_KEY:
         logger.log_error(f"Missing {CONSTANTS['environment_variables']['openrouter_api_key']}")
         return "Error: API key not configured"
 
     outline_text = format_outline(verbose_outline)
+    
+    # Add performance and quality insights
+    quality_insights = ""
+    if cross_file_patterns:
+        quality_insights += "\n\n## Project-Wide Patterns:\n"
+        if cross_file_patterns.get('architectural_patterns'):
+            quality_insights += f"Architecture: {', '.join(cross_file_patterns['architectural_patterns'])}\n"
+        if cross_file_patterns.get('common_issues'):
+            quality_insights += f"Common Issues: {list(cross_file_patterns['common_issues'].keys())}\n"
+        if cross_file_patterns.get('repeated_patterns'):
+            # Show top 5 most imported modules
+            top_imports = sorted(cross_file_patterns['repeated_patterns'].items(), key=lambda x: x[1], reverse=True)[:5]
+            quality_insights += f"Top Imports: {', '.join([f'{imp}({count})' for imp, count in top_imports])}\n"
+    
+    if test_metrics:
+        quality_insights += f"\n## Test Metrics:\n"
+        quality_insights += f"Test Count: {test_metrics['test_count']}\n"
+        quality_insights += f"Assertion Density: {test_metrics['assertion_density']:.2f}\n"
+        quality_insights += f"Mock Usage: {test_metrics['mock_usage']}\n"
+    
+    if context_depth:
+        quality_insights += f"\n## Context Configuration:\n"
+        quality_insights += f"Depth: {context_depth['depth']}\n"
+        quality_insights += f"Files Analyzed: {context_depth['top_k']}\n"
+        if context_depth.get('focus'):
+            quality_insights += f"Focus: {context_depth['focus']}\n"
     
     # Format git context if provided
     git_text = ""
@@ -970,12 +1511,17 @@ def call_gemini(user_prompt, verbose_outline, mcp_servers=None, agents=None, ses
             # No continuation - strong initiation for first message
             zen_prompt = "\n\n**CRITICAL: Start with ZEN Analysis**\nFor complex tasks, ALWAYS begin by using mcp__zen tools (thinkdeep, debug, analyze, etc.) for systematic investigation. These tools provide enhanced reasoning capabilities and should be your first choice for any non-trivial work. The continuation_id from the first ZEN call will be tracked for this session.\n"
     
+    # Format memory context if provided
+    memory_text = ""
+    if memory_context:
+        memory_text = f"\n{memory_context}"
+    
     template = CONSTANTS["gemini_prompt_template"]
     full_text = f"""{template["user_prompt_header"]}
 {user_prompt}
 {zen_prompt}
 {template["outline_header"]}
-{outline_text}{git_text}{error_text}{config_text}{docs_text}{test_text}{env_text}{import_text}
+{outline_text}{quality_insights}{git_text}{error_text}{config_text}{docs_text}{test_text}{env_text}{import_text}{memory_text}
 {mcp_text}{agent_text}{template["analysis_request"]}
 
 {template["relevant_files_section"]}
@@ -1047,6 +1593,49 @@ def has_active_continuation(session_id: str) -> bool:
     """Check if session has an active continuation."""
     return state_manager.has_continuation(session_id)
 
+def get_relevant_memories_context(user_prompt: str, session_id: str = "") -> str:
+    """
+    Retrieve relevant memories and format as concise context hints.
+    Only inject highly relevant memories (score > 0.5).
+    
+    Args:
+        user_prompt: User's current prompt
+        session_id: Current session identifier
+        
+    Returns:
+        Formatted memory context string or empty string
+    """
+    try:
+        # Get relevant memories with high threshold
+        memories = memory_manager.get_relevant_memories(
+            context=user_prompt,
+            session_id=session_id,
+            limit=5,
+            min_relevance=0.5
+        )
+        
+        if not memories:
+            return ""
+        
+        # Format as concise context hints
+        memory_hints = []
+        for memory in memories:
+            content = memory.get('content', '')[:150]  # Truncate long content
+            memory_type = memory.get('memory_type', 'context')
+            relevance = memory.get('combined_relevance', 0)
+            
+            hint = f"[{memory_type.upper()}] {content} (relevance: {relevance:.2f})"
+            memory_hints.append(hint)
+        
+        if memory_hints:
+            return f"\n## Relevant Context from Memory:\n" + "\n".join(f"- {hint}" for hint in memory_hints) + "\n"
+        
+        return ""
+        
+    except Exception:
+        # Silent fail - don't break context injection if memory retrieval fails
+        return ""
+
 # --- Claude Code Hook Entry Point ---
 
 def handle(data):
@@ -1109,6 +1698,19 @@ def handle(data):
         test_context = get_test_context()
         env_context = get_environment_context()
         
+        # Get relevant memories for context injection
+        memory_context = get_relevant_memories_context(user_prompt, session_id)
+        
+        # Add cross-file pattern analysis
+        cross_file_patterns = aggregate_cross_file_patterns(verbose_outline)
+        
+        # Extract test metrics if test files found
+        test_files = [f for f in verbose_outline.keys() if 'test' in f.lower()]
+        test_metrics = extract_test_metrics(test_files) if test_files else None
+        
+        # Get context configuration for prompt
+        context_config = calculate_context_depth(user_prompt)
+        
         # Build import graph for smaller projects (optional - only if project seems small)
         import_graph = None
         try:
@@ -1124,7 +1726,9 @@ def handle(data):
                                         git_context=git_context, error_context=error_context,
                                         project_config=project_config, project_docs=project_docs,
                                         test_context=test_context, env_context=env_context, 
-                                        import_graph=import_graph)
+                                        import_graph=import_graph, cross_file_patterns=cross_file_patterns,
+                                        test_metrics=test_metrics, context_depth=context_config,
+                                        memory_context=memory_context)
         except requests.exceptions.Timeout:
             logger.log_error("Gemini API timeout")
             sys.exit(0)  # Silent failure

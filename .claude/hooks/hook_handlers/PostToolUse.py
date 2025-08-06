@@ -13,10 +13,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
-# Import state manager for continuation tracking and logger for rate limiting
+# Import state manager for continuation tracking, logger for rate limiting, and memory manager
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from hook_tools.state_manager import state_manager
 from hook_logger import logger
+from hook_tools.memory_manager import memory_manager, MemoryType
 
 
 def extract_continuation_id(tool_name: str, tool_input: Dict[str, Any], tool_response: Any) -> str:
@@ -242,6 +243,93 @@ def store_continuation_id(session_id: str, continuation_id: str) -> None:
     """
     if session_id and continuation_id:
         state_manager.set_continuation_id(session_id, continuation_id)
+
+def save_tool_pattern_to_memory(tool_name: str, tool_input: Dict[str, Any], session_id: str, recommendations: List[str]) -> None:
+    """
+    Save tool usage patterns to memory for future optimization.
+    
+    Args:
+        tool_name: Name of the tool that was used
+        tool_input: Input parameters to the tool
+        session_id: Current session identifier
+        recommendations: ZEN tool recommendations generated
+    """
+    try:
+        # Create pattern summary
+        pattern_content = f"Tool: {tool_name}"
+        
+        # Add key input details
+        if tool_name == "Bash":
+            command = tool_input.get("command", "")[:100]
+            pattern_content += f", Command: {command}"
+        elif tool_name in ["Edit", "MultiEdit", "Write"]:
+            file_path = tool_input.get("file_path", "")
+            if file_path:
+                pattern_content += f", File: {file_path}"
+        elif tool_name == "Read":
+            file_path = tool_input.get("file_path", "")
+            if file_path:
+                pattern_content += f", Read: {file_path}"
+        
+        # Add recommendations if any
+        if recommendations:
+            pattern_content += f", Recommended: {recommendations[0]}"
+        
+        # Save to memory with moderate relevance
+        memory_manager.save_memory(
+            content=pattern_content,
+            memory_type=MemoryType.TOOL_PATTERNS,
+            session_id=session_id,
+            relevance_score=0.6,
+            tags=["tool_usage", tool_name.lower(), "patterns"]
+        )
+        
+    except Exception:
+        # Silent fail - don't break workflow if memory save fails
+        pass
+
+def check_relevant_memories_notification(tool_name: str, tool_input: Dict[str, Any], session_id: str) -> str:
+    """
+    Check if there are relevant memories that Claude should know about.
+    
+    Args:
+        tool_name: Name of the tool that was used
+        tool_input: Input parameters to the tool
+        session_id: Current session identifier
+        
+    Returns:
+        Notification message if relevant memories found, empty string otherwise
+    """
+    try:
+        # Create search context from tool usage
+        search_context = f"{tool_name}"
+        
+        if tool_name == "Bash":
+            command = tool_input.get("command", "")
+            search_context += f" {command}"
+        elif tool_name in ["Edit", "Write", "Read"]:
+            file_path = tool_input.get("file_path", "")
+            if file_path:
+                search_context += f" {file_path}"
+        
+        # Look for relevant memories
+        memories = memory_manager.get_relevant_memories(
+            context=search_context,
+            session_id=session_id,
+            limit=3,
+            min_relevance=0.6
+        )
+        
+        if memories:
+            memory_count = len(memories)
+            highest_relevance = max(m.get('combined_relevance', 0) for m in memories)
+            
+            return f"📝 RELEVANT MEMORIES: Found {memory_count} related memories (max relevance: {highest_relevance:.2f}) - consider using mcp__zen tools for enhanced context"
+        
+        return ""
+        
+    except Exception:
+        return ""
 
 
 def sanitize_input(input_data: Dict[str, Any]) -> bool:
@@ -580,6 +668,9 @@ def handle(input_data: Dict[str, Any]) -> None:
             # Detect patterns for enhanced recommendations
             zen_recommendations = detect_zen_usage_patterns(tool_name, tool_input, session_id, cwd)
             
+            # Save tool patterns to memory for future optimization
+            save_tool_pattern_to_memory(tool_name, tool_input, session_id, zen_recommendations)
+            
             # Track tool use count for this session (stored in state manager)
             tool_count = state_manager.increment_tool_count(session_id)
             
@@ -608,7 +699,10 @@ def handle(input_data: Dict[str, Any]) -> None:
                 if len(tool_input.get('edits', [])) >= 3:
                     should_show_zen = True
             
-            if should_show_zen:
+            # Check for relevant memories notification
+            memory_notification = check_relevant_memories_notification(tool_name, tool_input, session_id)
+            
+            if should_show_zen or memory_notification:
                 # Generate base continuation message
                 if has_continuation:
                     base_message = f"🔗 ZEN CONTINUATION AVAILABLE: Use continuation_id='{existing_continuation_id}' with mcp__zen__* tools for context continuity"
@@ -629,6 +723,10 @@ def handle(input_data: Dict[str, Any]) -> None:
                         final_message = base_message
                 else:
                     final_message = base_message
+                
+                # Add memory notification if available
+                if memory_notification:
+                    final_message = f"{final_message}\n\n{memory_notification}"
                 
                 # Apply rate limiting to the message
                 if logger.should_print_error("ZEN_CONTINUATION_AVAILABLE"):

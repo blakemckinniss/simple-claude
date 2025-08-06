@@ -11,9 +11,10 @@ import uuid
 from pathlib import Path
 from typing import Dict, Any
 
-# Import state manager for continuation tracking
+# Import state manager for continuation tracking and memory manager for memory lifecycle
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from hook_tools.state_manager import state_manager
+from hook_tools.memory_manager import memory_manager, MemoryType
 
 def handle(input_data: Dict[str, Any]) -> None:
     """
@@ -40,6 +41,17 @@ def handle(input_data: Dict[str, Any]) -> None:
         
         # Cleanup old sessions (runs in background, non-blocking)
         state_manager.cleanup_old_sessions(days=7)
+        
+        # Initialize and maintain memory system
+        memory_manager._ensure_memory_directory()
+        
+        # Clean up old and irrelevant memories (older than 30 days or relevance < 0.1)
+        try:
+            cleaned_count = memory_manager.cleanup_old_memories(days=30)
+            if cleaned_count > 0:
+                print(f"Cleaned up {cleaned_count} old/irrelevant memories", file=sys.stderr)
+        except Exception as e:
+            print(f"Warning: Memory cleanup failed: {e}", file=sys.stderr)
         
     except Exception as e:
         # Don't let session initialization errors break the hook
@@ -71,6 +83,58 @@ def handle(input_data: Dict[str, Any]) -> None:
     if session_info and latest_continuation_id:
         session_info['continuation_id'] = latest_continuation_id
     
+    # Load and display relevant memories for project context
+    memory_summary = ""
+    try:
+        # Get project memory statistics
+        memory_stats = memory_manager.get_project_stats()
+        
+        # Load most relevant recent memories (last session achievements, common patterns)
+        recent_memories = memory_manager.retrieve_memories(
+            limit=3,
+            min_relevance=0.3
+        )
+        
+        # Load critical context memories
+        critical_memories = memory_manager.retrieve_memories(
+            memory_type=MemoryType.CRITICAL_CONTEXT,
+            limit=2,
+            min_relevance=0.2
+        )
+        
+        # Build memory summary
+        memory_lines = []
+        if memory_stats['total_memories'] > 0:
+            memory_lines.append(f"Project Memory: {memory_stats['total_memories']} memories (avg relevance: {memory_stats['average_relevance']:.2f})")
+            
+            # Show memory types breakdown
+            if memory_stats['memory_types']:
+                type_breakdown = ", ".join([f"{k}: {v}" for k, v in memory_stats['memory_types'].items()])
+                memory_lines.append(f"Memory types: {type_breakdown}")
+        
+        # Recent achievements and patterns
+        if recent_memories:
+            memory_lines.append("\nRecent Context:")
+            for mem in recent_memories:
+                content_preview = mem['content'][:100] + "..." if len(mem['content']) > 100 else mem['content']
+                memory_lines.append(f"- [{mem['memory_type']}] {content_preview} (relevance: {mem.get('current_relevance', 0):.2f})")
+        
+        # Critical context
+        if critical_memories:
+            memory_lines.append("\nCritical Context:")
+            for mem in critical_memories:
+                content_preview = mem['content'][:120] + "..." if len(mem['content']) > 120 else mem['content']
+                memory_lines.append(f"- {content_preview} (relevance: {mem.get('current_relevance', 0):.2f})")
+        
+        if memory_lines:
+            memory_summary = "\n".join(memory_lines)
+        else:
+            memory_summary = "No previous memories found for this project"
+            
+    except Exception as e:
+        memory_summary = f"Memory system error: {e}"
+        print(f"Warning: Memory summary generation failed: {e}", file=sys.stderr)
+    
     # Create context message for Claude
     context_message = f"""
 CLAUDE SESSION INITIALIZED (ID: {session_id})
@@ -80,6 +144,9 @@ Continuation System Active:
 - Cross-conversation memory available
 - {continuation_display}
 - Use mcp__zen tools with continuation_id parameter for persistent context
+
+Memory System Active:
+{memory_summary}
 
 Available mcp__zen tools with continuation support:
 - mcp__zen__chat: General discussion with continuation

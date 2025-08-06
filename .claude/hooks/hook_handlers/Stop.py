@@ -11,10 +11,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Any, Optional
 
-# Import state manager for continuation tracking
+# Import state manager for continuation tracking and memory manager
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from hook_tools.state_manager import state_manager
 from hook_logger import logger
+from hook_tools.memory_manager import memory_manager, MemoryType
 
 
 def calculate_session_duration(session_info: Dict[str, Any]) -> Optional[float]:
@@ -152,6 +153,59 @@ def cleanup_old_archives(archive_dir: Path, retention_days: int = 30) -> None:
         pass
 
 
+def save_session_summary_to_memory(session_id: str, stop_reason: str, cleanup_stats: Dict[str, Any]) -> None:
+    """
+    Save session summary and achievements to memory for future reference.
+    
+    Args:
+        session_id: Session identifier that ended
+        stop_reason: Reason for session stop
+        cleanup_stats: Statistics from cleanup operation
+    """
+    try:
+        # Create session summary
+        duration = cleanup_stats.get("session_duration")
+        duration_str = f"{duration:.1f}s" if duration else "unknown"
+        
+        summary_content = f"Session ended: {stop_reason}, Duration: {duration_str}"
+        
+        # Add key achievements if available
+        if cleanup_stats.get("session_processed"):
+            summary_content += ", Successfully processed"
+        
+        if cleanup_stats.get("archived"):
+            summary_content += ", Archived"
+            
+        # Determine relevance based on duration and reason
+        relevance_score = 0.7
+        if duration and duration > 300:  # Long sessions (5+ minutes) are more relevant
+            relevance_score = 0.8
+        if stop_reason in ["user_request", "completion"]:  # Normal endings are more relevant
+            relevance_score += 0.1
+            
+        # Save session summary to memory
+        memory_manager.save_memory(
+            content=summary_content,
+            memory_type=MemoryType.CRITICAL_CONTEXT,
+            session_id=session_id,
+            relevance_score=min(relevance_score, 1.0),
+            tags=["session_summary", stop_reason, "completion"]
+        )
+        
+        # If this was a successful session, save it as a discovery
+        if stop_reason in ["completion", "success"] and duration and duration > 60:
+            memory_manager.save_memory(
+                content=f"Successful session completed: {duration_str} duration, achieved goals",
+                memory_type=MemoryType.DISCOVERIES,
+                session_id=session_id,
+                relevance_score=0.8,
+                tags=["success", "achievement", "completion"]
+            )
+            
+    except Exception:
+        # Silent fail - memory save shouldn't break session cleanup
+        pass
+
 def log_session_end(session_id: str, stop_reason: str, cleanup_stats: Dict[str, Any]) -> None:
     """
     Log session end with duration statistics.
@@ -230,6 +284,9 @@ def handle(data: Dict[str, Any]) -> None:
                 session_id=session_id,
                 archive_session=True  # Always archive on stop
             )
+            
+            # Save session summary to memory for future reference
+            save_session_summary_to_memory(session_id, stop_reason, cleanup_stats)
             
             # Log session end with statistics
             log_session_end(session_id, stop_reason, cleanup_stats)

@@ -16,7 +16,7 @@ import time
 class UserPromptLogger:
     """Simple logger focused on UserPromptSubmit hook events."""
     
-    def __init__(self, base_dir: str = "/home/devcontainers/simple-claude/.claude/logs/userprompt"):
+    def __init__(self, base_dir: str = "/home/blake/simple-claude/.claude/logs/userprompt"):
         """Initialize the logger."""
         self.log_dir = Path(base_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
