@@ -151,11 +151,17 @@
       "continuation_id": null,
       "created_at": "2025-08-06T14:42:06.255416",
       "last_updated": "2025-08-06T14:42:06.255438"
+    },
+    "a78a05c1-ceb5-4504-86f4-b55c93e39b89": {
+      "continuation_id": "8a7b12de-2ea5-4f55-9820-9cf5bda84eb4",
+      "created_at": "2025-08-06T14:43:12.765857",
+      "last_updated": "2025-08-06T16:42:07.643272",
+      "tool_count": 300
     }
   },
   "metadata": {
     "created_at": "2025-08-05T16:24:28.742790",
     "version": "1.0",
-    "last_updated": "2025-08-06T14:42:06.255444"
+    "last_updated": "2025-08-06T16:42:07.643284"
   }
 }

@@ -1,8 +1,19 @@
 #!/usr/bin/env python3
+# claude-exempt: hook_handlers_py_protection - Expanding fragile pattern detection with 8 comprehensive anti-pattern categories
 """
 PreToolUse hook handler with comprehensive anti-pattern detection.
 Blocks file creation that would lead to technical debt or dangerous patterns.
 Supports exemption mechanisms for legitimate exceptions with proper justification.
+
+EXPANDED ANTI-PATTERN DETECTION CATEGORIES:
+1. Global State Anti-patterns: Mutable defaults, unsafe singletons, global modifications
+2. Import Anti-patterns: Star imports, circular imports, function-level imports, dynamic imports
+3. File/Resource Management: Context manager violations, unsafe file operations
+4. Exception Handling: Silent exceptions, exception control flow, poor error handling
+5. Type System Abuse: type() vs isinstance(), monkey patching, dynamic attributes
+6. Memory/Performance Landmines: Unbounded reads, recursion, string concatenation loops
+7. Security Issues: Command injection, pickle risks, SQL injection, code execution
+8. Async/Threading Issues: Blocking calls in async, shared state without locks
 """
 
 import ast
@@ -12,13 +23,21 @@ import re
 import sys
 import logging
 from datetime import datetime
-from typing import Dict, Any, List, Tuple, Optional, Set
+from typing import Dict, Any, List, Tuple, Optional
 from pathlib import Path
 
-# Import file blocker functionality
-hook_tools_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'hook_tools'))
+# Add hook_tools to Python path if not already there
+hook_tools_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "hook_tools")
 if hook_tools_path not in sys.path:
     sys.path.insert(0, hook_tools_path)
+
+# Import file blocker functionality
+try:
+    from hook_tools.utilities.path_resolver import PathResolver
+    paths = PathResolver()
+except ImportError:
+    # Fallback for when PathResolver is not available
+    paths = None
 
 try:
     import file_blocker  # type: ignore
@@ -53,7 +72,6 @@ def handle(data: Dict[str, Any]) -> None:
     """
     try:
         # Extract relevant information - use tool_input per schema
-        hook_event_name = data.get("hook_event_name", "")
         tool_name = data.get("tool_name", "")
         tool_input = data.get("tool_input", {})
         
@@ -611,6 +629,238 @@ def _analyze_return_complexity(tree: ast.AST) -> Dict[str, int]:
     return return_complexities
 
 
+def _detect_global_state_patterns(tree: ast.AST, content: str) -> List[Tuple[str, str, str]]:
+    """Detect global state anti-patterns."""
+    violations = []
+    
+    # 1. Mutable default arguments
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            for default in node.args.defaults:
+                if isinstance(default, (ast.List, ast.Dict, ast.Set)):
+                    violations.append(("CRITICAL", "Mutable Default Argument",
+                        f"Function '{node.name}' has mutable default argument - use None and create inside function"))
+                elif isinstance(default, ast.Call) and isinstance(default.func, ast.Name):
+                    if default.func.id in ['list', 'dict', 'set']:
+                        violations.append(("CRITICAL", "Mutable Default Argument",
+                            f"Function '{node.name}' calls {default.func.id}() as default - use None and create inside function"))
+    
+    # 2. Global variable modifications outside module initialization
+    global_assigns = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Global):
+            for name in node.names:
+                global_assigns.append(name)
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            # Check for global modifications inside functions/classes
+            for child in ast.walk(node):
+                if isinstance(child, ast.Assign):
+                    for target in child.targets:
+                        if isinstance(target, ast.Name) and target.id in global_assigns:
+                            violations.append(("HIGH", "Global State Modification",
+                                f"Global variable '{target.id}' modified in {node.name} - consider dependency injection"))
+    
+    # 3. Singleton patterns without thread safety
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            has_new = any(isinstance(child, ast.FunctionDef) and child.name == '__new__' 
+                         for child in node.body)
+            has_instance = any(isinstance(child, ast.Assign) and 
+                             any(isinstance(target, ast.Name) and target.id == '_instance' 
+                                 for target in child.targets)
+                             for child in ast.walk(node))
+            
+            if has_new and has_instance:
+                # Check for thread safety (threading.Lock, threading.RLock)
+                has_lock = 'threading' in content and ('Lock' in content or 'RLock' in content)
+                if not has_lock:
+                    violations.append(("HIGH", "Unsafe Singleton Pattern",
+                        f"Class '{node.name}' implements singleton without thread safety - use threading.Lock"))
+    
+    return violations
+
+
+def _detect_import_patterns(tree: ast.AST, content: str) -> List[Tuple[str, str, str]]:
+    """Detect import anti-patterns."""
+    violations = []
+    
+    # 1. Star imports (namespace pollution)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                if alias.name == '*':
+                    module = node.module or 'unknown'
+                    violations.append(("HIGH", "Star Import",
+                        f"'from {module} import *' pollutes namespace - use specific imports"))
+    
+    # 2. Imports inside functions (except legitimate lazy loading)
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            for child in ast.walk(node):
+                if isinstance(child, (ast.Import, ast.ImportFrom)):
+                    # Check if it's a legitimate lazy import pattern
+                    is_lazy = (
+                        'import' in node.name.lower() or 
+                        'lazy' in node.name.lower() or
+                        node.name.startswith('_') or
+                        any(isinstance(parent, ast.Try) for parent in ast.walk(node))
+                    )
+                    if not is_lazy:
+                        violations.append(("MEDIUM", "Import Inside Function",
+                            f"Import in function '{node.name}' - move to module level unless for lazy loading"))
+    
+    # 3. exec()/eval() with dynamic imports
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            if node.func.id in ['exec', 'eval']:
+                for arg in node.args:
+                    if ((isinstance(arg, ast.Str) and 'import' in arg.s) or 
+                    (isinstance(arg, ast.Constant) and isinstance(arg.value, str) and 'import' in arg.value)):
+                        violations.append(("CRITICAL", "Dynamic Import Execution",
+                            f"Using {node.func.id}() for dynamic imports - use importlib instead"))
+    
+    return violations
+
+
+def _detect_exception_patterns(tree: ast.AST, content: str) -> List[Tuple[str, str, str]]:
+    """Detect exception handling anti-patterns."""
+    violations = []
+    
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Try):
+            for handler in node.handlers:
+                # 1. except Exception: without logging
+                if (isinstance(handler.type, ast.Name) and 
+                    handler.type.id == 'Exception' and 
+                    handler.body):
+                    
+                    has_logging = any(
+                        isinstance(child, ast.Call) and
+                        isinstance(child.func, ast.Attribute) and
+                        child.func.attr in ['error', 'warning', 'exception', 'log', 'debug', 'info']
+                        for child in ast.walk(handler)
+                    )
+                    
+                    has_print = any(
+                        isinstance(child, ast.Call) and
+                        isinstance(child.func, ast.Name) and
+                        child.func.id == 'print'
+                        for child in ast.walk(handler)
+                    )
+                    
+                    if not has_logging and not has_print:
+                        violations.append(("HIGH", "Silent Exception Handling",
+                            "except Exception: without logging - errors should be logged or handled"))
+                
+                # 2. Empty except blocks (swallowing exceptions)
+                if (handler.body and len(handler.body) == 1 and 
+                    isinstance(handler.body[0], ast.Pass)):
+                    violations.append(("HIGH", "Exception Swallowing",
+                        "Empty except block swallows exceptions - at minimum log the error"))
+                
+                # 3. Using exceptions for control flow
+                if (isinstance(handler.type, ast.Name) and 
+                    handler.type.id in ['KeyError', 'IndexError', 'AttributeError'] and
+                    not any(isinstance(child, ast.Raise) for child in ast.walk(handler))):
+                    
+                    # Check if this might be control flow
+                    has_return_or_continue = any(
+                        isinstance(child, (ast.Return, ast.Continue, ast.Break))
+                        for child in ast.walk(handler)
+                    )
+                    
+                    if has_return_or_continue:
+                        violations.append(("MEDIUM", "Exception Control Flow",
+                            f"Using {handler.type.id} for control flow - consider explicit checks instead"))
+    
+    return violations
+
+
+def _detect_type_system_patterns(tree: ast.AST, content: str) -> List[Tuple[str, str, str]]:
+    """Detect type system abuse patterns."""
+    violations = []
+    
+    for node in ast.walk(tree):
+        # 1. type() for type checking instead of isinstance()
+        if (isinstance(node, ast.Call) and 
+            isinstance(node.func, ast.Name) and 
+            node.func.id == 'type'):
+            
+            # Look for type() == comparisons
+            parent_nodes = []
+            for parent in ast.walk(tree):
+                for child in ast.iter_child_nodes(parent):
+                    if child is node:
+                        parent_nodes.append(parent)
+            
+            for parent in parent_nodes:
+                if isinstance(parent, ast.Compare):
+                    violations.append(("MEDIUM", "Type Checking Anti-pattern",
+                        "Use isinstance() instead of type() for type checking"))
+        
+        # 2. Dynamic attribute assignment to classes (monkey patching)
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Attribute):
+                    if isinstance(target.value, ast.Name):
+                        # Check if assigning to what might be a class
+                        if target.value.id.isupper() or target.value.id[0].isupper():
+                            violations.append(("HIGH", "Dynamic Class Modification",
+                                f"Dynamic attribute assignment to '{target.value.id}' - avoid monkey patching"))
+    
+    return violations
+
+
+def _detect_async_threading_patterns(tree: ast.AST, content: str) -> List[Tuple[str, str, str]]:
+    """Detect async/threading anti-patterns."""
+    violations = []
+    
+    for node in ast.walk(tree):
+        # 1. time.sleep() in async functions
+        if isinstance(node, ast.AsyncFunctionDef):
+            for child in ast.walk(node):
+                if (isinstance(child, ast.Call) and 
+                    isinstance(child.func, ast.Attribute) and
+                    isinstance(child.func.value, ast.Name) and
+                    child.func.value.id == 'time' and
+                    child.func.attr == 'sleep'):
+                    violations.append(("CRITICAL", "Blocking Call In Async Function",
+                        f"time.sleep() in async function '{node.name}' - use asyncio.sleep() instead"))
+        
+        # 2. Blocking I/O in async functions
+        if isinstance(node, ast.AsyncFunctionDef):
+            blocking_calls = [
+                ('open', 'Use aiofiles for async file I/O'),
+                ('requests', 'Use aiohttp or httpx for async HTTP requests'),
+                ('urllib', 'Use aiohttp for async HTTP requests'),
+                ('socket.socket', 'Use asyncio sockets'),
+            ]
+            
+            for child in ast.walk(node):
+                if isinstance(child, ast.Call):
+                    call_name = None
+                    if isinstance(child.func, ast.Name):
+                        call_name = child.func.id
+                    elif isinstance(child.func, ast.Attribute):
+                        if isinstance(child.func.value, ast.Name):
+                            call_name = f"{child.func.value.id}.{child.func.attr}"
+                    
+                    if call_name:
+                        for blocking_call, suggestion in blocking_calls:
+                            if blocking_call in call_name:
+                                violations.append(("HIGH", "Blocking I/O In Async Function",
+                                    f"Blocking call '{call_name}' in async function '{node.name}' - {suggestion}"))
+    
+    # 3. Shared mutable state without locks (basic detection)
+    if 'threading' in content and 'global' in content:
+        has_lock = any(lock_type in content for lock_type in ['Lock', 'RLock', 'Semaphore', 'Condition'])
+        if not has_lock:
+            violations.append(("HIGH", "Shared State Without Synchronization",
+                "Threading usage detected with global variables but no locking mechanisms"))
+    
+    return violations
+
+
 def detect_anti_patterns(file_path: str, content: str) -> List[Tuple[str, str, str]]:
     """
     Detect anti-patterns and technical debt indicators.
@@ -626,6 +876,18 @@ def detect_anti_patterns(file_path: str, content: str) -> List[Tuple[str, str, s
     if content and filename.endswith('.py'):
         ast_violations = analyze_ast_patterns(file_path, content)
         violations.extend(ast_violations)
+        
+        # Advanced AST-based pattern detection
+        try:
+            tree = ast.parse(content)
+            violations.extend(_detect_global_state_patterns(tree, content))
+            violations.extend(_detect_import_patterns(tree, content))
+            violations.extend(_detect_exception_patterns(tree, content))
+            violations.extend(_detect_type_system_patterns(tree, content))
+            violations.extend(_detect_async_threading_patterns(tree, content))
+        except (SyntaxError, Exception):
+            # Skip AST analysis if parsing fails
+            pass
     
     # 1. FILE STRUCTURE ANTI-PATTERNS
     
@@ -708,6 +970,147 @@ def detect_anti_patterns(file_path: str, content: str) -> List[Tuple[str, str, s
     # Circular import risk
     if content and re.search(r'from\s+\.\.\.\.\s+import|import\s+\.\.\.\.', content):
         violations.append(("HIGH", "Circular Import Risk", "Complex relative imports detected"))
+    
+    # 5. FILE/RESOURCE MANAGEMENT ANTI-PATTERNS
+    
+    if content:
+        # open() without context manager
+        if re.search(r'\bopen\s*\([^)]*\)(?!\s*\.__enter__|(?:\s*as\s+\w+)?(?:\s*\):|\s*,))', content):
+            violations.append(("CRITICAL", "File Without Context Manager", 
+                             "Use 'with open()' instead of bare open() to ensure proper file closure"))
+        
+        # Manual file closing without try/finally
+        if re.search(r'\.close\(\)(?!.*finally)', content) and not re.search(r'with\s+open', content):
+            violations.append(("HIGH", "Manual File Closing", 
+                             "Manual file.close() without try/finally can leak resources on exceptions"))
+        
+        # Hardcoded file paths
+        hardcoded_paths = [
+            (r'["\'][C-Z]:[\\][^"\'\\n]+["\']', "Windows absolute path"),
+            (r'["\'][/][^"\'\\n]+["\']', "Unix absolute path"),
+            (r'["\'][.][.][/\\][^"\'\\n]+["\']', "Relative path with ..")
+        ]
+        for pattern, path_type in hardcoded_paths:
+            if re.search(pattern, content):
+                violations.append(("HIGH", "Hardcoded File Path", 
+                                 f"{path_type} detected - use configuration or Path objects"))
+        
+        # Direct os.remove() without existence checks
+        if re.search(r'os\.remove\s*\([^)]*\)(?!.*(?:exists|isfile))', content):
+            violations.append(("HIGH", "Unsafe File Deletion", 
+                             "Use os.path.exists() check before os.remove() to avoid FileNotFoundError"))
+    
+    # 6. MEMORY/PERFORMANCE LANDMINES
+    
+    if content:
+        # Loading entire files without size checks
+        if re.search(r'\.(read|readlines)\(\)(?!.*\bsize|.*\blimit)', content):
+            violations.append(("HIGH", "Unbounded File Read", 
+                             "Reading entire file without size limits can cause memory exhaustion"))
+        
+        # Unbounded recursion (basic detection)
+        if content and filename.endswith('.py'):
+            # Look for recursive function calls without obvious depth limits
+            func_names = re.findall(r'def\s+(\w+)\s*\(', content)
+            for func_name in func_names:
+                # Check if function calls itself
+                if re.search(rf'{func_name}\s*\([^)]*\)', content):
+                    # Check if there's a depth limit or counter
+                    if not re.search(r'\bdepth\b|\bcount\b|\blimit\b|\bmax_\w+', content):
+                        violations.append(("HIGH", "Potential Unbounded Recursion", 
+                                         f"Function '{func_name}' appears recursive without depth limit"))
+                        break  # Only report once per file
+        
+        # String concatenation in loops
+        concat_patterns = [
+            r'for\s+\w+\s+in\s+[^:]+:\s*[^\\n]*\+=\s*[^\\n]*str',
+            r'while\s+[^:]+:\s*[^\\n]*\+=\s*[^\\n]*["\']'
+        ]
+        for pattern in concat_patterns:
+            if re.search(pattern, content, re.MULTILINE):
+                violations.append(("MEDIUM", "String Concatenation In Loop", 
+                                 "Use list.append() + ''.join() or io.StringIO for better performance"))
+                break  # Only report once
+        
+        # Large list comprehensions that should be generators
+        if re.search(r'\[[^\\n]*for\s+\w+\s+in\s+[^\\]]{50,}', content):
+            violations.append(("MEDIUM", "Large List Comprehension", 
+                             "Consider using generator expression for large data sets"))
+    
+    # 7. ENHANCED SECURITY ISSUES
+    
+    if content:
+        # subprocess with shell=True (command injection)
+        if re.search(r'subprocess\.[^(]*\([^)]*shell\s*=\s*True', content):
+            violations.append(("CRITICAL", "Command Injection Risk", 
+                             "subprocess with shell=True allows command injection - use shell=False and list arguments"))
+        
+        # pickle for potentially untrusted data
+        if re.search(r'pickle\.(load|loads)\s*\(', content):
+            violations.append(("CRITICAL", "Pickle Security Risk", 
+                             "pickle.load() can execute arbitrary code - use json or safer serialization"))
+        
+        # SQL string formatting
+        sql_patterns = [
+            r'["\'].*SELECT.*%s.*["\']\\s*%',
+            r'["\'].*INSERT.*\{.*\}.*["\']\\s*\.format',
+            r'f["\'].*(?:SELECT|INSERT|UPDATE|DELETE).*\{[^}]*\}'
+        ]
+        for pattern in sql_patterns:
+            if re.search(pattern, content, re.IGNORECASE):
+                violations.append(("CRITICAL", "SQL Injection via String Formatting", 
+                                 "Use parameterized queries instead of string formatting for SQL"))
+                break  # Only report once
+        
+        # eval() and exec() usage (general security risk)
+        if re.search(r'\b(eval|exec)\s*\(', content):
+            violations.append(("CRITICAL", "Code Execution Risk", 
+                             "eval() and exec() can execute arbitrary code - avoid or sanitize input thoroughly"))
+    
+    # 8. ENHANCED IMPORT ANTI-PATTERNS (regex-based)
+    
+    if content:
+        # Wildcard imports (already covered in AST but adding regex backup)
+        if re.search(r'from\s+[\w.]+\s+import\s+\*', content):
+            violations.append(("HIGH", "Wildcard Import", 
+                             "from module import * pollutes namespace - use specific imports"))
+    
+    # 9. FRAGILE PATH PATTERNS
+    
+    if content and filename.endswith('.py'):
+        fragile_path_patterns = [
+            # Direct parent navigation patterns
+            (r'Path\s*\(\s*__file__\s*\)\s*\.parent(?:\.parent)*', 
+             "Fragile path pattern: Path(__file__).parent chains are brittle and break when files move"),
+            
+            # sys.path manipulation patterns
+            (r'sys\.path\.(?:insert|append)\s*\(', 
+             "Fragile path pattern: Direct sys.path manipulation creates import dependencies on file location"),
+            
+            # os.path.dirname chains
+            (r'os\.path\.dirname\s*\(\s*os\.path\.dirname\s*\(.*__file__', 
+             "Fragile path pattern: Nested os.path.dirname(__file__) calls are location-dependent"),
+            
+            # Direct path joins with __file__ dirname
+            (r'os\.path\.join\s*\(\s*os\.path\.dirname\s*\(\s*__file__\s*\)', 
+             "Fragile path pattern: Manual path construction with os.path.dirname(__file__) is brittle"),
+            
+            # sys.path reassignment patterns
+            (r'sys\.path\[0:0\]\s*=|sys\.path\s*=\s*\[.*\]\s*\+\s*sys\.path', 
+             "Fragile path pattern: sys.path reassignment creates location dependencies"),
+            
+            # Common alternative patterns
+            (r'os\.getcwd\(\)\s*\+|os\.path\.abspath\s*\(\s*[\'\"]\.\.[/\\]', 
+             "Fragile path pattern: Relative path construction from current directory is unreliable")
+        ]
+        
+        for pattern, message in fragile_path_patterns:
+            if re.search(pattern, content, re.IGNORECASE | re.MULTILINE):
+                violations.append(("CRITICAL", "Fragile Path Pattern", 
+                                 f"{message}\n\nUse PathResolver instead:\n"
+                                 "from hook_tools.utilities.path_resolver import PathResolver\n"
+                                 "paths = PathResolver()\n"
+                                 "# Then use paths.project_root, paths.claude_dir, etc."))
     
     return violations
 

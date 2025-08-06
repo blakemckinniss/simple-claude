@@ -5,11 +5,17 @@ Manages session state in separate JSON file outside of settings.json schema.
 """
 
 import json
+import sys
 import threading
 import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Any, Optional
+
+from hook_tools.utilities.path_resolver import PathResolver
+
+# Initialize path resolver for consistent path handling
+paths = PathResolver()
 
 
 class StateManager:

@@ -1,0 +1,862 @@
+{
+  "project_hash": "e5f35f9c6962a1cf",
+  "project_path": "/home/blake/simple-claude/.claude/hooks",
+  "memories": {
+    "cccf6b00-61d6-41bb-a5ce-6566ff04245a": {
+      "memory_id": "cccf6b00-61d6-41bb-a5ce-6566ff04245a",
+      "content": "Tool: Bash, Command: cd /home/blake/simple-claude/.claude/hooks && python -c \"\nimport sys\nfrom pathlib import Path\nsys.pa, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:11:55.476250",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:11:55.476250",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "7b6006f3-0104-4245-85b6-6e88d5d66648": {
+      "memory_id": "7b6006f3-0104-4245-85b6-6e88d5d66648",
+      "content": "Tool: Task",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:12:22.653745",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:12:22.653745",
+      "tags": [
+        "tool_usage",
+        "task",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "a51696f9-d9b9-41bd-a48e-5adda8d0cff4": {
+      "memory_id": "a51696f9-d9b9-41bd-a48e-5adda8d0cff4",
+      "content": "Tool: LS",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:17:05.564033",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:17:05.564033",
+      "tags": [
+        "tool_usage",
+        "ls",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "d55b34fc-df7b-4855-929b-247c181dcf78": {
+      "memory_id": "d55b34fc-df7b-4855-929b-247c181dcf78",
+      "content": "Tool: Grep",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:17:18.124035",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:17:18.124035",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "450c42d9-1a4a-4d41-8cac-95ac7417bdc8": {
+      "memory_id": "450c42d9-1a4a-4d41-8cac-95ac7417bdc8",
+      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/constants_loader.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:17:22.421809",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:17:22.421809",
+      "tags": [
+        "tool_usage",
+        "read",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "13430b5e-d7e8-4ef4-9f66-069872cf11fe": {
+      "memory_id": "13430b5e-d7e8-4ef4-9f66-069872cf11fe",
+      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:17:26.088928",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:17:26.088928",
+      "tags": [
+        "tool_usage",
+        "read",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "b69a1274-e77c-46ff-b8f1-57da6ea41f3d": {
+      "memory_id": "b69a1274-e77c-46ff-b8f1-57da6ea41f3d",
+      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:17:29.868069",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:17:29.868069",
+      "tags": [
+        "tool_usage",
+        "read",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "6cdc01f8-8d2d-41e5-92bb-3a49158f5dbf": {
+      "memory_id": "6cdc01f8-8d2d-41e5-92bb-3a49158f5dbf",
+      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/path_resolver.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:18:17.251284",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:18:17.251284",
+      "tags": [
+        "tool_usage",
+        "write",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "6d466112-ea76-46a2-972f-16a376bfad08": {
+      "memory_id": "6d466112-ea76-46a2-972f-16a376bfad08",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:18:35.348882",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:18:35.348882",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "8e590ccd-189c-4d33-96c7-8c3bf78b745a": {
+      "memory_id": "8e590ccd-189c-4d33-96c7-8c3bf78b745a",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:18:43.407619",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:18:43.407619",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "a28ac07d-fa6f-43d7-9d5b-280e08e17b2c": {
+      "memory_id": "a28ac07d-fa6f-43d7-9d5b-280e08e17b2c",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:18:50.914269",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:18:50.914269",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "b582e443-e4e9-43e9-958f-fb1d70ca60db": {
+      "memory_id": "b582e443-e4e9-43e9-958f-fb1d70ca60db",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:19:08.288093",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:19:08.288093",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "e46cc2e5-40bd-4458-b320-84b54326d639": {
+      "memory_id": "e46cc2e5-40bd-4458-b320-84b54326d639",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/constants_loader.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:19:25.398640",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:19:25.398640",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "a70da3c4-9b1a-4d4b-9372-135f0b4412a0": {
+      "memory_id": "a70da3c4-9b1a-4d4b-9372-135f0b4412a0",
+      "content": "Tool: LS",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:19:46.985503",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:19:46.985503",
+      "tags": [
+        "tool_usage",
+        "ls",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "3b59585a-94b8-4ea4-b7b1-160d0373485b": {
+      "memory_id": "3b59585a-94b8-4ea4-b7b1-160d0373485b",
+      "content": "Tool: Bash, Command: fd constants.json /home/blake/simple-claude, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:19:59.442439",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:19:59.442439",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "20b13391-827b-4052-80b6-b36a454d46c4": {
+      "memory_id": "20b13391-827b-4052-80b6-b36a454d46c4",
+      "content": "Tool: LS",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:20:04.584937",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:20:04.584937",
+      "tags": [
+        "tool_usage",
+        "ls",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "fc3a4d23-42a1-4751-afbe-c09775189fab": {
+      "memory_id": "fc3a4d23-42a1-4751-afbe-c09775189fab",
+      "content": "Tool: Bash, Command: lsd -la /home/blake/simple-claude/.claude/",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:20:15.456100",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:20:15.456100",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "483221e4-8f23-4c50-b288-cf6f557915af": {
+      "memory_id": "483221e4-8f23-4c50-b288-cf6f557915af",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/path_resolver.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:20:22.016671",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:20:22.016671",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "ee0c8565-f901-41eb-b344-50b0bb84b4f9": {
+      "memory_id": "ee0c8565-f901-41eb-b344-50b0bb84b4f9",
+      "content": "Tool: Bash, Command: python3 -c \"\nfrom hook_tools.utilities.path_resolver import paths\nprint('✓ Path resolver imported su, Recommended: mcp__zen__secaudit - Comprehensive security analysis with OWASP compliance",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:20:29.473171",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:20:29.473171",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "1128221e-d446-4251-8e84-c10d3555c2fd": {
+      "memory_id": "1128221e-d446-4251-8e84-c10d3555c2fd",
+      "content": "Tool: Grep",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:20:52.129915",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:20:52.129915",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "4e2a2989-6b29-4d6b-a7ae-e1aa74c5369b": {
+      "memory_id": "4e2a2989-6b29-4d6b-a7ae-e1aa74c5369b",
+      "content": "Tool: Task",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:22:38.292445",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:22:38.292445",
+      "tags": [
+        "tool_usage",
+        "task",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "f06bc8f8-6af0-4644-a4f3-6a7b6d6be8ea": {
+      "memory_id": "f06bc8f8-6af0-4644-a4f3-6a7b6d6be8ea",
+      "content": "Tool: mcp__filesystem__read_multiple_files",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:22:56.928608",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:22:56.928608",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__read_multiple_files",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "c658f07c-1fe9-4d59-8502-a4ce7bf34716": {
+      "memory_id": "c658f07c-1fe9-4d59-8502-a4ce7bf34716",
+      "content": "Tool: mcp__serena__search_for_pattern",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:23:03.441138",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:23:03.441138",
+      "tags": [
+        "tool_usage",
+        "mcp__serena__search_for_pattern",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "3069b833-52e7-440d-bc3f-a41312216f8b": {
+      "memory_id": "3069b833-52e7-440d-bc3f-a41312216f8b",
+      "content": "Tool: mcp__filesystem__search_files",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:23:07.910575",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:23:07.910575",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__search_files",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "4e874b1a-cdf2-4b99-bd5b-1bac7d59729c": {
+      "memory_id": "4e874b1a-cdf2-4b99-bd5b-1bac7d59729c",
+      "content": "Tool: Grep",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:23:12.272946",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:23:12.272946",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "669dab9a-6ce9-4f8f-8525-d918300b5171": {
+      "memory_id": "669dab9a-6ce9-4f8f-8525-d918300b5171",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:23:24.643866",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:23:24.643866",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "7ccce9f6-280d-4c3c-80f6-bfa689ef4637": {
+      "memory_id": "7ccce9f6-280d-4c3c-80f6-bfa689ef4637",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:23:32.381580",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:23:32.381580",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "70e7d9dd-4e4b-4809-8223-1a9220b21fde": {
+      "memory_id": "70e7d9dd-4e4b-4809-8223-1a9220b21fde",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:23:48.688651",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:23:48.688651",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "be30a5db-c4f0-43fe-910f-ba34155ab465": {
+      "memory_id": "be30a5db-c4f0-43fe-910f-ba34155ab465",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:02.206790",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:02.206790",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "1033ea24-58e8-4c43-8f14-fe22293b5df5": {
+      "memory_id": "1033ea24-58e8-4c43-8f14-fe22293b5df5",
+      "content": "Tool: Task",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:17.149589",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:17.149589",
+      "tags": [
+        "tool_usage",
+        "task",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "096f0fb0-3e70-436a-abca-580fdacd50e6": {
+      "memory_id": "096f0fb0-3e70-436a-abca-580fdacd50e6",
+      "content": "Tool: mcp__filesystem__read_text_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:38.958047",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:38.958047",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__read_text_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "1eabb484-1c14-4e60-a22a-0d40db73f01e": {
+      "memory_id": "1eabb484-1c14-4e60-a22a-0d40db73f01e",
+      "content": "Tool: mcp__filesystem__read_text_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:43.255694",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:43.255694",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__read_text_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "e4a9132c-3de0-41da-bd1d-88e4abdd6cf4": {
+      "memory_id": "e4a9132c-3de0-41da-bd1d-88e4abdd6cf4",
+      "content": "Tool: mcp__filesystem__read_text_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:47.696596",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:47.696596",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__read_text_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "9e7c4f7b-7031-48d4-a4c2-508f85eaf9b7": {
+      "memory_id": "9e7c4f7b-7031-48d4-a4c2-508f85eaf9b7",
+      "content": "Tool: mcp__filesystem__read_text_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:51.798360",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:51.798360",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__read_text_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "26bd00df-bf04-4284-944e-989a2cf95bd3": {
+      "memory_id": "26bd00df-bf04-4284-944e-989a2cf95bd3",
+      "content": "Tool: Grep",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:24:56.334952",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:24:56.334952",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "6a87cfe5-1032-4da1-b1f7-6a290ede1e39": {
+      "memory_id": "6a87cfe5-1032-4da1-b1f7-6a290ede1e39",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:04.355536",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:04.355536",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "834ac28d-062c-4435-a0fe-0d98ad3ac075": {
+      "memory_id": "834ac28d-062c-4435-a0fe-0d98ad3ac075",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:10.293403",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:10.293403",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "9f2da259-963c-4285-9d8c-be6eff763bf9": {
+      "memory_id": "9f2da259-963c-4285-9d8c-be6eff763bf9",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:15.969504",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:15.969504",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "65b33826-f510-4d2a-a885-9df194f84364": {
+      "memory_id": "65b33826-f510-4d2a-a885-9df194f84364",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:20.571188",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:20.571188",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "18de05b9-9a9f-47c7-892b-bb749d2b9def": {
+      "memory_id": "18de05b9-9a9f-47c7-892b-bb749d2b9def",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:24.884968",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:24.884968",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "6c96b03b-bde6-4d0a-8433-39a08096aeed": {
+      "memory_id": "6c96b03b-bde6-4d0a-8433-39a08096aeed",
+      "content": "Tool: mcp__filesystem__edit_file",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:33.637056",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:33.637056",
+      "tags": [
+        "tool_usage",
+        "mcp__filesystem__edit_file",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "d3b495ef-bd3b-40c9-abe7-acf26988774c": {
+      "memory_id": "d3b495ef-bd3b-40c9-abe7-acf26988774c",
+      "content": "Tool: Grep",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:41.760125",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:41.760125",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "14bcf3bb-70f5-4e46-bfd2-bed4f2d11c5d": {
+      "memory_id": "14bcf3bb-70f5-4e46-bfd2-bed4f2d11c5d",
+      "content": "Tool: Grep, Recommended: mcp__zen__tracer - Code flow and dependency analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:47.220882",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:47.220882",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "9fda8cd6-160a-4c17-807f-74254a715869": {
+      "memory_id": "9fda8cd6-160a-4c17-807f-74254a715869",
+      "content": "Tool: Task",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:25:55.705177",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:25:55.705177",
+      "tags": [
+        "tool_usage",
+        "task",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "ca3e981f-da94-48b2-9c5c-50297ec27479": {
+      "memory_id": "ca3e981f-da94-48b2-9c5c-50297ec27479",
+      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:27:13.660277",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:27:13.660277",
+      "tags": [
+        "tool_usage",
+        "read",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "dd95b43b-c0b8-4e38-a79e-9786244c0f76": {
+      "memory_id": "dd95b43b-c0b8-4e38-a79e-9786244c0f76",
+      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:28:18.806885",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:28:18.806885",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "4a5db752-59a7-4b21-88d8-ca7be8d93784": {
+      "memory_id": "4a5db752-59a7-4b21-88d8-ca7be8d93784",
+      "content": "Tool: Bash, Command: cd /home/blake/simple-claude/.claude/hooks && python -c \"from hook_tools.context.git_context import ",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:40:42.513295",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:40:42.513295",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "4810d637-d836-4237-bb0b-613c884518ba": {
+      "memory_id": "4810d637-d836-4237-bb0b-613c884518ba",
+      "content": "Tool: Bash, Command: rm /home/blake/simple-claude/.claude/hooks/hook_tools/*/__init__.py && echo \"Removed all empty __ini",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:40:52.361895",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:40:52.361895",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "70c72022-5bb1-44fd-b0fc-fccbbfcb7d76": {
+      "memory_id": "70c72022-5bb1-44fd-b0fc-fccbbfcb7d76",
+      "content": "Tool: Bash, Command: python -c \"from hook_tools.context.git_context import get_git_context; from hook_tools.analysis.ast_",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:41:02.968556",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:41:02.968556",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    },
+    "b8ff52bd-a775-432a-a980-4c63c23ff5a0": {
+      "memory_id": "b8ff52bd-a775-432a-a980-4c63c23ff5a0",
+      "content": "Tool: Read, Read: /home/blake/simple-claude/.gitignore",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T16:41:44.890981",
+      "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T16:41:44.890981",
+      "tags": [
+        "tool_usage",
+        "read",
+        "patterns"
+      ],
+      "project_hash": "e5f35f9c6962a1cf"
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-06T16:11:55.476188",
+    "version": "1.0",
+    "memory_count": 50,
+    "last_updated": "2025-08-06T16:41:44.891054"
+  }
+}

@@ -5,6 +5,8 @@ Provides easy-to-use functions for continuation management.
 """
 
 from typing import Optional
+
+# Import shared dependencies (sys.path now managed by path_resolver)
 from state_manager import state_manager
 
 

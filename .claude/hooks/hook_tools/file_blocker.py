@@ -11,7 +11,7 @@ import os
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, NamedTuple
+from typing import Dict, List, Optional, NamedTuple, ClassVar
 from dataclasses import dataclass, field
 import fnmatch
 import logging
@@ -51,7 +51,7 @@ class FileBlockerConfig:
     ]
     
     # Default blocking rules - can be overridden by configuration file
-    DEFAULT_RULES = {
+    DEFAULT_RULES: ClassVar[Dict[str, BlockingRule]] = {
         "hook_handlers_py_protection": BlockingRule(
             name="hook_handlers_py_protection",
             path_patterns=[

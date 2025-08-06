@@ -15,6 +15,11 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any, Union, Tuple
 from enum import Enum
 
+from hook_tools.utilities.path_resolver import PathResolver
+
+# Initialize path resolver for consistent path handling
+paths = PathResolver()
+
 
 class MemoryType(Enum):
     """Memory categorization types."""
@@ -384,7 +389,7 @@ class MemoryManager:
             memory_id = memory_scores[i][0]
             del memories[memory_id]
     
-    def cleanup_old_memories(self, project_hash: Optional[str] = None, days: int = None) -> int:
+    def cleanup_old_memories(self, project_hash: Optional[str] = None, days: Optional[int] = None) -> int:
         """
         Clean up old or low-relevance memories.
         

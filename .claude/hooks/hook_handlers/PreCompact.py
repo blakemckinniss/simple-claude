@@ -10,7 +10,8 @@ from pathlib import Path
 from typing import Dict, Any
 
 # Import memory manager for critical context storage
-sys.path.insert(0, str(Path(__file__).parent.parent))
+from hook_tools.utilities.path_resolver import PathResolver
+paths = PathResolver()
 from hook_tools.memory_manager import memory_manager, MemoryType
 
 
