@@ -9,7 +9,6 @@ summary data for semantic analysis.
 import os
 import json
 import time
-from pathlib import Path
 from subprocess import check_output
 from typing import Dict, Any
 
@@ -66,7 +65,7 @@ def bootstrap_summary(json_path: str, constants: Dict[str, Any]) -> Dict[str, An
             if cache_age < 3600:  # 1 hour cache
                 with open(json_path, 'r') as f:
                     return json.load(f)
-        except:
+        except (OSError, json.JSONDecodeError, PermissionError):
             pass
 
     try:

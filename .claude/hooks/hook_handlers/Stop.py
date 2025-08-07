@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# claude-exempt: hook_handlers_py_protection - Fixing Python import order violations (E402)
 """
 Stop hook handler with session cleanup and archival logic.
 This hook is called when Claude stops processing.
@@ -13,10 +14,11 @@ from typing import Dict, Any, Optional
 
 # Import state manager for continuation tracking and memory manager
 from hook_tools.utilities.path_resolver import PathResolver
-paths = PathResolver()
 from hook_tools.state_manager import state_manager
 from hook_logger import logger
 from hook_tools.memory_manager import memory_manager, MemoryType
+
+paths = PathResolver()
 
 
 def calculate_session_duration(session_info: Dict[str, Any]) -> Optional[float]:

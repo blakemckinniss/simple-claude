@@ -1,10 +1,10 @@
 {
   "project_hash": "e5f35f9c6962a1cf",
-  "project_path": "/home/blake/simple-claude/.claude/hooks",
+  "project_path": "/home/devcontainers/simple-claude/.claude/hooks",
   "memories": {
     "cccf6b00-61d6-41bb-a5ce-6566ff04245a": {
       "memory_id": "cccf6b00-61d6-41bb-a5ce-6566ff04245a",
-      "content": "Tool: Bash, Command: cd /home/blake/simple-claude/.claude/hooks && python -c \"\nimport sys\nfrom pathlib import Path\nsys.pa, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "content": "Tool: Bash, Command: cd /home/devcontainers/simple-claude/.claude/hooks && python -c \"\nimport sys\nfrom pathlib import Path\nsys.pa, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:11:55.476250",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -72,7 +72,7 @@
     },
     "450c42d9-1a4a-4d41-8cac-95ac7417bdc8": {
       "memory_id": "450c42d9-1a4a-4d41-8cac-95ac7417bdc8",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/constants_loader.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/utilities/constants_loader.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:17:22.421809",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -89,7 +89,7 @@
     },
     "13430b5e-d7e8-4ef4-9f66-069872cf11fe": {
       "memory_id": "13430b5e-d7e8-4ef4-9f66-069872cf11fe",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:17:26.088928",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -106,7 +106,7 @@
     },
     "b69a1274-e77c-46ff-b8f1-57da6ea41f3d": {
       "memory_id": "b69a1274-e77c-46ff-b8f1-57da6ea41f3d",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:17:29.868069",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -123,7 +123,7 @@
     },
     "6cdc01f8-8d2d-41e5-92bb-3a49158f5dbf": {
       "memory_id": "6cdc01f8-8d2d-41e5-92bb-3a49158f5dbf",
-      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/path_resolver.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Write, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/utilities/path_resolver.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:18:17.251284",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -140,7 +140,7 @@
     },
     "6d466112-ea76-46a2-972f-16a376bfad08": {
       "memory_id": "6d466112-ea76-46a2-972f-16a376bfad08",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:18:35.348882",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -157,7 +157,7 @@
     },
     "8e590ccd-189c-4d33-96c7-8c3bf78b745a": {
       "memory_id": "8e590ccd-189c-4d33-96c7-8c3bf78b745a",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:18:43.407619",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -174,7 +174,7 @@
     },
     "a28ac07d-fa6f-43d7-9d5b-280e08e17b2c": {
       "memory_id": "a28ac07d-fa6f-43d7-9d5b-280e08e17b2c",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/continuation_helpers.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:18:50.914269",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -191,7 +191,7 @@
     },
     "b582e443-e4e9-43e9-958f-fb1d70ca60db": {
       "memory_id": "b582e443-e4e9-43e9-958f-fb1d70ca60db",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:19:08.288093",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -208,7 +208,7 @@
     },
     "e46cc2e5-40bd-4458-b320-84b54326d639": {
       "memory_id": "e46cc2e5-40bd-4458-b320-84b54326d639",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/constants_loader.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/utilities/constants_loader.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:19:25.398640",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -242,7 +242,7 @@
     },
     "3b59585a-94b8-4ea4-b7b1-160d0373485b": {
       "memory_id": "3b59585a-94b8-4ea4-b7b1-160d0373485b",
-      "content": "Tool: Bash, Command: fd constants.json /home/blake/simple-claude, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "content": "Tool: Bash, Command: fd constants.json /home/devcontainers/simple-claude, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:19:59.442439",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -276,7 +276,7 @@
     },
     "fc3a4d23-42a1-4751-afbe-c09775189fab": {
       "memory_id": "fc3a4d23-42a1-4751-afbe-c09775189fab",
-      "content": "Tool: Bash, Command: lsd -la /home/blake/simple-claude/.claude/",
+      "content": "Tool: Bash, Command: lsd -la /home/devcontainers/simple-claude/.claude/",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:20:15.456100",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -293,7 +293,7 @@
     },
     "483221e4-8f23-4c50-b288-cf6f557915af": {
       "memory_id": "483221e4-8f23-4c50-b288-cf6f557915af",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_tools/utilities/path_resolver.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/utilities/path_resolver.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:20:22.016671",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -752,7 +752,7 @@
     },
     "ca3e981f-da94-48b2-9c5c-50297ec27479": {
       "memory_id": "ca3e981f-da94-48b2-9c5c-50297ec27479",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:27:13.660277",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -769,7 +769,7 @@
     },
     "dd95b43b-c0b8-4e38-a79e-9786244c0f76": {
       "memory_id": "dd95b43b-c0b8-4e38-a79e-9786244c0f76",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:28:18.806885",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -786,7 +786,7 @@
     },
     "4a5db752-59a7-4b21-88d8-ca7be8d93784": {
       "memory_id": "4a5db752-59a7-4b21-88d8-ca7be8d93784",
-      "content": "Tool: Bash, Command: cd /home/blake/simple-claude/.claude/hooks && python -c \"from hook_tools.context.git_context import ",
+      "content": "Tool: Bash, Command: cd /home/devcontainers/simple-claude/.claude/hooks && python -c \"from hook_tools.context.git_context import ",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:40:42.513295",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -803,7 +803,7 @@
     },
     "4810d637-d836-4237-bb0b-613c884518ba": {
       "memory_id": "4810d637-d836-4237-bb0b-613c884518ba",
-      "content": "Tool: Bash, Command: rm /home/blake/simple-claude/.claude/hooks/hook_tools/*/__init__.py && echo \"Removed all empty __ini",
+      "content": "Tool: Bash, Command: rm /home/devcontainers/simple-claude/.claude/hooks/hook_tools/*/__init__.py && echo \"Removed all empty __ini",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:40:52.361895",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -837,7 +837,7 @@
     },
     "b8ff52bd-a775-432a-a980-4c63c23ff5a0": {
       "memory_id": "b8ff52bd-a775-432a-a980-4c63c23ff5a0",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.gitignore",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.gitignore",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:41:44.890981",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",

@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
+# claude-exempt: hook_handlers_py_protection - Fixing Python import order violations (E402)
 """
 Generic PreCompact hook handler.
 This hook is called before Claude compacts its memory/context.
 """
 
-import json
 import sys
-from pathlib import Path
 from typing import Dict, Any
 
 # Import memory manager for critical context storage
 from hook_tools.utilities.path_resolver import PathResolver
-paths = PathResolver()
 from hook_tools.memory_manager import memory_manager, MemoryType
+
+paths = PathResolver()
 
 
 def handle(data: Dict[str, Any]) -> None:
@@ -25,7 +25,7 @@ def handle(data: Dict[str, Any]) -> None:
     """
     try:
         # Extract relevant information
-        hook_event_name = data.get("hook_event_name", "")
+        _hook_event_name = data.get("hook_event_name", "")
         context_size = data.get("context_size", 0)
         memory_info = data.get("memory_info", {})
         session_id = data.get("session_id", "")

@@ -8,11 +8,10 @@ import hashlib
 import json
 import os
 import threading
-import time
 import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Union, Tuple
+from typing import Dict, List, Optional, Any, Union
 from enum import Enum
 
 from hook_tools.utilities.path_resolver import PathResolver

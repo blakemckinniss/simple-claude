@@ -9,7 +9,6 @@ import platform
 import re
 import subprocess
 from pathlib import Path
-from typing import Dict, List
 
 
 def get_error_context() -> dict:

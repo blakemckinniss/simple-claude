@@ -6,9 +6,8 @@ Provides code quality analysis functions for detecting anti-patterns and calcula
 
 import ast
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 
-from .ast_analyzer import _extract_call_name
 
 
 def detect_code_quality_issues(filepath: str, content: str) -> List[Dict[str, Any]]:

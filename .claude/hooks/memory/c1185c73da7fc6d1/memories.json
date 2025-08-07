@@ -1,10 +1,10 @@
 {
   "project_hash": "c1185c73da7fc6d1",
-  "project_path": "/home/blake/simple-claude",
+  "project_path": "/home/devcontainers/simple-claude",
   "memories": {
     "b6400759-bf8c-4772-b33d-664fc215e5d9": {
       "memory_id": "b6400759-bf8c-4772-b33d-664fc215e5d9",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PostToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PostToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:15:34.978027",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -22,7 +22,7 @@
     },
     "ccc41ba2-ce9a-4ea0-839c-5945e0fa930b": {
       "memory_id": "ccc41ba2-ce9a-4ea0-839c-5945e0fa930b",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PostToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PostToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:15:44.017791",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -40,7 +40,7 @@
     },
     "9873e315-94f0-4514-8c21-2d5069bbcf29": {
       "memory_id": "9873e315-94f0-4514-8c21-2d5069bbcf29",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PostToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PostToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:15:52.327041",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -58,7 +58,7 @@
     },
     "3d55c64f-cdc1-4f99-8f32-69fc1982a7d0": {
       "memory_id": "3d55c64f-cdc1-4f99-8f32-69fc1982a7d0",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/Stop.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/Stop.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:15:59.049701",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -76,7 +76,7 @@
     },
     "9336a1e8-ffcd-40c9-bf5d-fef8d2ed110b": {
       "memory_id": "9336a1e8-ffcd-40c9-bf5d-fef8d2ed110b",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/Stop.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/Stop.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:16:18.916015",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -94,7 +94,7 @@
     },
     "36c8bde6-5321-4f6f-b49e-5f8cc56a55f3": {
       "memory_id": "36c8bde6-5321-4f6f-b49e-5f8cc56a55f3",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/Stop.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/Stop.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:16:27.323530",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -130,7 +130,7 @@
     },
     "33ecfc67-8da9-4ce8-b446-a5db2e914b30": {
       "memory_id": "33ecfc67-8da9-4ce8-b446-a5db2e914b30",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:17:13.795943",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -202,7 +202,7 @@
     },
     "bade3d66-3556-432a-a48c-9727cce83e0f": {
       "memory_id": "bade3d66-3556-432a-a48c-9727cce83e0f",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:17:37.060732",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -220,7 +220,7 @@
     },
     "9c7f5f3e-c60b-4630-80f7-cea445ef630b": {
       "memory_id": "9c7f5f3e-c60b-4630-80f7-cea445ef630b",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:19:08.897205",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -238,7 +238,7 @@
     },
     "602222f3-04e3-4f9c-9641-2d7c99275f75": {
       "memory_id": "602222f3-04e3-4f9c-9641-2d7c99275f75",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:19:15.277690",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -256,7 +256,7 @@
     },
     "ae9f417b-6e49-43c4-b4f2-fcdbe0ad3237": {
       "memory_id": "ae9f417b-6e49-43c4-b4f2-fcdbe0ad3237",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:19:26.966399",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -274,7 +274,7 @@
     },
     "d9befd20-b4d5-4f22-9414-1b5c3f669f00": {
       "memory_id": "d9befd20-b4d5-4f22-9414-1b5c3f669f00",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:19:33.720691",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -292,7 +292,7 @@
     },
     "86b204ee-41fe-4152-a7a6-e1dd2b3e8f24": {
       "memory_id": "86b204ee-41fe-4152-a7a6-e1dd2b3e8f24",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:19:38.952803",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -346,7 +346,7 @@
     },
     "5a75e49f-0b3c-42f8-a0bc-fe03eb712f14": {
       "memory_id": "5a75e49f-0b3c-42f8-a0bc-fe03eb712f14",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:20:37.128062",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -364,7 +364,7 @@
     },
     "93ecb9f9-bb78-445b-98ab-91c562137cbe": {
       "memory_id": "93ecb9f9-bb78-445b-98ab-91c562137cbe",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:20:44.506142",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -382,7 +382,7 @@
     },
     "5d97842d-f789-4b53-a97a-6492b5c5f89d": {
       "memory_id": "5d97842d-f789-4b53-a97a-6492b5c5f89d",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:20:52.388065",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -416,7 +416,7 @@
     },
     "018c3340-10a7-40e0-876e-189e2f60ce90": {
       "memory_id": "018c3340-10a7-40e0-876e-189e2f60ce90",
-      "content": "Tool: Bash, Command: python3 -c \"import sys; sys.path.insert(0, '/home/blake/simple-claude/.claude/hooks/hook_tools'); fr, Recommended: mcp__zen__analyze - Performance analysis and optimization recommendations",
+      "content": "Tool: Bash, Command: python3 -c \"import sys; sys.path.insert(0, '/home/devcontainers/simple-claude/.claude/hooks/hook_tools'); fr, Recommended: mcp__zen__analyze - Performance analysis and optimization recommendations",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:21:05.232468",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -434,7 +434,7 @@
     },
     "e3efad1e-14ca-4f40-b535-69d3883fef43": {
       "memory_id": "e3efad1e-14ca-4f40-b535-69d3883fef43",
-      "content": "Tool: Bash, Command: cat /home/blake/simple-claude/.claude/hooks/memory/c1185c73da7fc6d1/memories.json | python3 -m json., Recommended: mcp__zen__analyze - Performance analysis and optimization recommendations",
+      "content": "Tool: Bash, Command: cat /home/devcontainers/simple-claude/.claude/hooks/memory/c1185c73da7fc6d1/memories.json | python3 -m json., Recommended: mcp__zen__analyze - Performance analysis and optimization recommendations",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:21:30.282209",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -452,7 +452,7 @@
     },
     "a9da9b56-50fe-4ddf-95be-705d6f6b06ad": {
       "memory_id": "a9da9b56-50fe-4ddf-95be-705d6f6b06ad",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/memory_manager.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:26:28.306201",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -470,7 +470,7 @@
     },
     "c67d980a-ccb3-43dd-a612-b5ac58763036": {
       "memory_id": "c67d980a-ccb3-43dd-a612-b5ac58763036",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:26:49.460606",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -488,7 +488,7 @@
     },
     "b6318ab8-1d67-47f8-98f3-ee331619b053": {
       "memory_id": "b6318ab8-1d67-47f8-98f3-ee331619b053",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/SessionStart.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:26:55.908733",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -524,7 +524,7 @@
     },
     "22c5c64b-ef2d-4268-b7fa-1bd35ad6867f": {
       "memory_id": "22c5c64b-ef2d-4268-b7fa-1bd35ad6867f",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/memory/c1185c73da7fc6d1/memories.json",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/memory/c1185c73da7fc6d1/memories.json",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:27:31.581336",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -560,7 +560,7 @@
     },
     "89969be0-e6ff-4af6-869e-c7a91c557735": {
       "memory_id": "89969be0-e6ff-4af6-869e-c7a91c557735",
-      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/docs/project-memory-isolation.md",
+      "content": "Tool: Write, File: /home/devcontainers/simple-claude/.claude/docs/project-memory-isolation.md",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:36:54.497439",
       "session_id": "9af3ac23-febf-49ac-b5a6-0af794768371",
@@ -596,7 +596,7 @@
     },
     "5f3f3da8-ed89-450a-9090-de25df1d7151": {
       "memory_id": "5f3f3da8-ed89-450a-9090-de25df1d7151",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:44:29.992594",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -614,7 +614,7 @@
     },
     "0f31cae3-32d5-4048-8a32-4ec5a52c7581": {
       "memory_id": "0f31cae3-32d5-4048-8a32-4ec5a52c7581",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:45:12.506897",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -830,7 +830,7 @@
     },
     "1ff6fc11-825f-4779-8efb-dbd6c132b5e6": {
       "memory_id": "1ff6fc11-825f-4779-8efb-dbd6c132b5e6",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:47:19.997868",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -902,7 +902,7 @@
     },
     "12fd5864-595b-4e4a-91a0-cdae7b89f352": {
       "memory_id": "12fd5864-595b-4e4a-91a0-cdae7b89f352",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/ast_analyzer.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/ast_analyzer.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:47:54.212728",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -920,7 +920,7 @@
     },
     "faf8f64d-ba5e-4c45-8149-015734109447": {
       "memory_id": "faf8f64d-ba5e-4c45-8149-015734109447",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:47:58.891187",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -956,7 +956,7 @@
     },
     "04bac1e9-a343-414d-bd6d-622ae1220c7f": {
       "memory_id": "04bac1e9-a343-414d-bd6d-622ae1220c7f",
-      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/hooks/hook_tools/performance_analyzer.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Write, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/performance_analyzer.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:55:03.969518",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -974,7 +974,7 @@
     },
     "0db95db3-30a6-4b4d-84df-71958ba236af": {
       "memory_id": "0db95db3-30a6-4b4d-84df-71958ba236af",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:55:11.272558",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -992,7 +992,7 @@
     },
     "65ec430d-4e6b-42dd-81d1-1bab280c9f6d": {
       "memory_id": "65ec430d-4e6b-42dd-81d1-1bab280c9f6d",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:55:31.549120",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1010,7 +1010,7 @@
     },
     "7e7aaff5-2c03-4ac1-905b-87779825e193": {
       "memory_id": "7e7aaff5-2c03-4ac1-905b-87779825e193",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:55:40.249321",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1028,7 +1028,7 @@
     },
     "c215b5c6-fc15-49e4-9fc8-01b348fd311e": {
       "memory_id": "c215b5c6-fc15-49e4-9fc8-01b348fd311e",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:55:45.164797",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1082,7 +1082,7 @@
     },
     "1a74eded-5dfd-4787-a01c-49e25c4dafc5": {
       "memory_id": "1a74eded-5dfd-4787-a01c-49e25c4dafc5",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:56:02.271068",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1100,7 +1100,7 @@
     },
     "c289e3f8-1c82-476e-bf67-7b160b287a2f": {
       "memory_id": "c289e3f8-1c82-476e-bf67-7b160b287a2f",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:56:47.281517",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1172,7 +1172,7 @@
     },
     "b0d097f3-8df3-496e-9b45-dcfb3081d225": {
       "memory_id": "b0d097f3-8df3-496e-9b45-dcfb3081d225",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:57:45.261248",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1190,7 +1190,7 @@
     },
     "27b123ed-1eb4-4094-94b5-47f89832460c": {
       "memory_id": "27b123ed-1eb4-4094-94b5-47f89832460c",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:57:50.315299",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1226,7 +1226,7 @@
     },
     "237ad7f4-8df8-4de6-b4dd-bdc25ed89eeb": {
       "memory_id": "237ad7f4-8df8-4de6-b4dd-bdc25ed89eeb",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:58:01.097975",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1298,7 +1298,7 @@
     },
     "28c9a1e6-8441-4dd8-af09-de4d779fb6f3": {
       "memory_id": "28c9a1e6-8441-4dd8-af09-de4d779fb6f3",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:58:36.586799",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1316,7 +1316,7 @@
     },
     "604459d2-f236-44a8-ab47-b71804b05c2d": {
       "memory_id": "604459d2-f236-44a8-ab47-b71804b05c2d",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:58:41.915764",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1334,7 +1334,7 @@
     },
     "cc6765d1-bfde-4154-902c-b7a7283b47ac": {
       "memory_id": "cc6765d1-bfde-4154-902c-b7a7283b47ac",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:58:47.659863",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1352,7 +1352,7 @@
     },
     "f37a6ed5-05fd-4e5e-b57c-2825fae710d4": {
       "memory_id": "f37a6ed5-05fd-4e5e-b57c-2825fae710d4",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/json/constants.json",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/json/constants.json",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:59:17.918320",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1388,7 +1388,7 @@
     },
     "12207c18-c6ab-406c-9a57-39ae8cf27352": {
       "memory_id": "12207c18-c6ab-406c-9a57-39ae8cf27352",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:59:34.245304",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1424,7 +1424,7 @@
     },
     "8f0837ae-a1dc-43cf-8065-824376caedfc": {
       "memory_id": "8f0837ae-a1dc-43cf-8065-824376caedfc",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T14:59:56.650322",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1442,7 +1442,7 @@
     },
     "0f83818c-9579-4714-9fa2-f8d6760f9da4": {
       "memory_id": "0f83818c-9579-4714-9fa2-f8d6760f9da4",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:00.970935",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1460,7 +1460,7 @@
     },
     "41695eb6-0699-4c39-a1f2-522aa26a3605": {
       "memory_id": "41695eb6-0699-4c39-a1f2-522aa26a3605",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:04.827908",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1478,7 +1478,7 @@
     },
     "31306006-af34-482f-ba3c-33866dbe57e2": {
       "memory_id": "31306006-af34-482f-ba3c-33866dbe57e2",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:09.702353",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1496,7 +1496,7 @@
     },
     "e76f7395-dc72-4379-97d2-b0ac86955da5": {
       "memory_id": "e76f7395-dc72-4379-97d2-b0ac86955da5",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:14.375771",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1514,7 +1514,7 @@
     },
     "de0696fe-474f-45cf-b16c-c3b9ac090f0e": {
       "memory_id": "de0696fe-474f-45cf-b16c-c3b9ac090f0e",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:18.384661",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1532,7 +1532,7 @@
     },
     "51a28ead-b8d9-473e-aaa6-e35bb3328d64": {
       "memory_id": "51a28ead-b8d9-473e-aaa6-e35bb3328d64",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:23.659509",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1604,7 +1604,7 @@
     },
     "81d4a9f5-d382-4fa9-b046-6aa6ac9f3226": {
       "memory_id": "81d4a9f5-d382-4fa9-b046-6aa6ac9f3226",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:00:42.537226",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1820,7 +1820,7 @@
     },
     "f3bd1756-1903-43c3-97be-9e66c999c09b": {
       "memory_id": "f3bd1756-1903-43c3-97be-9e66c999c09b",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:04:23.647433",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1856,7 +1856,7 @@
     },
     "8c611662-2ad1-4f56-854b-d8c199135c36": {
       "memory_id": "8c611662-2ad1-4f56-854b-d8c199135c36",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:04:55.257498",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1874,7 +1874,7 @@
     },
     "5628efc0-7fb8-4447-9456-2de2003ffeba": {
       "memory_id": "5628efc0-7fb8-4447-9456-2de2003ffeba",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:05:07.765491",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1892,7 +1892,7 @@
     },
     "f54c2e9f-426e-46c8-b3eb-c32d547f2265": {
       "memory_id": "f54c2e9f-426e-46c8-b3eb-c32d547f2265",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:05:12.254796",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1910,7 +1910,7 @@
     },
     "821c44ad-aed9-470e-b0c8-b8c992c4b72f": {
       "memory_id": "821c44ad-aed9-470e-b0c8-b8c992c4b72f",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:05:16.912233",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1928,7 +1928,7 @@
     },
     "a4ecd4da-f435-491f-8912-d8958e453b1c": {
       "memory_id": "a4ecd4da-f435-491f-8912-d8958e453b1c",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:05:21.454094",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1946,7 +1946,7 @@
     },
     "c05b825f-4acc-45f6-981a-607b090d1714": {
       "memory_id": "c05b825f-4acc-45f6-981a-607b090d1714",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:05:26.424256",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -1964,7 +1964,7 @@
     },
     "fcfffe9e-59ab-4776-88c2-a8425012628f": {
       "memory_id": "fcfffe9e-59ab-4776-88c2-a8425012628f",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:05:31.880494",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2018,7 +2018,7 @@
     },
     "e2ba940d-54fd-4243-8baf-cf90e638e932": {
       "memory_id": "e2ba940d-54fd-4243-8baf-cf90e638e932",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:07:16.320476",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2054,7 +2054,7 @@
     },
     "bd09209c-c751-4f24-958e-2616a1b88732": {
       "memory_id": "bd09209c-c751-4f24-958e-2616a1b88732",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/ast_analyzer.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/ast_analyzer.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:07:47.440694",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2072,7 +2072,7 @@
     },
     "3ecf49b5-80f6-4b0d-89ed-d36701745916": {
       "memory_id": "3ecf49b5-80f6-4b0d-89ed-d36701745916",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_tools/performance_analyzer.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/performance_analyzer.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:07:52.452929",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2090,7 +2090,7 @@
     },
     "74132577-defb-4537-875b-086ea64efa7d": {
       "memory_id": "74132577-defb-4537-875b-086ea64efa7d",
-      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/hooks/hook_tools/code_quality_analyzer.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Write, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/code_quality_analyzer.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:08:31.068195",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2108,7 +2108,7 @@
     },
     "cf43c31e-955c-4bd2-afa9-9fa7cba629ec": {
       "memory_id": "cf43c31e-955c-4bd2-afa9-9fa7cba629ec",
-      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/hooks/hook_tools/cache_utils.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Write, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/cache_utils.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:08:41.099587",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2126,7 +2126,7 @@
     },
     "7edfa80d-dbd6-4bda-bc0b-4b503a302efd": {
       "memory_id": "7edfa80d-dbd6-4bda-bc0b-4b503a302efd",
-      "content": "Tool: Write, File: /home/blake/simple-claude/.claude/hooks/hook_tools/relevance_scorer.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Write, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/relevance_scorer.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:08:55.034256",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2180,7 +2180,7 @@
     },
     "d346e14e-cb6b-4e20-b228-f52a924ae610": {
       "memory_id": "d346e14e-cb6b-4e20-b228-f52a924ae610",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:10:19.443280",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2306,7 +2306,7 @@
     },
     "fe613526-e47f-4400-b28a-b23e4c5f38d7": {
       "memory_id": "fe613526-e47f-4400-b28a-b23e4c5f38d7",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:13:37.055237",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2324,7 +2324,7 @@
     },
     "8f16d33b-d797-4063-a1ba-83f76afc8313": {
       "memory_id": "8f16d33b-d797-4063-a1ba-83f76afc8313",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:13:49.621757",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2342,7 +2342,7 @@
     },
     "09f67d1a-48a2-4f38-9e46-3507d96028f5": {
       "memory_id": "09f67d1a-48a2-4f38-9e46-3507d96028f5",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:13:57.291781",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2360,7 +2360,7 @@
     },
     "d2c1a41b-a77f-4687-a12d-ba6c0d8add9d": {
       "memory_id": "d2c1a41b-a77f-4687-a12d-ba6c0d8add9d",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:14:13.346289",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2378,7 +2378,7 @@
     },
     "da016050-93da-450f-b363-a8567275dfa0": {
       "memory_id": "da016050-93da-450f-b363-a8567275dfa0",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:14:26.746986",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2396,7 +2396,7 @@
     },
     "35592c22-f05e-4849-ab2c-7bb281c21378": {
       "memory_id": "35592c22-f05e-4849-ab2c-7bb281c21378",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:14:38.961916",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2414,7 +2414,7 @@
     },
     "21116c88-f4d8-421e-b8b0-5f38d1dbea88": {
       "memory_id": "21116c88-f4d8-421e-b8b0-5f38d1dbea88",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:14:55.483265",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2432,7 +2432,7 @@
     },
     "f20bdd1d-2f20-46dc-8cf9-963209152368": {
       "memory_id": "f20bdd1d-2f20-46dc-8cf9-963209152368",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:15:02.752038",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2450,7 +2450,7 @@
     },
     "c2e218c5-cf4f-40af-b2d4-740e5db72b19": {
       "memory_id": "c2e218c5-cf4f-40af-b2d4-740e5db72b19",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:15:25.277208",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2468,7 +2468,7 @@
     },
     "7517c15e-8823-4bdc-93b2-4831db9c306a": {
       "memory_id": "7517c15e-8823-4bdc-93b2-4831db9c306a",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:15:36.585219",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2486,7 +2486,7 @@
     },
     "bf32ee05-f6c3-40e2-9c2e-c6060ac7c26f": {
       "memory_id": "bf32ee05-f6c3-40e2-9c2e-c6060ac7c26f",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:15:41.829561",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2504,7 +2504,7 @@
     },
     "7513c7a1-d66c-419d-8bef-143759008f08": {
       "memory_id": "7513c7a1-d66c-419d-8bef-143759008f08",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:15:47.931030",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2522,7 +2522,7 @@
     },
     "02d5ee00-4b6a-4488-b6ea-f5fff516e004": {
       "memory_id": "02d5ee00-4b6a-4488-b6ea-f5fff516e004",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:15:57.186926",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2558,7 +2558,7 @@
     },
     "799e22de-e0e5-4e5e-85fe-ebfd416b706e": {
       "memory_id": "799e22de-e0e5-4e5e-85fe-ebfd416b706e",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:33:45.866351",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2576,7 +2576,7 @@
     },
     "fb55a499-870e-4466-8100-990e9cc5df92": {
       "memory_id": "fb55a499-870e-4466-8100-990e9cc5df92",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T15:34:07.496248",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2630,7 +2630,7 @@
     },
     "1dc45466-9939-4f71-bf89-9183a46d9ba3": {
       "memory_id": "1dc45466-9939-4f71-bf89-9183a46d9ba3",
-      "content": "Tool: Bash, Command: cd /home/blake/simple-claude && python -c \"\nimport re\nfrom pathlib import Path\n\ndef test_fragile_pat, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "content": "Tool: Bash, Command: cd /home/devcontainers/simple-claude && python -c \"\nimport re\nfrom pathlib import Path\n\ndef test_fragile_pat, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:28:51.357777",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2684,7 +2684,7 @@
     },
     "fa785869-7603-42ef-a3a2-95cb6e9f3b6d": {
       "memory_id": "fa785869-7603-42ef-a3a2-95cb6e9f3b6d",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:29:25.843131",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2702,7 +2702,7 @@
     },
     "84b121ae-7aec-47d8-ad0e-2cf9aba9f783": {
       "memory_id": "84b121ae-7aec-47d8-ad0e-2cf9aba9f783",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:29:37.509591",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2756,7 +2756,7 @@
     },
     "9f5ec567-ed0e-4334-a152-5f88cbbd61bb": {
       "memory_id": "9f5ec567-ed0e-4334-a152-5f88cbbd61bb",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:32:10.416737",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2810,7 +2810,7 @@
     },
     "6208b3d0-941a-444e-9d31-c64ddb96b936": {
       "memory_id": "6208b3d0-941a-444e-9d31-c64ddb96b936",
-      "content": "Tool: Read, Read: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__docgen - Automated documentation generation",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:35:43.021417",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2846,7 +2846,7 @@
     },
     "fe158032-7cc2-4e2c-ac7f-99e1156c955f": {
       "memory_id": "fe158032-7cc2-4e2c-ac7f-99e1156c955f",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:36:41.474753",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2864,7 +2864,7 @@
     },
     "188c217b-92c1-48f5-b8b3-006a94d7392b": {
       "memory_id": "188c217b-92c1-48f5-b8b3-006a94d7392b",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:36:49.772901",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2882,7 +2882,7 @@
     },
     "47ad140f-de59-4131-8137-cd83fcd4bdde": {
       "memory_id": "47ad140f-de59-4131-8137-cd83fcd4bdde",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:37:02.785472",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2900,7 +2900,7 @@
     },
     "b12ee66a-1ddc-429e-9645-bd4eb7c9e37c": {
       "memory_id": "b12ee66a-1ddc-429e-9645-bd4eb7c9e37c",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:37:39.211816",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2918,7 +2918,7 @@
     },
     "dcc0faa4-2ab3-48fc-8c94-36aef3918d6e": {
       "memory_id": "dcc0faa4-2ab3-48fc-8c94-36aef3918d6e",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:37:53.875772",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2936,7 +2936,7 @@
     },
     "32edea0d-a9a2-4399-a194-b6a1f7fd3a78": {
       "memory_id": "32edea0d-a9a2-4399-a194-b6a1f7fd3a78",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:38:00.714801",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2954,7 +2954,7 @@
     },
     "6b3e0695-3fd4-4fb6-b504-79b4aee75a35": {
       "memory_id": "6b3e0695-3fd4-4fb6-b504-79b4aee75a35",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:38:07.828228",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -2990,7 +2990,7 @@
     },
     "2a339b3a-57d3-42f2-88b6-976592919a7d": {
       "memory_id": "2a339b3a-57d3-42f2-88b6-976592919a7d",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:38:21.253340",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -3026,7 +3026,7 @@
     },
     "437d8b7d-9d87-416c-9881-a426ea7294da": {
       "memory_id": "437d8b7d-9d87-416c-9881-a426ea7294da",
-      "content": "Tool: Edit, File: /home/blake/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/PreToolUse.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:38:42.359010",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -3080,7 +3080,7 @@
     },
     "25a226d7-a420-40e3-96fb-44b81aa49929": {
       "memory_id": "25a226d7-a420-40e3-96fb-44b81aa49929",
-      "content": "Tool: Bash, Command: fd __init__.py /home/blake/simple-claude/.claude/hooks/hook_tools/, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "content": "Tool: Bash, Command: fd __init__.py /home/devcontainers/simple-claude/.claude/hooks/hook_tools/, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:39:55.670922",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -3098,7 +3098,7 @@
     },
     "a87123a2-b828-40bc-9f0a-8975686d672a": {
       "memory_id": "a87123a2-b828-40bc-9f0a-8975686d672a",
-      "content": "Tool: Bash, Command: for file in /home/blake/simple-claude/.claude/hooks/hook_tools/*/__init__.py; do echo \"=== $file ===",
+      "content": "Tool: Bash, Command: for file in /home/devcontainers/simple-claude/.claude/hooks/hook_tools/*/__init__.py; do echo \"=== $file ===",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:40:20.738282",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -3116,7 +3116,7 @@
     },
     "3bc6bb34-63bb-4954-8ad4-57f8421501c0": {
       "memory_id": "3bc6bb34-63bb-4954-8ad4-57f8421501c0",
-      "content": "Tool: Bash, Command: cd /home/blake/simple-claude && git check-ignore .claude/hooks/hook_tools/metrics/__pycache__/test.p",
+      "content": "Tool: Bash, Command: cd /home/devcontainers/simple-claude && git check-ignore .claude/hooks/hook_tools/metrics/__pycache__/test.p",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:41:58.204879",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",
@@ -3134,7 +3134,7 @@
     },
     "7a1a530d-f3f4-4d0b-bd59-df4e2ab637b6": {
       "memory_id": "7a1a530d-f3f4-4d0b-bd59-df4e2ab637b6",
-      "content": "Tool: Bash, Command: fd -t d __pycache__ /home/blake/simple-claude/.claude/hooks/, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "content": "Tool: Bash, Command: fd -t d __pycache__ /home/devcontainers/simple-claude/.claude/hooks/, Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
       "memory_type": "tool_patterns",
       "timestamp": "2025-08-06T16:42:07.637994",
       "session_id": "a78a05c1-ceb5-4504-86f4-b55c93e39b89",

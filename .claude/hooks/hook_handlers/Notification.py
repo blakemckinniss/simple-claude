@@ -4,7 +4,6 @@ Generic Notification hook handler.
 This hook is called when Claude sends a notification.
 """
 
-import json
 import sys
 from typing import Dict, Any
 
@@ -18,9 +17,9 @@ def handle(data: Dict[str, Any]) -> None:
     """
     try:
         # Extract relevant information
-        hook_event_name = data.get("hook_event_name", "")
-        notification_type = data.get("notification_type", "")
-        message = data.get("message", "")
+        _hook_event_name = data.get("hook_event_name", "")
+        _notification_type = data.get("notification_type", "")
+        _message = data.get("message", "")
         
         # Generic handler - could be extended to:
         # - Log notifications

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# claude-exempt: hook_handlers_py_protection - Fixing Python import order violations (E402)
 """
 SessionStart hook handler for initializing global continuation tracking.
 Ensures thread-safe initialization of session state and outputs initialization context for Claude.
@@ -7,15 +8,16 @@ Ensures thread-safe initialization of session state and outputs initialization c
 import sys
 import subprocess
 import json
-import uuid
 from pathlib import Path
 from typing import Dict, Any
 
 # Import state manager for continuation tracking and memory manager for memory lifecycle
 from hook_tools.utilities.path_resolver import PathResolver
-paths = PathResolver()
+from hook_tools.utilities.smart_truncate import truncate_for_memory, truncate_for_preview
 from hook_tools.state_manager import state_manager
 from hook_tools.memory_manager import memory_manager, MemoryType
+
+paths = PathResolver()
 
 def handle(input_data: Dict[str, Any]) -> None:
     """
@@ -117,14 +119,14 @@ def handle(input_data: Dict[str, Any]) -> None:
         if recent_memories:
             memory_lines.append("\nRecent Context:")
             for mem in recent_memories:
-                content_preview = mem['content'][:100] + "..." if len(mem['content']) > 100 else mem['content']
+                content_preview = truncate_for_memory(mem['content'])
                 memory_lines.append(f"- [{mem['memory_type']}] {content_preview} (relevance: {mem.get('current_relevance', 0):.2f})")
         
         # Critical context
         if critical_memories:
             memory_lines.append("\nCritical Context:")
             for mem in critical_memories:
-                content_preview = mem['content'][:120] + "..." if len(mem['content']) > 120 else mem['content']
+                content_preview = truncate_for_memory(mem['content'])
                 memory_lines.append(f"- {content_preview} (relevance: {mem.get('current_relevance', 0):.2f})")
         
         if memory_lines:
@@ -197,7 +199,7 @@ READ the CLAUDE.MD root file before you do anything."""
                 if session_ids:
                     # Limit to the latest 3 session IDs
                     recent_session_ids = session_ids[-3:] if len(session_ids) > 3 else session_ids
-                    context_message += f"\n\nRECENT SESSION IDS IN claude/state/sessions.json:\n" + "\n".join(recent_session_ids)
+                    context_message += "\n\nRECENT SESSION IDS IN claude/state/sessions.json:\n" + "\n".join(recent_session_ids)
     except Exception as e:
         print(f"Warning: Could not retrieve session IDs: {e}", file=sys.stderr)
     

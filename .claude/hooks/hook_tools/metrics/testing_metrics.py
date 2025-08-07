@@ -5,8 +5,7 @@ Provides functions for extracting test coverage and quality metrics.
 """
 
 import ast
-import os
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 
 # Import the _extract_call_name function from ast_analyzer
 from ..analysis.ast_analyzer import _extract_call_name

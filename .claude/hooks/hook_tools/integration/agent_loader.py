@@ -6,7 +6,6 @@ Handles reading and parsing of agent configuration files.
 import os
 import sys
 import json
-from pathlib import Path
 from typing import List, Tuple
 
 from hook_tools.utilities.path_resolver import PathResolver
@@ -17,7 +16,7 @@ paths = PathResolver()
 
 def load_constants():
     """Load configuration constants from JSON file using PathResolver."""
-    constants_path = paths.hooks_root / "json" / "constants.json"
+    constants_path = paths.claude_dir / "json" / "constants.json"
     try:
         with open(constants_path, 'r', encoding='utf-8') as f:
             return json.load(f)

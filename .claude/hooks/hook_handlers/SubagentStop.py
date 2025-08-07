@@ -4,7 +4,6 @@ Generic SubagentStop hook handler.
 This hook is called when a subagent stops processing.
 """
 
-import json
 import sys
 from typing import Dict, Any
 

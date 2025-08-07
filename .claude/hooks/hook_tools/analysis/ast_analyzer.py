@@ -7,7 +7,6 @@ Provides comprehensive AST analysis functions for Python code inspection.
 import ast
 import re
 from typing import Dict, List, Any, Optional
-from collections import defaultdict
 
 
 def extract_imports(tree: ast.AST) -> List[str]:
@@ -58,7 +57,7 @@ def _extract_call_name(func_node: ast.AST) -> Optional[str]:
             return func_node.attr
         elif hasattr(func_node, 'id'):
             return getattr(func_node, 'id', None)
-    except:
+    except AttributeError:
         pass
     return None
 
@@ -110,7 +109,7 @@ def _annotation_to_string(annotation: ast.AST) -> Optional[str]:
             except AttributeError:
                 # Fallback for complex expressions
                 return annotation.attr
-    except:
+    except (AttributeError, TypeError):
         pass
     return None
 

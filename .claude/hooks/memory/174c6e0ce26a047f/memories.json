@@ -1,0 +1,133 @@
+{
+  "project_hash": "174c6e0ce26a047f",
+  "project_path": "/home/devcontainers/simple-claude/.claude/hooks/hook_tools/metrics",
+  "memories": {
+    "1a775c57-980c-4322-b578-d8bc31be0b22": {
+      "memory_id": "1a775c57-980c-4322-b578-d8bc31be0b22",
+      "content": "Tool: Bash, Command: cd /home/devcontainers/simple-claude/.claude/hooks/hook_tools/metrics && python3 -c \"\nfrom relevance_scorer import...test_summary)\nprint(f'Relevance score for {test_file}: {score:.3f}')\n\", Recommended: mcp__zen__debug - Systematic debugging with expert analysis for complex issues",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:18:19.250026",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:18:19.250026",
+      "tags": [
+        "tool_usage",
+        "bash",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    },
+    "02aa6bde-36eb-469f-abb1-23ed676fcb92": {
+      "memory_id": "02aa6bde-36eb-469f-abb1-23ed676fcb92",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:18:22.964006",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:18:22.964006",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    },
+    "b7ed176d-5d80-44fd-ae86-825fd11eda13": {
+      "memory_id": "b7ed176d-5d80-44fd-ae86-825fd11eda13",
+      "content": "Tool: Read, Read: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__docgen - Automated documentation generation",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:18:27.870928",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:18:27.870928",
+      "tags": [
+        "tool_usage",
+        "read",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    },
+    "0d587c40-22bb-4d03-9823-add80e73a6e4": {
+      "memory_id": "0d587c40-22bb-4d03-9823-add80e73a6e4",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_tools/integration/gemini_client.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:18:33.144148",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:18:33.144148",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    },
+    "3257b0f9-7d94-42a4-97af-76850ccc8c55": {
+      "memory_id": "3257b0f9-7d94-42a4-97af-76850ccc8c55",
+      "content": "Tool: Grep",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:18:35.840838",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:18:35.840838",
+      "tags": [
+        "tool_usage",
+        "grep",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    },
+    "368c3d8e-0d4f-4973-8470-ca29d54d3f20": {
+      "memory_id": "368c3d8e-0d4f-4973-8470-ca29d54d3f20",
+      "content": "Tool: Task",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:19:25.679873",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:19:25.679873",
+      "tags": [
+        "tool_usage",
+        "task",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    },
+    "f8339b4a-bf4d-4a51-b97b-ece571c649d2": {
+      "memory_id": "f8339b4a-bf4d-4a51-b97b-ece571c649d2",
+      "content": "Tool: Edit, File: /home/devcontainers/simple-claude/.claude/hooks/hook_handlers/UserPromptSubmit.py, Recommended: mcp__zen__refactor - Code improvement and modernization analysis",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T20:19:25.803629",
+      "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
+      "continuation_id": null,
+      "relevance_score": 0.6,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T20:19:25.803629",
+      "tags": [
+        "tool_usage",
+        "edit",
+        "patterns"
+      ],
+      "project_hash": "174c6e0ce26a047f"
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-06T20:18:19.250008",
+    "version": "1.0",
+    "memory_count": 7,
+    "last_updated": "2025-08-06T20:19:25.803643"
+  }
+}
+  }
+}

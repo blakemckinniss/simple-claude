@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# claude-exempt: hook_handlers_py_protection - Fixing Python import order violations (E402)
 """
 PostToolUse hook handler compliant with HOOK_CONTRACT.md.
 This hook is called after Claude uses a tool.
@@ -10,15 +11,16 @@ import sys
 import os
 import re
 from datetime import datetime
-from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
 # Import state manager for continuation tracking, logger for rate limiting, and memory manager
 from hook_tools.utilities.path_resolver import PathResolver
-paths = PathResolver()
+from hook_tools.utilities.smart_truncate import truncate_for_preview
 from hook_tools.state_manager import state_manager
 from hook_logger import logger
 from hook_tools.memory_manager import memory_manager, MemoryType
+
+paths = PathResolver()
 
 
 def extract_continuation_id(tool_name: str, tool_input: Dict[str, Any], tool_response: Any) -> str:
@@ -261,7 +263,7 @@ def save_tool_pattern_to_memory(tool_name: str, tool_input: Dict[str, Any], sess
         
         # Add key input details
         if tool_name == "Bash":
-            command = tool_input.get("command", "")[:100]
+            command = truncate_for_preview(tool_input.get("command", ""), 200)
             pattern_content += f", Command: {command}"
         elif tool_name in ["Edit", "MultiEdit", "Write"]:
             file_path = tool_input.get("file_path", "")

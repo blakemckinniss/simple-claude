@@ -3,20 +3,24 @@
     "description": "JSON config",
     "keys": [
       ".claude/.semantic_outline_verbose.json",
+      ".claude/docs/exemption-mechanism.md",
+      ".claude/exemptions.json",
+      ".claude/file_blocker_config.json",
       ".claude/hooks/hook_handler.py",
       ".claude/hooks/hook_handlers/Notification.py",
       ".claude/hooks/hook_handlers/PostToolUse.py",
       ".claude/hooks/hook_handlers/PreCompact.py",
       ".claude/hooks/hook_handlers/PreToolUse.py",
-      ".claude/hooks/hook_handlers/SessionStart.py",
-      ".claude/hooks/hook_handlers/Stop.py",
-      ".claude/hooks/hook_handlers/SubagentStop.py",
-      ".claude/hooks/hook_handlers/UserPromptSubmit.py"
+      ".claude/hooks/hook_handlers/SessionStart.py"
     ]
   },
   ".claude/docs/exemption-mechanism.md": {
     "description": "# PreToolUse Hook Exemption Mechanism",
     "docstring": "# PreToolUse Hook Exemption Mechanism"
+  },
+  ".claude/docs/project-memory-isolation.md": {
+    "description": "# Project Memory Isolation Guide",
+    "docstring": "# Project Memory Isolation Guide"
   },
   ".claude/exemptions.json": {
     "description": "JSON config",
@@ -52,22 +56,22 @@
     "complexity": 12,
     "function_calls": {
       "load_handler": [
-        "join",
-        "module_from_spec",
-        "abspath",
-        "spec_from_file_location",
-        "exec_module",
         "exists",
-        "dirname"
+        "dirname",
+        "join",
+        "abspath",
+        "module_from_spec",
+        "exec_module",
+        "spec_from_file_location"
       ],
       "main": [
-        "handle",
-        "exit",
-        "hasattr",
-        "print",
         "log_hook_call",
+        "print",
         "load",
         "get",
+        "exit",
+        "hasattr",
+        "handle",
         "load_handler"
       ]
     },
@@ -87,7 +91,6 @@
     "classes": [],
     "docstring": "Generic Notification hook handler.\nThis hook is called when Claude sends a notification.",
     "imports": [
-      "json",
       "sys",
       "typing"
     ],
@@ -95,9 +98,9 @@
     "complexity": 2,
     "function_calls": {
       "handle": [
-        "print",
+        "get",
         "exit",
-        "get"
+        "print"
       ]
     },
     "type_hints": {
@@ -109,9 +112,9 @@
       }
     },
     "metrics": {
-      "lines_of_code": 20,
-      "comment_ratio": 0.289,
-      "avg_line_length": 27.8,
+      "lines_of_code": 19,
+      "comment_ratio": 0.297,
+      "avg_line_length": 28.3,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 1 functions"
@@ -122,6 +125,8 @@
       "detect_zen_usage_patterns(tool_name, tool_input, session_id, cwd)",
       "generate_zen_prompt_template(tool_name, recommendations, has_continuation, continuation_id)",
       "store_continuation_id(session_id, continuation_id)",
+      "save_tool_pattern_to_memory(tool_name, tool_input, session_id, recommendations)",
+      "check_relevant_memories_notification(tool_name, tool_input, session_id)",
       "sanitize_input(input_data)",
       "should_trigger_python_fixer(tool_name, tool_input)",
       "extract_todo_content(tool_input)",
@@ -142,38 +147,39 @@
       "datetime"
     ],
     "todos": [],
-    "complexity": 143,
+    "complexity": 157,
     "function_calls": {
       "extract_continuation_id": [
-        "len",
-        "loads",
-        "get",
         "startswith",
-        "isinstance"
+        "loads",
+        "isinstance",
+        "len",
+        "get"
       ],
       "detect_zen_usage_patterns": [
+        "append",
         "lower",
+        "set",
         "len",
         "join",
-        "append",
-        "str",
-        "any",
-        "add",
-        "set",
+        "get",
         "endswith",
-        "get"
+        "add",
+        "str",
+        "any"
       ],
       "generate_zen_prompt_template": [
         "join",
-        "enumerate",
-        "append"
+        "append",
+        "enumerate"
       ],
       "store_continuation_id": [
         "set_continuation_id"
       ],
-      "sanitize_input": [
-        "print",
-        "get"
+      "save_tool_pattern_to_memory": [
+        "get",
+        "save_memory",
+        "lower"
       ]
     },
     "type_hints": {
@@ -210,11 +216,14 @@
         },
         "return": "None"
       },
-      "sanitize_input": {
+      "save_tool_pattern_to_memory": {
         "args": {
-          "input_data": "Dict[str, Any]"
+          "tool_name": "str",
+          "tool_input": "Dict[str, Any]",
+          "session_id": "str",
+          "recommendations": "List[str]"
         },
-        "return": "bool"
+        "return": "None"
       }
     },
     "performance_hotspots": [
@@ -222,28 +231,31 @@
         "type": "high_complexity",
         "function": "extract_continuation_id",
         "complexity": 14,
-        "line": 22
+        "line": 25,
+        "severity": "medium"
       },
       {
         "type": "high_complexity",
         "function": "detect_zen_usage_patterns",
         "complexity": 40,
-        "line": 78
+        "line": 81,
+        "severity": "critical"
       },
       {
         "type": "high_complexity",
         "function": "should_trigger_python_fixer",
         "complexity": 14,
-        "line": 278
+        "line": 368,
+        "severity": "medium"
       }
     ],
     "metrics": {
-      "lines_of_code": 466,
-      "comment_ratio": 0.125,
-      "avg_line_length": 42.5,
+      "lines_of_code": 536,
+      "comment_ratio": 0.123,
+      "avg_line_length": 42.0,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 13 functions"
+    "description": "Defines 0 classes and 15 functions"
   },
   ".claude/hooks/hook_handlers/PreCompact.py": {
     "functions": [
@@ -252,17 +264,22 @@
     "classes": [],
     "docstring": "Generic PreCompact hook handler.\nThis hook is called before Claude compacts its memory/context.",
     "imports": [
-      "json",
       "sys",
-      "typing"
+      "typing",
+      "hook_tools.utilities.path_resolver",
+      "hook_tools.memory_manager"
     ],
     "todos": [],
-    "complexity": 2,
+    "complexity": 9,
     "function_calls": {
       "handle": [
+        "items",
         "print",
+        "isinstance",
+        "get",
         "exit",
-        "get"
+        "save_memory",
+        "str"
       ]
     },
     "type_hints": {
@@ -274,9 +291,9 @@
       }
     },
     "metrics": {
-      "lines_of_code": 20,
-      "comment_ratio": 0.289,
-      "avg_line_length": 27.5,
+      "lines_of_code": 53,
+      "comment_ratio": 0.133,
+      "avg_line_length": 43.0,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 1 functions"
@@ -294,12 +311,17 @@
       "_analyze_parameter_counts(tree)",
       "_analyze_nested_function_depth(tree)",
       "_analyze_return_complexity(tree)",
+      "_detect_global_state_patterns(tree, content)",
+      "_detect_import_patterns(tree, content)",
+      "_detect_exception_patterns(tree, content)",
+      "_detect_type_system_patterns(tree, content)",
+      "_detect_async_threading_patterns(tree, content)",
       "detect_anti_patterns(file_path, content)"
     ],
     "classes": [
       "ExemptionManager"
     ],
-    "docstring": "PreToolUse hook handler with comprehensive anti-pattern detection.\nBlocks file creation that would lead to technical debt or dangerous patterns.\nSupports exemption mechanisms for legitimate exceptions with proper justification.",
+    "docstring": "PreToolUse hook handler with comprehensive anti-pattern detection.\nBlocks file creation that would lead to technical debt or dangerous patterns.\nSupports exemption mechanisms for legitimate exceptions with proper justification.\n\nEXPANDED ANTI-PATTERN DETECTION CATEGORIES:\n1. Global State Anti-patterns: Mutable defaults, unsafe singletons, global modifications\n2. Import Anti-patterns: Star imports, circular imports, function-level imports, dynamic imports\n3. File/Resource Management: Context manager violations, unsafe file operations\n4. Exception Handling: Silent exceptions, exception control flow, poor error handling\n5. Type System Abuse: type() vs isinstance(), monkey patching, dynamic attributes\n6. Memory/Performance Landmines: Unbounded reads, recursion, string concatenation loops\n7. Security Issues: Command injection, pickle risks, SQL injection, code execution\n8. Async/Threading Issues: Blocking calls in async, shared state without locks",
     "imports": [
       "ast",
       "json",
@@ -310,50 +332,50 @@
     "todos": [
       "/FIXME accumulation"
     ],
-    "complexity": 162,
+    "complexity": 296,
     "function_calls": {
       "handle": [
         "check_file_restrictions",
         "print",
-        "exit",
-        "is_master_block_enabled",
-        "FileBlocker",
         "isinstance",
         "get",
+        "FileBlocker",
+        "is_master_block_enabled",
+        "exit",
         "_is_claude_directory_operation"
       ],
       "check_file_restrictions": [
-        "lower",
-        "join",
-        "basename",
-        "block_file_creation_if_restricted",
-        "ExemptionManager",
-        "abspath",
+        "detect_anti_patterns",
         "append",
+        "lower",
+        "startswith",
         "print",
-        "log_exemption",
-        "is_pattern_exempt"
+        "is_pattern_exempt",
+        "abspath",
+        "get",
+        "endswith",
+        "ExemptionManager"
       ],
       "analyze_ast_patterns": [
-        "join",
-        "_find_unused_variables",
         "_find_unused_imports",
-        "_analyze_parameter_counts",
         "append",
-        "_analyze_nested_function_depth",
         "items",
+        "_analyze_parameter_counts",
         "_analyze_return_complexity",
+        "_analyze_inheritance_depth",
+        "_analyze_nested_function_depth",
+        "join",
         "_count_class_methods",
         "parse"
       ],
       "_calculate_function_complexities": [
+        "isinstance",
         "walk",
-        "len",
-        "isinstance"
+        "len"
       ],
       "_count_class_methods": [
-        "walk",
-        "isinstance"
+        "isinstance",
+        "walk"
       ]
     },
     "type_hints": {
@@ -395,28 +417,31 @@
         "type": "high_complexity",
         "function": "handle",
         "complexity": 24,
-        "line": 47
+        "line": 66,
+        "severity": "critical"
       },
       {
         "type": "high_complexity",
         "function": "check_file_restrictions",
         "complexity": 16,
-        "line": 285
+        "line": 303,
+        "severity": "high"
       },
       {
         "type": "high_complexity",
         "function": "analyze_ast_patterns",
         "complexity": 19,
-        "line": 371
+        "line": 389,
+        "severity": "high"
       }
     ],
     "metrics": {
-      "lines_of_code": 514,
-      "comment_ratio": 0.103,
-      "avg_line_length": 41.3,
+      "lines_of_code": 798,
+      "comment_ratio": 0.114,
+      "avg_line_length": 44.7,
       "is_test_file": false
     },
-    "description": "Defines 1 classes and 12 functions"
+    "description": "Defines 1 classes and 17 functions"
   },
   ".claude/hooks/hook_handlers/SessionStart.py": {
     "functions": [
@@ -428,23 +453,23 @@
       "sys",
       "subprocess",
       "json",
-      "uuid",
-      "pathlib"
+      "pathlib",
+      "typing"
     ],
     "todos": [],
-    "complexity": 18,
+    "complexity": 28,
     "function_calls": {
       "handle": [
-        "cleanup_old_sessions",
-        "exit",
-        "get_all_sessions",
-        "generate_session_id",
-        "get_session_info",
-        "strip",
+        "list",
+        "sort",
+        "load",
+        "cleanup_old_memories",
         "get",
-        "len",
-        "exists",
-        "sort"
+        "exit",
+        "generate_session_id",
+        "run",
+        "_ensure_memory_directory",
+        "open"
       ]
     },
     "type_hints": {
@@ -459,14 +484,15 @@
       {
         "type": "high_complexity",
         "function": "handle",
-        "complexity": 14,
-        "line": 18
+        "complexity": 24,
+        "line": 21,
+        "severity": "critical"
       }
     ],
     "metrics": {
-      "lines_of_code": 120,
-      "comment_ratio": 0.123,
-      "avg_line_length": 37.3,
+      "lines_of_code": 165,
+      "comment_ratio": 0.133,
+      "avg_line_length": 39.3,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 1 functions"
@@ -477,6 +503,7 @@
       "archive_session_data(session_id, session_info, archive_dir)",
       "cleanup_session_state(session_id, archive_session)",
       "cleanup_old_archives(archive_dir, retention_days)",
+      "save_session_summary_to_memory(session_id, stop_reason, cleanup_stats)",
       "log_session_end(session_id, stop_reason, cleanup_stats)",
       "handle(data)",
       "main()"
@@ -491,44 +518,46 @@
       "pathlib"
     ],
     "todos": [],
-    "complexity": 28,
+    "complexity": 37,
     "function_calls": {
       "calculate_session_duration": [
-        "total_seconds",
-        "fromisoformat",
+        "get",
         "now",
-        "get"
+        "fromisoformat",
+        "total_seconds"
       ],
       "archive_session_data": [
-        "strftime",
         "isoformat",
-        "open",
-        "replace",
-        "now",
         "dump",
         "mkdir",
-        "with_suffix"
+        "now",
+        "open",
+        "with_suffix",
+        "replace",
+        "strftime"
       ],
       "cleanup_session_state": [
-        "calculate_session_duration",
-        "str",
-        "isoformat",
         "archive_session_data",
+        "isoformat",
+        "Path",
         "get_session_info",
         "now",
-        "Path"
+        "calculate_session_duration",
+        "str"
       ],
       "cleanup_old_archives": [
-        "glob",
-        "stat",
         "exists",
-        "fromtimestamp",
+        "timedelta",
+        "stat",
         "now",
+        "fromtimestamp",
         "unlink",
-        "timedelta"
+        "glob"
       ],
-      "log_session_end": [
-        "log_event"
+      "save_session_summary_to_memory": [
+        "min",
+        "get",
+        "save_memory"
       ]
     },
     "type_hints": {
@@ -560,7 +589,7 @@
         },
         "return": "None"
       },
-      "log_session_end": {
+      "save_session_summary_to_memory": {
         "args": {
           "session_id": "str",
           "stop_reason": "str",
@@ -574,16 +603,17 @@
         "type": "high_complexity",
         "function": "handle",
         "complexity": 13,
-        "line": 179
+        "line": 236,
+        "severity": "medium"
       }
     ],
     "metrics": {
-      "lines_of_code": 191,
-      "comment_ratio": 0.126,
-      "avg_line_length": 35.0,
+      "lines_of_code": 232,
+      "comment_ratio": 0.13,
+      "avg_line_length": 36.2,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 7 functions"
+    "description": "Defines 0 classes and 8 functions"
   },
   ".claude/hooks/hook_handlers/SubagentStop.py": {
     "functions": [
@@ -592,7 +622,6 @@
     "classes": [],
     "docstring": "Generic SubagentStop hook handler.\nThis hook is called when a subagent stops processing.",
     "imports": [
-      "json",
       "sys",
       "typing"
     ],
@@ -600,9 +629,9 @@
     "complexity": 2,
     "function_calls": {
       "handle": [
-        "print",
+        "get",
         "exit",
-        "get"
+        "print"
       ]
     },
     "type_hints": {
@@ -614,55 +643,22 @@
       }
     },
     "metrics": {
-      "lines_of_code": 21,
-      "comment_ratio": 0.282,
-      "avg_line_length": 28.6,
+      "lines_of_code": 20,
+      "comment_ratio": 0.289,
+      "avg_line_length": 29.1,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_handlers/UserPromptSubmit.py": {
     "functions": [
-      "load_constants()",
-      "load_env()",
-      "extract_imports(tree)",
-      "extract_todos(source)",
-      "extract_function_calls(tree)",
-      "_extract_call_name(func_node)",
-      "detect_performance_hotspots(tree, source)",
-      "_get_loop_depth(node, current_depth)",
-      "calculate_context_depth(prompt)",
-      "detect_code_quality_issues(filepath, content)",
-      "aggregate_cross_file_patterns(verbose_outline)",
-      "extract_test_metrics(test_files)",
-      "synthesize_tool_outputs(cache_key, output)",
-      "extract_type_hints(tree)",
-      "_annotation_to_string(annotation)",
-      "calculate_complexity(tree)",
-      "detect_performance_hotspots_old(filepath, tree, source)",
-      "summarize_python_file(filepath)",
-      "summarize_text_file(filepath)",
-      "summarize_json_file(filepath)",
-      "summarize_file(filepath)",
-      "extract_keywords(prompt)",
-      "score_file_relevance(prompt, filepath, summary)",
-      "filter_relevant_files(prompt, outline, top_k)",
-      "generate_outline(file_list)",
       "get_git_context(keywords)",
       "get_error_context()",
       "get_project_config()",
       "get_project_documentation()",
       "get_test_context()",
       "get_environment_context()",
-      "calculate_file_metrics(filepath, source)",
-      "bootstrap_summary(json_path)",
-      "get_agent_info(agents_dir)",
-      "build_import_graph()",
-      "format_outline(outline)",
-      "call_gemini(user_prompt, verbose_outline, mcp_servers, agents, session_id, git_context, error_context, project_config, project_docs, test_context, env_context, import_graph, cross_file_patterns, test_metrics, context_depth)",
-      "get_current_continuation_id(session_id)",
-      "set_continuation_id(session_id, continuation_id)",
-      "has_active_continuation(session_id)",
+      "get_relevant_memories_context(user_prompt, session_id)",
       "handle(data)"
     ],
     "classes": [],
@@ -670,116 +666,122 @@
     "imports": [
       "os",
       "sys",
-      "ast",
       "json",
-      "requests"
+      "shutil",
+      "re"
     ],
     "todos": [],
-    "complexity": 369,
+    "complexity": 111,
     "function_calls": {
-      "load_constants": [
-        "RuntimeError",
-        "open",
-        "Path",
-        "load"
-      ],
-      "load_env": [
-        "open",
-        "exists",
-        "Path",
-        "startswith",
+      "get_git_context": [
+        "lower",
+        "splitlines",
+        "validate_subprocess_args",
         "strip",
-        "split"
+        "run",
+        "any"
       ],
-      "extract_imports": [
-        "walk",
+      "get_error_context": [
+        "exists",
+        "match",
+        "validate_file_path",
         "append",
-        "isinstance",
-        "extend"
+        "readlines",
+        "splitlines",
+        "validate_subprocess_args",
+        "strip",
+        "run",
+        "open"
       ],
-      "extract_todos": [
-        "findall"
-      ],
-      "extract_function_calls": [
-        "append",
-        "_extract_call_name",
-        "set",
+      "get_project_config": [
+        "group",
         "list",
-        "walk",
-        "isinstance"
+        "load",
+        "open",
+        "update",
+        "exists",
+        "read",
+        "fromkeys",
+        "str",
+        "validate_file_path"
+      ],
+      "get_project_documentation": [
+        "exists",
+        "match",
+        "append",
+        "isdir",
+        "extend",
+        "validate_subprocess_args",
+        "splitlines",
+        "run"
+      ],
+      "get_test_context": [
+        "exists",
+        "match",
+        "list",
+        "append",
+        "items",
+        "set",
+        "len",
+        "extend",
+        "read",
+        "validate_subprocess_args"
       ]
     },
     "type_hints": {
-      "load_constants": {
+      "get_git_context": {
+        "args": {
+          "keywords": "Optional[List[str]]"
+        },
+        "return": "dict"
+      },
+      "get_error_context": {
         "args": {},
-        "return": "Dict[str, Any]"
+        "return": "dict"
       },
-      "detect_performance_hotspots_old": {
-        "args": {
-          "filepath": "str",
-          "tree": "ast.AST",
-          "source": "str"
-        },
-        "return": "Dict[str, Any]"
+      "get_project_config": {
+        "args": {},
+        "return": "dict"
       },
-      "extract_keywords": {
-        "args": {
-          "prompt": "str"
-        },
-        "return": "List[str]"
+      "get_project_documentation": {
+        "args": {},
+        "return": "dict"
       },
-      "score_file_relevance": {
-        "args": {
-          "prompt": "str",
-          "filepath": "str",
-          "summary": "dict"
-        },
-        "return": "float"
-      },
-      "filter_relevant_files": {
-        "args": {
-          "prompt": "str",
-          "outline": "dict",
-          "top_k": "int"
-        },
+      "get_test_context": {
+        "args": {},
         "return": "dict"
       }
     },
     "performance_hotspots": [
       {
         "type": "high_complexity",
-        "function": "aggregate_cross_file_patterns",
-        "complexity": 14,
-        "line": 224
+        "function": "get_error_context",
+        "complexity": 15,
+        "line": 197,
+        "severity": "medium"
       },
       {
         "type": "high_complexity",
-        "function": "extract_test_metrics",
-        "complexity": 12,
-        "line": 264
+        "function": "get_project_config",
+        "complexity": 24,
+        "line": 270,
+        "severity": "critical"
       },
       {
         "type": "high_complexity",
-        "function": "detect_performance_hotspots_old",
-        "complexity": 73,
-        "line": 382
-      }
-    ],
-    "quality_issues": [
-      {
-        "type": "too_many_parameters",
-        "name": "call_gemini",
-        "count": 15,
-        "suggestion": "Consider using configuration object or builder pattern"
+        "function": "get_test_context",
+        "complexity": 15,
+        "line": 441,
+        "severity": "medium"
       }
     ],
     "metrics": {
-      "lines_of_code": 1275,
-      "comment_ratio": 0.118,
-      "avg_line_length": 41.1,
-      "is_test_file": true
+      "lines_of_code": 721,
+      "comment_ratio": 0.117,
+      "avg_line_length": 36.4,
+      "is_test_file": false
     },
-    "description": "Defines 0 classes and 41 functions"
+    "description": "Defines 0 classes and 8 functions"
   },
   ".claude/hooks/hook_handlers/performance_test.py": {
     "functions": [
@@ -798,16 +800,16 @@
     "complexity": 5,
     "function_calls": {
       "test_hook_performance": [
-        "time",
-        "len",
+        "getcwd",
+        "dumps",
+        "sum",
         "append",
         "max",
-        "range",
-        "min",
         "print",
-        "getcwd",
-        "sum",
-        "dumps"
+        "time",
+        "len",
+        "run",
+        "range"
       ]
     },
     "type_hints": {},
@@ -836,33 +838,33 @@
     "complexity": 9,
     "function_calls": {
       "__init__": [
-        "str",
-        "Path",
         "defaultdict",
         "uuid4",
+        "Path",
+        "str",
         "mkdir"
       ],
       "_cleanup_old_logs": [
-        "glob",
-        "stat",
-        "fromtimestamp",
-        "now",
-        "unlink",
         "timedelta",
-        "is_file"
+        "stat",
+        "now",
+        "is_file",
+        "fromtimestamp",
+        "unlink",
+        "glob"
       ],
       "_get_log_filename": [
         "now",
         "strftime"
       ],
       "log_event": [
-        "_cleanup_old_logs",
-        "write",
-        "isoformat",
-        "open",
         "_get_log_filename",
+        "dumps",
+        "isoformat",
+        "_cleanup_old_logs",
         "now",
-        "dumps"
+        "open",
+        "write"
       ],
       "log_gemini_request": [
         "log_event",
@@ -904,10 +906,353 @@
     "metrics": {
       "lines_of_code": 92,
       "comment_ratio": 0.079,
-      "avg_line_length": 36.2,
+      "avg_line_length": 36.3,
       "is_test_file": false
     },
     "description": "Defines 1 classes and 0 functions"
+  },
+  ".claude/hooks/hook_tools/analysis/ast_analyzer.py": {
+    "functions": [
+      "extract_imports(tree)",
+      "extract_todos(source)",
+      "extract_function_calls(tree)",
+      "_extract_call_name(func_node)",
+      "extract_type_hints(tree)",
+      "_annotation_to_string(annotation)",
+      "calculate_complexity(tree)",
+      "get_function_metrics(tree)",
+      "extract_class_info(tree)",
+      "analyze_code_structure(tree, source)"
+    ],
+    "classes": [],
+    "docstring": "AST Analysis Module\nProvides comprehensive AST analysis functions for Python code inspection.",
+    "imports": [
+      "ast",
+      "re",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 38,
+    "function_calls": {
+      "extract_imports": [
+        "extend",
+        "isinstance",
+        "append",
+        "walk"
+      ],
+      "extract_todos": [
+        "findall"
+      ],
+      "extract_function_calls": [
+        "list",
+        "append",
+        "walk",
+        "_extract_call_name",
+        "set",
+        "isinstance"
+      ],
+      "_extract_call_name": [
+        "hasattr",
+        "isinstance",
+        "getattr"
+      ],
+      "extract_type_hints": [
+        "_annotation_to_string",
+        "isinstance",
+        "walk"
+      ]
+    },
+    "type_hints": {
+      "extract_imports": {
+        "args": {
+          "tree": "ast.AST"
+        },
+        "return": "List[str]"
+      },
+      "extract_todos": {
+        "args": {
+          "source": "str"
+        },
+        "return": "List[str]"
+      },
+      "extract_function_calls": {
+        "args": {
+          "tree": "ast.AST"
+        },
+        "return": "Dict[str, List[str]]"
+      },
+      "_extract_call_name": {
+        "args": {
+          "func_node": "ast.AST"
+        },
+        "return": "Optional[str]"
+      },
+      "extract_type_hints": {
+        "args": {
+          "tree": "ast.AST"
+        },
+        "return": "Dict[str, Dict[str, Any]]"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 150,
+      "comment_ratio": 0.063,
+      "avg_line_length": 35.1,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 10 functions"
+  },
+  ".claude/hooks/hook_tools/analysis/code_quality_analyzer.py": {
+    "functions": [
+      "detect_code_quality_issues(filepath, content)",
+      "calculate_file_metrics(filepath, source)"
+    ],
+    "classes": [],
+    "docstring": "Code Quality Analysis Module\nProvides code quality analysis functions for detecting anti-patterns and calculating metrics.",
+    "imports": [
+      "ast",
+      "pathlib",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 20,
+    "function_calls": {
+      "detect_code_quality_issues": [
+        "append",
+        "walk",
+        "isinstance",
+        "len",
+        "parse",
+        "hasattr",
+        "count"
+      ],
+      "calculate_file_metrics": [
+        "int",
+        "lower",
+        "count",
+        "Path",
+        "startswith",
+        "len",
+        "endswith",
+        "splitlines",
+        "round",
+        "strip"
+      ]
+    },
+    "type_hints": {
+      "detect_code_quality_issues": {
+        "args": {
+          "filepath": "str",
+          "content": "str"
+        },
+        "return": "List[Dict[str, Any]]"
+      },
+      "calculate_file_metrics": {
+        "args": {
+          "filepath": "str",
+          "source": "str"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "calculate_file_metrics",
+        "complexity": 13,
+        "line": 66,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 107,
+      "comment_ratio": 0.102,
+      "avg_line_length": 34.1,
+      "is_test_file": true
+    },
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/analysis/pattern_analyzer.py": {
+    "functions": [
+      "calculate_context_depth(prompt)",
+      "aggregate_cross_file_patterns(verbose_outline)"
+    ],
+    "classes": [],
+    "docstring": "Pattern Analysis Module\nProvides functions for analyzing cross-file patterns and calculating context depth.",
+    "imports": [
+      "typing",
+      "collections"
+    ],
+    "todos": [],
+    "complexity": 18,
+    "function_calls": {
+      "calculate_context_depth": [
+        "any",
+        "lower"
+      ],
+      "aggregate_cross_file_patterns": [
+        "defaultdict",
+        "append",
+        "lower",
+        "items",
+        "str",
+        "dict"
+      ]
+    },
+    "type_hints": {
+      "calculate_context_depth": {
+        "args": {
+          "prompt": "str"
+        },
+        "return": "Dict[str, Any]"
+      },
+      "aggregate_cross_file_patterns": {
+        "args": {
+          "verbose_outline": "Dict[str, Dict[str, Any]]"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "aggregate_cross_file_patterns",
+        "complexity": 14,
+        "line": 46,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 66,
+      "comment_ratio": 0.105,
+      "avg_line_length": 39.2,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/analysis/performance_analyzer.py": {
+    "functions": [
+      "detect_performance_hotspots(tree, source)",
+      "detect_performance_hotspots_comprehensive(filepath, tree, source)",
+      "_get_loop_depth(node, current_depth)",
+      "_get_complexity_severity(complexity)",
+      "_get_loop_severity(depth)",
+      "_analyze_function_complexity(func_node, func_name, hotspots)",
+      "_analyze_sync_io_operations(func_node, func_name, hotspots)",
+      "_analyze_memory_intensive_operations(tree, hotspots)",
+      "_analyze_potential_bottlenecks(tree, hotspots)",
+      "_is_node_in_loop(target_node, root_node)",
+      "_calculate_risk_score(hotspots)",
+      "_get_risk_level(risk_score)"
+    ],
+    "classes": [],
+    "docstring": "Performance Analysis Module\nProvides comprehensive performance analysis functions for Python code inspection.",
+    "imports": [
+      "ast",
+      "re",
+      "typing",
+      "ast_analyzer"
+    ],
+    "todos": [],
+    "complexity": 80,
+    "function_calls": {
+      "detect_performance_hotspots": [
+        "calculate_complexity",
+        "_get_loop_depth",
+        "search",
+        "append",
+        "walk",
+        "isinstance",
+        "_get_loop_severity",
+        "getattr",
+        "_get_complexity_severity"
+      ],
+      "detect_performance_hotspots_comprehensive": [
+        "_get_risk_level",
+        "walk",
+        "items",
+        "_analyze_function_complexity",
+        "_analyze_sync_io_operations",
+        "_analyze_memory_intensive_operations",
+        "isinstance",
+        "_analyze_potential_bottlenecks",
+        "_calculate_risk_score"
+      ],
+      "_get_loop_depth": [
+        "_get_loop_depth",
+        "max",
+        "isinstance",
+        "iter_child_nodes"
+      ],
+      "_get_complexity_severity": [],
+      "_get_loop_severity": []
+    },
+    "type_hints": {
+      "detect_performance_hotspots": {
+        "args": {
+          "tree": "ast.AST",
+          "source": "str"
+        },
+        "return": "List[Dict[str, Any]]"
+      },
+      "detect_performance_hotspots_comprehensive": {
+        "args": {
+          "filepath": "str",
+          "tree": "ast.AST",
+          "source": "str"
+        },
+        "return": "Dict[str, Any]"
+      },
+      "_get_loop_depth": {
+        "args": {
+          "node": "ast.AST",
+          "current_depth": "int"
+        },
+        "return": "int"
+      },
+      "_get_complexity_severity": {
+        "args": {
+          "complexity": "int"
+        },
+        "return": "str"
+      },
+      "_get_loop_severity": {
+        "args": {
+          "depth": "int"
+        },
+        "return": "str"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "_analyze_function_complexity",
+        "complexity": 16,
+        "line": 173,
+        "severity": "high"
+      },
+      {
+        "type": "high_complexity",
+        "function": "_analyze_memory_intensive_operations",
+        "complexity": 23,
+        "line": 267,
+        "severity": "critical"
+      },
+      {
+        "type": "high_complexity",
+        "function": "_analyze_potential_bottlenecks",
+        "complexity": 13,
+        "line": 329,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 319,
+      "comment_ratio": 0.077,
+      "avg_line_length": 40.0,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 12 functions"
   },
   ".claude/hooks/hook_tools/anti_patterns_detector.py": {
     "functions": [],
@@ -932,14 +1277,14 @@
       ],
       "_initialize_patterns": [
         "_get_architecture_patterns",
-        "_get_code_quality_patterns",
         "_get_file_structure_patterns",
-        "_get_security_patterns"
+        "_get_security_patterns",
+        "_get_code_quality_patterns"
       ],
       "_get_file_structure_patterns": [
-        "len",
+        "Path",
         "splitlines",
-        "Path"
+        "len"
       ],
       "_get_security_patterns": [],
       "_get_architecture_patterns": [
@@ -974,7 +1319,8 @@
         "function": "detect_anti_patterns",
         "depth": 2,
         "line": 361,
-        "complexity_estimate": "O(n^2)"
+        "complexity_estimate": "O(n^2)",
+        "severity": "medium"
       }
     ],
     "metrics": {
@@ -984,6 +1330,179 @@
       "is_test_file": false
     },
     "description": "Defines 3 classes and 0 functions"
+  },
+  ".claude/hooks/hook_tools/context/git_context.py": {
+    "functions": [
+      "get_git_context(keywords)"
+    ],
+    "classes": [],
+    "docstring": "Git context extraction utilities.",
+    "imports": [
+      "subprocess",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 12,
+    "function_calls": {
+      "get_git_context": [
+        "lower",
+        "splitlines",
+        "strip",
+        "run",
+        "any"
+      ]
+    },
+    "type_hints": {
+      "get_git_context": {
+        "args": {
+          "keywords": "Optional[List[str]]"
+        },
+        "return": "dict"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "get_git_context",
+        "complexity": 12,
+        "line": 8,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 82,
+      "comment_ratio": 0.09,
+      "avg_line_length": 33.9,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_tools/context/project_context.py": {
+    "functions": [
+      "get_error_context()",
+      "get_project_config()",
+      "get_project_documentation()",
+      "get_test_context()",
+      "get_environment_context()"
+    ],
+    "classes": [],
+    "docstring": "Project context extraction utilities.",
+    "imports": [
+      "os",
+      "sys",
+      "json",
+      "shutil",
+      "platform"
+    ],
+    "todos": [],
+    "complexity": 73,
+    "function_calls": {
+      "get_error_context": [
+        "exists",
+        "append",
+        "readlines",
+        "splitlines",
+        "strip",
+        "run",
+        "open"
+      ],
+      "get_project_config": [
+        "group",
+        "list",
+        "load",
+        "open",
+        "update",
+        "exists",
+        "read",
+        "fromkeys",
+        "Path",
+        "extend"
+      ],
+      "get_project_documentation": [
+        "exists",
+        "append",
+        "isdir",
+        "extend",
+        "splitlines",
+        "run"
+      ],
+      "get_test_context": [
+        "exists",
+        "list",
+        "append",
+        "items",
+        "set",
+        "len",
+        "extend",
+        "read",
+        "splitlines",
+        "run"
+      ],
+      "get_environment_context": [
+        "__import__",
+        "exists",
+        "append",
+        "system",
+        "machine",
+        "which",
+        "split",
+        "hasattr",
+        "splitlines",
+        "strip"
+      ]
+    },
+    "type_hints": {
+      "get_error_context": {
+        "args": {},
+        "return": "dict"
+      },
+      "get_project_config": {
+        "args": {},
+        "return": "dict"
+      },
+      "get_project_documentation": {
+        "args": {},
+        "return": "dict"
+      },
+      "get_test_context": {
+        "args": {},
+        "return": "dict"
+      },
+      "get_environment_context": {
+        "args": {},
+        "return": "dict"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "get_error_context",
+        "complexity": 13,
+        "line": 14,
+        "severity": "medium"
+      },
+      {
+        "type": "high_complexity",
+        "function": "get_project_config",
+        "complexity": 24,
+        "line": 60,
+        "severity": "critical"
+      },
+      {
+        "type": "high_complexity",
+        "function": "get_test_context",
+        "complexity": 14,
+        "line": 194,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 255,
+      "comment_ratio": 0.129,
+      "avg_line_length": 40.4,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 5 functions"
   },
   ".claude/hooks/hook_tools/continuation_helpers.py": {
     "functions": [
@@ -996,7 +1515,6 @@
     "classes": [],
     "docstring": "Simple continuation tracking helpers for Claude hooks.\nProvides easy-to-use functions for continuation management.",
     "imports": [
-      "typing",
       "state_manager"
     ],
     "todos": [],
@@ -1015,10 +1533,10 @@
         "get_continuation_id"
       ],
       "extract_and_store_continuation": [
+        "get",
         "startswith",
-        "isinstance",
         "set_continuation_id",
-        "get"
+        "isinstance"
       ]
     },
     "type_hints": {
@@ -1057,9 +1575,9 @@
       }
     },
     "metrics": {
-      "lines_of_code": 78,
-      "comment_ratio": 0.028,
-      "avg_line_length": 27.3,
+      "lines_of_code": 77,
+      "comment_ratio": 0.037,
+      "avg_line_length": 27.4,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 5 functions"
@@ -1147,10 +1665,406 @@
     "metrics": {
       "lines_of_code": 502,
       "comment_ratio": 0.062,
-      "avg_line_length": 37.0,
+      "avg_line_length": 37.1,
       "is_test_file": false
     },
     "description": "Defines 4 classes and 9 functions"
+  },
+  ".claude/hooks/hook_tools/integration/agent_loader.py": {
+    "functions": [
+      "load_constants()",
+      "get_agent_info(agents_dir)"
+    ],
+    "classes": [],
+    "docstring": "Agent loader module extracted from UserPromptSubmit.py\nHandles reading and parsing of agent configuration files.",
+    "imports": [
+      "os",
+      "sys",
+      "json",
+      "typing",
+      "hook_tools.utilities.path_resolver"
+    ],
+    "todos": [],
+    "complexity": 16,
+    "function_calls": {
+      "load_constants": [
+        "open",
+        "RuntimeError",
+        "load"
+      ],
+      "get_agent_info": [
+        "exists",
+        "append",
+        "startswith",
+        "listdir",
+        "join",
+        "endswith",
+        "read",
+        "find",
+        "split",
+        "strip"
+      ]
+    },
+    "type_hints": {
+      "get_agent_info": {
+        "args": {
+          "agents_dir": "str"
+        },
+        "return": "List[Tuple[str, str, str]]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "get_agent_info",
+        "complexity": 13,
+        "line": 37,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 70,
+      "comment_ratio": 0.059,
+      "avg_line_length": 37.7,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/integration/gemini_client.py": {
+    "functions": [
+      "format_outline(outline)",
+      "call_gemini(user_prompt, verbose_outline, mcp_servers, agents, session_id, git_context, error_context, project_config, project_docs, test_context, env_context, import_graph, cross_file_patterns, test_metrics, context_depth, memory_context)"
+    ],
+    "classes": [],
+    "docstring": "Gemini API client module extracted from UserPromptSubmit.py\nHandles Gemini API integration for context-aware responses.",
+    "imports": [
+      "os",
+      "requests",
+      "typing",
+      "utilities.path_resolver",
+      "hook_logger"
+    ],
+    "todos": [],
+    "complexity": 57,
+    "function_calls": {
+      "format_outline": [
+        "append",
+        "items",
+        "isinstance",
+        "join",
+        "extend"
+      ],
+      "call_gemini": [
+        "list",
+        "log_gemini_response",
+        "get",
+        "json",
+        "len",
+        "join",
+        "log_gemini_request",
+        "str",
+        "raise_for_status",
+        "basename"
+      ]
+    },
+    "type_hints": {
+      "format_outline": {
+        "args": {
+          "outline": "Dict[str, Any]"
+        },
+        "return": "str"
+      },
+      "call_gemini": {
+        "args": {
+          "user_prompt": "str",
+          "verbose_outline": "Dict[str, Any]",
+          "mcp_servers": "Optional[List[Dict]]",
+          "agents": "Optional[List[Tuple[str, str, str]]]",
+          "session_id": "Optional[str]",
+          "git_context": "Optional[Dict]",
+          "error_context": "Optional[Dict]",
+          "project_config": "Optional[Dict]",
+          "project_docs": "Optional[Dict]",
+          "test_context": "Optional[Dict]",
+          "env_context": "Optional[Dict]",
+          "import_graph": "Optional[Dict]",
+          "cross_file_patterns": "Optional[Dict]",
+          "test_metrics": "Optional[Dict]",
+          "context_depth": "Optional[Dict]",
+          "memory_context": "Optional[str]"
+        },
+        "return": "str"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "nested_loops",
+        "function": "format_outline",
+        "depth": 2,
+        "line": 25,
+        "complexity_estimate": "O(n^2)",
+        "severity": "medium"
+      },
+      {
+        "type": "high_complexity",
+        "function": "call_gemini",
+        "complexity": 54,
+        "line": 47,
+        "severity": "critical"
+      }
+    ],
+    "quality_issues": [
+      {
+        "type": "too_many_parameters",
+        "name": "call_gemini",
+        "count": 16,
+        "suggestion": "Consider using configuration object or builder pattern"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 196,
+      "comment_ratio": 0.099,
+      "avg_line_length": 44.4,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/memory_manager.py": {
+    "functions": [],
+    "classes": [
+      "MemoryType",
+      "MemoryManager"
+    ],
+    "docstring": "Comprehensive memory management system for Claude Code hooks.\nProvides project-based isolation, session tracking, and relevance-based retrieval.",
+    "imports": [
+      "hashlib",
+      "json",
+      "os",
+      "threading",
+      "uuid"
+    ],
+    "todos": [],
+    "complexity": 58,
+    "function_calls": {
+      "__init__": [
+        "_ensure_memory_directory",
+        "RLock",
+        "Path"
+      ],
+      "_ensure_memory_directory": [
+        "mkdir"
+      ],
+      "_get_project_hash": [
+        "getcwd",
+        "encode",
+        "sha256",
+        "hexdigest"
+      ],
+      "_get_project_memory_dir": [
+        "mkdir"
+      ],
+      "_get_memory_file": [
+        "_get_project_memory_dir"
+      ]
+    },
+    "type_hints": {
+      "_ensure_memory_directory": {
+        "args": {},
+        "return": "None"
+      },
+      "_get_project_hash": {
+        "args": {
+          "cwd": "Optional[str]"
+        },
+        "return": "str"
+      },
+      "_get_project_memory_dir": {
+        "args": {
+          "project_hash": "str"
+        },
+        "return": "Path"
+      },
+      "_get_memory_file": {
+        "args": {
+          "project_hash": "str"
+        },
+        "return": "Path"
+      },
+      "_read_project_memories": {
+        "args": {
+          "project_hash": "str"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "retrieve_memories",
+        "complexity": 15,
+        "line": 206,
+        "severity": "medium"
+      },
+      {
+        "type": "high_complexity",
+        "function": "get_relevant_memories",
+        "complexity": 12,
+        "line": 286,
+        "severity": "medium"
+      },
+      {
+        "type": "high_complexity",
+        "function": "cleanup_old_memories",
+        "complexity": 12,
+        "line": 391,
+        "severity": "medium"
+      }
+    ],
+    "quality_issues": [
+      {
+        "type": "too_many_parameters",
+        "name": "save_memory",
+        "count": 8,
+        "suggestion": "Consider using configuration object or builder pattern"
+      },
+      {
+        "type": "too_many_parameters",
+        "name": "retrieve_memories",
+        "count": 8,
+        "suggestion": "Consider using configuration object or builder pattern"
+      },
+      {
+        "type": "too_many_parameters",
+        "name": "get_relevant_memories",
+        "count": 7,
+        "suggestion": "Consider using configuration object or builder pattern"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 427,
+      "comment_ratio": 0.09,
+      "avg_line_length": 38.8,
+      "is_test_file": false
+    },
+    "description": "Defines 2 classes and 0 functions"
+  },
+  ".claude/hooks/hook_tools/metrics/relevance_scorer.py": {
+    "functions": [
+      "extract_keywords(prompt)",
+      "score_file_relevance(prompt, filepath, summary)",
+      "filter_relevant_files(prompt, outline, top_k)"
+    ],
+    "classes": [],
+    "docstring": "Relevance Scoring Module\nProvides file relevance scoring functions for context filtering.",
+    "imports": [
+      "re",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 2,
+    "function_calls": {
+      "extract_keywords": [
+        "lower",
+        "findall",
+        "len"
+      ],
+      "score_file_relevance": [
+        "lower",
+        "set",
+        "len",
+        "findall",
+        "extract_keywords",
+        "str",
+        "update"
+      ],
+      "filter_relevant_files": [
+        "items",
+        "score_file_relevance",
+        "sort"
+      ]
+    },
+    "type_hints": {
+      "extract_keywords": {
+        "args": {
+          "prompt": "str"
+        },
+        "return": "List[str]"
+      },
+      "score_file_relevance": {
+        "args": {
+          "prompt": "str",
+          "filepath": "str",
+          "summary": "Dict[str, Any]"
+        },
+        "return": "float"
+      },
+      "filter_relevant_files": {
+        "args": {
+          "prompt": "str",
+          "outline": "Dict[str, Any]",
+          "top_k": "int"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 47,
+      "comment_ratio": 0.061,
+      "avg_line_length": 34.4,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 3 functions"
+  },
+  ".claude/hooks/hook_tools/metrics/testing_metrics.py": {
+    "functions": [
+      "extract_test_metrics(test_files)"
+    ],
+    "classes": [],
+    "docstring": "Testing Metrics Module\nProvides functions for extracting test coverage and quality metrics.",
+    "imports": [
+      "ast",
+      "typing",
+      "analysis.ast_analyzer"
+    ],
+    "todos": [],
+    "complexity": 12,
+    "function_calls": {
+      "extract_test_metrics": [
+        "walk",
+        "_extract_call_name",
+        "lower",
+        "startswith",
+        "isinstance",
+        "read",
+        "parse",
+        "open",
+        "str"
+      ]
+    },
+    "type_hints": {
+      "extract_test_metrics": {
+        "args": {
+          "test_files": "List[str]"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "extract_test_metrics",
+        "complexity": 12,
+        "line": 14,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 44,
+      "comment_ratio": 0.052,
+      "avg_line_length": 33.6,
+      "is_test_file": true
+    },
+    "description": "Defines 0 classes and 1 functions"
   },
   ".claude/hooks/hook_tools/python_auto_fixer.py": {
     "functions": [
@@ -1184,21 +2098,21 @@
     "complexity": 149,
     "function_calls": {
       "should_process_file": [
-        "any",
         "endswith",
+        "str",
         "lower",
-        "str"
+        "any"
       ],
       "run_auto_fixer": [
-        "join",
-        "append",
-        "isabs",
-        "fix_file",
-        "OptimizedPythonFixer",
-        "exists",
         "_log",
+        "exists",
+        "append",
+        "should_process_file",
+        "isabs",
         "isinstance",
-        "should_process_file"
+        "join",
+        "OptimizedPythonFixer",
+        "fix_file"
       ],
       "__init__": [
         "_check_external_tools",
@@ -1208,8 +2122,8 @@
         "compile"
       ],
       "can_fix_line": [
-        "strip",
-        "endswith"
+        "endswith",
+        "strip"
       ]
     },
     "type_hints": {
@@ -1255,20 +2169,23 @@
         "type": "high_complexity",
         "function": "run_auto_fixer",
         "complexity": 14,
-        "line": 864
+        "line": 864,
+        "severity": "medium"
       },
       {
         "type": "nested_loops",
         "function": "_process_single_pass",
         "depth": 2,
         "line": 350,
-        "complexity_estimate": "O(n^2)"
+        "complexity_estimate": "O(n^2)",
+        "severity": "medium"
       },
       {
         "type": "high_complexity",
         "function": "_check_external_tools",
         "complexity": 11,
-        "line": 444
+        "line": 444,
+        "severity": "medium"
       }
     ],
     "metrics": {
@@ -1289,17 +2206,17 @@
     "docstring": "Thread-safe state manager for Claude hooks continuation tracking.\nManages session state in separate JSON file outside of settings.json schema.",
     "imports": [
       "json",
+      "sys",
       "threading",
       "uuid",
-      "datetime",
-      "pathlib"
+      "datetime"
     ],
     "todos": [],
     "complexity": 27,
     "function_calls": {
       "migrate_from_settings_json": [
-        "exists",
         "Path",
+        "exists",
         "print",
         "migrate_from_settings"
       ],
@@ -1312,22 +2229,22 @@
         "mkdir"
       ],
       "_read_state": [
-        "isoformat",
-        "open",
         "exists",
+        "isoformat",
+        "load",
         "now",
-        "load"
+        "open"
       ],
       "_write_state": [
-        "setdefault",
-        "isoformat",
-        "open",
-        "replace",
         "exists",
-        "now",
-        "dump",
+        "isoformat",
         "unlink",
-        "with_suffix"
+        "dump",
+        "now",
+        "setdefault",
+        "with_suffix",
+        "replace",
+        "open"
       ]
     },
     "type_hints": {
@@ -1355,12 +2272,411 @@
       }
     },
     "metrics": {
-      "lines_of_code": 270,
-      "comment_ratio": 0.067,
-      "avg_line_length": 34.3,
+      "lines_of_code": 273,
+      "comment_ratio": 0.069,
+      "avg_line_length": 34.2,
       "is_test_file": false
     },
     "description": "Defines 1 classes and 1 functions"
+  },
+  ".claude/hooks/hook_tools/summarization/file_summarizer.py": {
+    "functions": [
+      "load_constants()",
+      "detect_code_quality_issues(filepath, content)",
+      "calculate_file_metrics(filepath, source)",
+      "summarize_python_file(filepath)",
+      "summarize_text_file(filepath)",
+      "summarize_json_file(filepath)",
+      "summarize_file(filepath)"
+    ],
+    "classes": [],
+    "docstring": "File Summarization Module\nProvides comprehensive file analysis and summarization functions.",
+    "imports": [
+      "ast",
+      "json",
+      "pathlib",
+      "typing",
+      "hook_tools.utilities.path_resolver"
+    ],
+    "todos": [],
+    "complexity": 45,
+    "function_calls": {
+      "load_constants": [
+        "open",
+        "RuntimeError",
+        "load"
+      ],
+      "detect_code_quality_issues": [
+        "append",
+        "walk",
+        "isinstance",
+        "len",
+        "parse",
+        "hasattr",
+        "count"
+      ],
+      "calculate_file_metrics": [
+        "int",
+        "lower",
+        "count",
+        "Path",
+        "startswith",
+        "len",
+        "endswith",
+        "splitlines",
+        "round",
+        "strip"
+      ],
+      "summarize_python_file": [
+        "list",
+        "format",
+        "isinstance",
+        "open",
+        "extract_type_hints",
+        "extract_function_calls",
+        "detect_performance_hotspots",
+        "detect_code_quality_issues",
+        "len",
+        "join"
+      ],
+      "summarize_text_file": [
+        "open",
+        "len",
+        "strip"
+      ]
+    },
+    "type_hints": {
+      "load_constants": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "detect_code_quality_issues": {
+        "args": {
+          "filepath": "str",
+          "content": "str"
+        },
+        "return": "list"
+      },
+      "calculate_file_metrics": {
+        "args": {
+          "filepath": "str",
+          "source": "str"
+        },
+        "return": "Dict[str, Any]"
+      },
+      "summarize_python_file": {
+        "args": {
+          "filepath": "str"
+        },
+        "return": "Dict[str, Any]"
+      },
+      "summarize_text_file": {
+        "args": {
+          "filepath": "str"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "calculate_file_metrics",
+        "complexity": 13,
+        "line": 105,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 284,
+      "comment_ratio": 0.082,
+      "avg_line_length": 32.6,
+      "is_test_file": true
+    },
+    "description": "Defines 0 classes and 7 functions"
+  },
+  ".claude/hooks/hook_tools/summarization/outline_generator.py": {
+    "functions": [
+      "generate_outline(file_list)",
+      "bootstrap_summary(json_path, constants)"
+    ],
+    "classes": [],
+    "docstring": "Outline generation utilities for project summarization.\n\nThis module provides functions to generate project outlines and bootstrap\nsummary data for semantic analysis.",
+    "imports": [
+      "os",
+      "json",
+      "time",
+      "subprocess",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 9,
+    "function_calls": {
+      "generate_outline": [
+        "min",
+        "exists",
+        "summarize_file",
+        "len"
+      ],
+      "bootstrap_summary": [
+        "exists",
+        "dirname",
+        "getmtime",
+        "print",
+        "time",
+        "makedirs",
+        "dump",
+        "load",
+        "splitlines",
+        "open"
+      ]
+    },
+    "type_hints": {
+      "bootstrap_summary": {
+        "args": {
+          "json_path": "str",
+          "constants": "Dict[str, Any]"
+        },
+        "return": "Dict[str, Any]"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 64,
+      "comment_ratio": 0.096,
+      "avg_line_length": 31.2,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/utilities/cache_utils.py": {
+    "functions": [
+      "synthesize_tool_outputs(cache_key, output)"
+    ],
+    "classes": [],
+    "docstring": "Cache Utilities Module\nProvides caching functionality for tool outputs to reduce redundancy.",
+    "imports": [
+      "time",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 5,
+    "function_calls": {
+      "synthesize_tool_outputs": [
+        "items",
+        "get",
+        "time"
+      ]
+    },
+    "type_hints": {
+      "synthesize_tool_outputs": {
+        "args": {
+          "cache_key": "Optional[str]",
+          "output": "Optional[Any]"
+        },
+        "return": "Optional[Any]"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 30,
+      "comment_ratio": 0.122,
+      "avg_line_length": 27.1,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_tools/utilities/constants_loader.py": {
+    "functions": [
+      "load_constants()",
+      "load_env(constants)"
+    ],
+    "classes": [],
+    "docstring": "Constants and environment loading utilities.\n\nDEPRECATED: This module is deprecated. Use path_resolver directly:\n    from utilities.path_resolver import paths\n    constants = paths.load_constants()\n    paths.load_env()\n\nThis module now provides backward compatibility wrappers around path_resolver.",
+    "imports": [
+      "warnings",
+      "typing",
+      "path_resolver"
+    ],
+    "todos": [],
+    "complexity": 1,
+    "function_calls": {
+      "load_constants": [
+        "warn",
+        "load_constants"
+      ],
+      "load_env": [
+        "load_env",
+        "warn"
+      ]
+    },
+    "type_hints": {
+      "load_constants": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "load_env": {
+        "args": {
+          "constants": "Dict[str, Any]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 41,
+      "comment_ratio": 0.018,
+      "avg_line_length": 27.5,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 2 functions"
+  },
+  ".claude/hooks/hook_tools/utilities/import_graph.py": {
+    "functions": [
+      "build_import_graph(constants)"
+    ],
+    "classes": [],
+    "docstring": "Import dependency graph utilities.\n\nThis module provides functionality to analyze Python files and build\ndependency graphs based on their import statements.",
+    "imports": [
+      "os",
+      "ast",
+      "subprocess",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 11,
+    "function_calls": {
+      "build_import_graph": [
+        "exists",
+        "append",
+        "walk",
+        "isinstance",
+        "extend",
+        "parse",
+        "read",
+        "splitlines",
+        "open",
+        "check_output"
+      ]
+    },
+    "type_hints": {
+      "build_import_graph": {
+        "args": {
+          "constants": "Dict[str, any]"
+        },
+        "return": "Dict[str, List[str]]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "build_import_graph",
+        "complexity": 11,
+        "line": 15,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 56,
+      "comment_ratio": 0.104,
+      "avg_line_length": 36.3,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 1 functions"
+  },
+  ".claude/hooks/hook_tools/utilities/path_resolver.py": {
+    "functions": [
+      "get_project_root()",
+      "get_hooks_dir()",
+      "get_hook_tools_dir()",
+      "load_constants()",
+      "load_env()"
+    ],
+    "classes": [
+      "PathResolver"
+    ],
+    "docstring": "Centralized path resolution module for hook_tools.\n\nThis module provides consistent path resolution for all hook_tools modules,\neliminating the need for fragile sys.path.insert() manipulations and \nduplicated path calculation logic.\n\nKey Features:\n- Automatic sys.path configuration on import\n- Consistent path resolution across all modules  \n- Context manager for temporary path additions\n- Cached path calculations for performance\n- Robust error handling with fallbacks\n\nUsage:\n    from hook_tools.utilities.path_resolver import paths\n    \n    # Get common paths\n    constants_file = paths.constants_file\n    project_root = paths.project_root\n    \n    # Load constants easily\n    constants = paths.load_constants()",
+    "imports": [
+      "os",
+      "sys",
+      "json",
+      "pathlib",
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 16,
+    "function_calls": {
+      "get_project_root": [],
+      "get_hooks_dir": [],
+      "get_hook_tools_dir": [],
+      "load_constants": [
+        "open",
+        "RuntimeError",
+        "load"
+      ],
+      "load_env": [
+        "exists",
+        "startswith",
+        "split",
+        "strip",
+        "open",
+        "get_env_file_path"
+      ]
+    },
+    "type_hints": {
+      "get_project_root": {
+        "args": {},
+        "return": "Path"
+      },
+      "get_hooks_dir": {
+        "args": {},
+        "return": "Path"
+      },
+      "get_hook_tools_dir": {
+        "args": {},
+        "return": "Path"
+      },
+      "load_constants": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "load_env": {
+        "args": {
+          "constants": "Optional[Dict[str, Any]]"
+        },
+        "return": "None"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 186,
+      "comment_ratio": 0.034,
+      "avg_line_length": 29.3,
+      "is_test_file": false
+    },
+    "description": "Defines 1 classes and 5 functions"
+  },
+  ".claude/hooks/memory/1216ffe196a78793/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/c1185c73da7fc6d1/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/e5f35f9c6962a1cf/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
   },
   ".claude/hooks/state/sessions.json": {
     "description": "JSON config",

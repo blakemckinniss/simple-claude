@@ -12,11 +12,13 @@ from typing import Any, Dict, Optional
 from collections import defaultdict
 import time
 
+from hook_tools.utilities.smart_truncate import truncate_for_preview
+
 
 class UserPromptLogger:
     """Simple logger focused on UserPromptSubmit hook events."""
     
-    def __init__(self, base_dir: str = "/home/blake/simple-claude/.claude/logs/userprompt"):
+    def __init__(self, base_dir: str = "/home/devcontainers/simple-claude/.claude/logs/userprompt"):
         """Initialize the logger."""
         self.log_dir = Path(base_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
@@ -67,7 +69,7 @@ class UserPromptLogger:
         """Log Gemini API request."""
         self.log_event({
             "event_type": "gemini_request",
-            "user_prompt_preview": user_prompt[:100],
+            "user_prompt_preview": truncate_for_preview(user_prompt, 200),
             "user_prompt_length": len(user_prompt),
             "request_payload": request_payload
         })

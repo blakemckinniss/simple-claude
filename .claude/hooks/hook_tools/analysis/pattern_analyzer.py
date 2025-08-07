@@ -4,7 +4,7 @@ Pattern Analysis Module
 Provides functions for analyzing cross-file patterns and calculating context depth.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any
 from collections import defaultdict
 
 

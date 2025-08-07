@@ -6,8 +6,7 @@ Provides comprehensive performance analysis functions for Python code inspection
 
 import ast
 import re
-from typing import Dict, List, Any, Optional, Union
-from collections import defaultdict
+from typing import Dict, List, Any, Union
 
 from .ast_analyzer import calculate_complexity, _extract_call_name
 

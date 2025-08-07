@@ -97,10 +97,10 @@ def handle(data: Dict[str, Any]) -> None:
                        tool_input.get("destination") or "")
                 
                 if path and blocker._is_claude_directory_operation(path):
-                    print(f"\n❌ [CRITICAL] MASTER BLOCK ACTIVE:", file=sys.stderr)
-                    print(f"   ALL operations in .claude directory are FROZEN", file=sys.stderr)
+                    print("\n❌ [CRITICAL] MASTER BLOCK ACTIVE:", file=sys.stderr)
+                    print("   ALL operations in .claude directory are FROZEN", file=sys.stderr)
                     print(f"   Attempted: {tool_name} on {path}", file=sys.stderr)
-                    print(f"   To disable: export CLAUDE_MASTER_BLOCK=false", file=sys.stderr)
+                    print("   To disable: export CLAUDE_MASTER_BLOCK=false", file=sys.stderr)
                     sys.exit(2)
         
         # Only check file creation tools for other restrictions
@@ -148,7 +148,7 @@ class ExemptionManager:
     """Manages exemptions for anti-pattern checks."""
     
     def __init__(self):
-        self.project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/blake/simple-claude")
+        self.project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/devcontainers/simple-claude")
         self.exemption_config_path = os.path.join(self.project_root, ".claude", "exemptions.json")
         self.log_dir = os.path.join(self.project_root, ".claude", "logs")
         self.exemption_log_path = os.path.join(self.log_dir, "exemptions.log")
@@ -321,7 +321,7 @@ def check_file_restrictions(file_path: str, content: str = "") -> None:
     
     # Normalize path to absolute
     abs_path = os.path.abspath(file_path)
-    project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/blake/simple-claude")
+    project_root = os.environ.get("CLAUDE_PROJECT_DIR", "/home/devcontainers/simple-claude")
     docs_dir = os.path.join(project_root, ".claude", "docs")
     tests_dir = os.path.join(project_root, ".claude", "tests")
     

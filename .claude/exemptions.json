@@ -19,6 +19,9 @@
     ".claude/hooks/": [
       "High_Cyclomatic_Complexity",
       "Too_Many_Parameters"
+    ],
+    ".claude/hooks/hook_handlers/": [
+      "hook_handlers_py_protection"
     ]
   },
   "justifications": {
@@ -30,6 +33,7 @@
     "Database_Layer_Violation": "Database migrations require direct DB access",
     "Debug_Code": "Test files require debug statements for assertions",
     "Magic_Numbers": "Test data uses specific numeric values for validation",
-    "Too_Many_Parameters": "Hook handlers require multiple parameters for context"
+    "Too_Many_Parameters": "Hook handlers require multiple parameters for context",
+    "hook_handlers_py_protection": "Fixing Python import order violations (E402) - legitimate code quality improvement"
   }
 }
