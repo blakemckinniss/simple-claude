@@ -56,23 +56,23 @@
     "complexity": 12,
     "function_calls": {
       "load_handler": [
-        "abspath",
-        "exists",
-        "dirname",
-        "exec_module",
         "spec_from_file_location",
+        "exec_module",
         "module_from_spec",
-        "join"
+        "dirname",
+        "join",
+        "abspath",
+        "exists"
       ],
       "main": [
-        "get",
         "print",
-        "handle",
-        "log_hook_call",
         "load",
-        "hasattr",
+        "handle",
+        "get",
         "exit",
-        "load_handler"
+        "load_handler",
+        "hasattr",
+        "log_hook_call"
       ]
     },
     "type_hints": {},
@@ -98,8 +98,8 @@
     "complexity": 2,
     "function_calls": {
       "handle": [
-        "exit",
         "print",
+        "exit",
         "get"
       ]
     },
@@ -122,17 +122,32 @@
   ".claude/hooks/hook_handlers/PostToolUse.py": {
     "functions": [
       "extract_continuation_id(tool_name, tool_input, tool_response)",
-      "detect_zen_usage_patterns(tool_name, tool_input, session_id, cwd)",
-      "generate_zen_prompt_template(tool_name, recommendations, has_continuation, continuation_id)",
+      "collect_project_context_cached(session_id, cwd)",
+      "detect_zen_usage_patterns(tool_name, tool_input, session_id, cwd, project_context)",
+      "generate_zen_prompt_template(tool_name, recommendations, has_continuation, continuation_id, project_context)",
       "store_continuation_id(session_id, continuation_id)",
-      "save_tool_pattern_to_memory(tool_name, tool_input, session_id, recommendations)",
+      "collect_comprehensive_analysis_data(tool_name, tool_input, project_context)",
+      "collect_comprehensive_analysis(tool_name, tool_input, project_context)",
+      "create_tool_input_summary(tool_name, tool_input)",
+      "calculate_composite_risk_score(analysis_results)",
+      "classify_memory_type_from_analysis(analysis_results)",
+      "create_enhanced_tags(project_context, analysis_results, tool_name)",
+      "calculate_enhanced_relevance_score(analysis_results, context_tags)",
+      "extract_file_paths(tool_input)",
+      "classify_operation_type(tool_name, tool_input)",
+      "calculate_complexity_score(analysis_results)",
+      "calculate_recommendation_confidence(recommendations, analysis_results)",
+      "save_tool_pattern_to_memory(tool_name, tool_input, session_id, recommendations, project_context, cwd)",
       "check_relevant_memories_notification(tool_name, tool_input, session_id)",
       "sanitize_input(input_data)",
+      "classify_recommendation_severity(zen_recommendations, tool_name, tool_input, cwd, project_context)",
       "should_trigger_python_fixer(tool_name, tool_input)",
       "extract_todo_content(tool_input)",
       "get_agent_info(agents_dir)",
       "analyze_bash_command(command)",
       "analyze_and_recommend_agents(todo_content, cwd)",
+      "detect_anti_patterns_for_file_operation(tool_name, tool_input, cwd)",
+      "detect_performance_hotspots_for_file_operation(tool_name, tool_input, cwd)",
       "run_python_auto_fixer(tool_name, tool_input, cwd)",
       "handle(input_data)",
       "main()"
@@ -147,40 +162,48 @@
       "datetime"
     ],
     "todos": [],
-    "complexity": 157,
+    "complexity": 401,
     "function_calls": {
       "extract_continuation_id": [
-        "len",
         "get",
+        "len",
         "loads",
-        "isinstance",
-        "startswith"
+        "startswith",
+        "isinstance"
+      ],
+      "collect_project_context_cached": [
+        "get_project_documentation",
+        "isoformat",
+        "get_environment_context",
+        "str",
+        "now",
+        "get_project_config",
+        "get_error_context",
+        "get_test_context"
       ],
       "detect_zen_usage_patterns": [
-        "lower",
-        "len",
-        "set",
-        "get",
         "any",
-        "str",
+        "upper",
+        "add",
+        "endswith",
+        "collect_project_context_cached",
+        "get",
         "append",
         "join",
-        "add",
-        "endswith"
+        "set",
+        "len"
       ],
       "generate_zen_prompt_template": [
         "enumerate",
+        "get",
+        "join",
         "append",
-        "join"
+        "len",
+        "str",
+        "lower"
       ],
       "store_continuation_id": [
         "set_continuation_id"
-      ],
-      "save_tool_pattern_to_memory": [
-        "get",
-        "save_memory",
-        "lower",
-        "truncate_for_preview"
       ]
     },
     "type_hints": {
@@ -192,12 +215,20 @@
         },
         "return": "str"
       },
+      "collect_project_context_cached": {
+        "args": {
+          "session_id": "str",
+          "cwd": "str"
+        },
+        "return": "Dict[str, Any]"
+      },
       "detect_zen_usage_patterns": {
         "args": {
           "tool_name": "str",
           "tool_input": "Dict[str, Any]",
           "session_id": "str",
-          "cwd": "str"
+          "cwd": "str",
+          "project_context": "Optional[Dict[str, Any]]"
         },
         "return": "List[str]"
       },
@@ -206,7 +237,8 @@
           "tool_name": "str",
           "recommendations": "List[str]",
           "has_continuation": "bool",
-          "continuation_id": "str"
+          "continuation_id": "str",
+          "project_context": "Optional[Dict[str, Any]]"
         },
         "return": "str"
       },
@@ -216,15 +248,6 @@
           "continuation_id": "str"
         },
         "return": "None"
-      },
-      "save_tool_pattern_to_memory": {
-        "args": {
-          "tool_name": "str",
-          "tool_input": "Dict[str, Any]",
-          "session_id": "str",
-          "recommendations": "List[str]"
-        },
-        "return": "None"
       }
     },
     "performance_hotspots": [
@@ -232,31 +255,39 @@
         "type": "high_complexity",
         "function": "extract_continuation_id",
         "complexity": 14,
-        "line": 26,
+        "line": 53,
         "severity": "medium"
       },
       {
         "type": "high_complexity",
         "function": "detect_zen_usage_patterns",
-        "complexity": 40,
-        "line": 82,
+        "complexity": 58,
+        "line": 153,
         "severity": "critical"
       },
       {
         "type": "high_complexity",
-        "function": "should_trigger_python_fixer",
-        "complexity": 14,
-        "line": 369,
-        "severity": "medium"
+        "function": "generate_zen_prompt_template",
+        "complexity": 17,
+        "line": 450,
+        "severity": "high"
+      }
+    ],
+    "quality_issues": [
+      {
+        "type": "too_many_parameters",
+        "name": "save_tool_pattern_to_memory",
+        "count": 6,
+        "suggestion": "Consider using configuration object or builder pattern"
       }
     ],
     "metrics": {
-      "lines_of_code": 537,
-      "comment_ratio": 0.123,
-      "avg_line_length": 42.1,
+      "lines_of_code": 1673,
+      "comment_ratio": 0.111,
+      "avg_line_length": 37.5,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 15 functions"
+    "description": "Defines 0 classes and 30 functions"
   },
   ".claude/hooks/hook_handlers/PreCompact.py": {
     "functions": [
@@ -274,13 +305,13 @@
     "complexity": 9,
     "function_calls": {
       "handle": [
-        "items",
         "get",
-        "isinstance",
+        "exit",
+        "str",
+        "items",
         "print",
         "save_memory",
-        "str",
-        "exit"
+        "isinstance"
       ]
     },
     "type_hints": {
@@ -301,6 +332,7 @@
   },
   ".claude/hooks/hook_handlers/PreToolUse.py": {
     "functions": [
+      "timed_operation(operation_name)",
       "handle(data)",
       "check_file_restrictions(file_path, content)",
       "analyze_ast_patterns(file_path, content)",
@@ -317,69 +349,89 @@
       "_detect_exception_patterns(tree, content)",
       "_detect_type_system_patterns(tree, content)",
       "_detect_async_threading_patterns(tree, content)",
-      "detect_anti_patterns(file_path, content)"
+      "_detect_python312_patterns(tree, content)",
+      "_detect_ai_llm_patterns(tree, content)",
+      "_detect_memory_leak_patterns(tree, content)",
+      "_detect_testing_patterns(tree, content, file_path)",
+      "detect_anti_patterns_enhanced(file_path, content)",
+      "detect_anti_patterns_fallback(file_path, content)",
+      "_detect_enhanced_regex_patterns(file_path, content)"
     ],
     "classes": [
+      "PerformanceMonitor",
+      "CircuitBreaker",
+      "CachedPattern",
+      "RegexCache",
+      "ASTCacheEntry",
+      "ASTCache",
       "ExemptionManager"
     ],
-    "docstring": "PreToolUse hook handler with comprehensive anti-pattern detection.\nBlocks file creation that would lead to technical debt or dangerous patterns.\nSupports exemption mechanisms for legitimate exceptions with proper justification.\n\nEXPANDED ANTI-PATTERN DETECTION CATEGORIES:\n1. Global State Anti-patterns: Mutable defaults, unsafe singletons, global modifications\n2. Import Anti-patterns: Star imports, circular imports, function-level imports, dynamic imports\n3. File/Resource Management: Context manager violations, unsafe file operations\n4. Exception Handling: Silent exceptions, exception control flow, poor error handling\n5. Type System Abuse: type() vs isinstance(), monkey patching, dynamic attributes\n6. Memory/Performance Landmines: Unbounded reads, recursion, string concatenation loops\n7. Security Issues: Command injection, pickle risks, SQL injection, code execution\n8. Async/Threading Issues: Blocking calls in async, shared state without locks",
+    "docstring": "PreToolUse hook handler with comprehensive anti-pattern detection and performance optimizations.\nBlocks file creation that would lead to technical debt or dangerous patterns.\nSupports exemption mechanisms with session context preservation.\n\nCOMPREHENSIVE ANTI-PATTERN DETECTION CATEGORIES:\n1. Global State Anti-patterns: Mutable defaults, unsafe singletons, global modifications\n2. Import Anti-patterns: Star imports, circular imports, function-level imports, dynamic imports\n3. File/Resource Management: Context manager violations, unsafe file operations\n4. Exception Handling: Silent exceptions, exception control flow, poor error handling\n5. Type System Abuse: type() vs isinstance(), monkey patching, dynamic attributes\n6. Memory/Performance Landmines: Unbounded reads, recursion, string concatenation loops\n7. Security Issues: Command injection, pickle risks, SQL injection, code execution\n8. Async/Threading Issues: Blocking calls in async, shared state without locks\n9. Python 3.12+ Patterns: Complex match/case, walrus operator misuse, advanced type hints\n10. AI/LLM API Misuse: Missing rate limiting, unbounded token usage, API key exposure\n11. Memory Leak Patterns: Circular references, unbounded caches, dangling event listeners\n12. Testing Anti-patterns: Test interdependence, missing assertions, time-dependent tests\n\nPERFORMANCE OPTIMIZATIONS:\n- Regex compilation caching (10-20ms \u2192 <1ms per pattern)\n- AST parsing cache with content hashing (300-500ms \u2192 <5ms for cached files)\n- Parallel pattern detection (sequential 500ms \u2192 parallel 150ms)\n- Circuit breaker for expensive operations\n- Batch processing for multi-file operations\n- Session context preservation with StateManager integration",
     "imports": [
       "ast",
+      "hashlib",
       "json",
       "os",
-      "re",
-      "sys"
+      "re"
     ],
     "todos": [
       "/FIXME accumulation"
     ],
-    "complexity": 296,
+    "complexity": 390,
     "function_calls": {
+      "timed_operation": [
+        "func",
+        "record",
+        "wraps",
+        "perf_counter"
+      ],
       "handle": [
-        "is_master_block_enabled",
-        "get",
         "FileBlocker",
-        "print",
-        "isinstance",
+        "get",
+        "check_file_restrictions",
         "_is_claude_directory_operation",
         "exit",
-        "check_file_restrictions"
+        "is_master_block_enabled",
+        "print",
+        "isinstance"
       ],
       "check_file_restrictions": [
-        "log_exemption",
+        "get_stats",
         "abspath",
-        "lower",
-        "get",
-        "basename",
-        "detect_anti_patterns",
         "print",
-        "append",
+        "ExemptionManager",
+        "startswith",
+        "timed_operation",
+        "values",
+        "call",
         "join",
-        "is_pattern_exempt"
+        "get_smart_exemption_suggestions"
       ],
       "analyze_ast_patterns": [
-        "items",
-        "_calculate_function_complexities",
-        "_analyze_return_complexity",
+        "timed_operation",
+        "_analyze_inheritance_depth",
         "_find_unused_variables",
+        "_analyze_nested_function_depth",
+        "endswith",
         "strip",
-        "parse",
         "append",
         "join",
-        "_analyze_inheritance_depth",
-        "_analyze_parameter_counts"
+        "get_ast",
+        "_find_unused_imports"
       ],
       "_calculate_function_complexities": [
-        "walk",
-        "isinstance",
-        "len"
-      ],
-      "_count_class_methods": [
+        "len",
         "walk",
         "isinstance"
       ]
     },
     "type_hints": {
+      "timed_operation": {
+        "args": {
+          "operation_name": "str"
+        },
+        "return": null
+      },
       "handle": {
         "args": {
           "data": "Dict[str, Any]"
@@ -405,12 +457,6 @@
           "tree": "ast.AST"
         },
         "return": "Dict[str, int]"
-      },
-      "_count_class_methods": {
-        "args": {
-          "tree": "ast.AST"
-        },
-        "return": "Dict[str, int]"
       }
     },
     "performance_hotspots": [
@@ -418,31 +464,31 @@
         "type": "high_complexity",
         "function": "handle",
         "complexity": 24,
-        "line": 66,
+        "line": 304,
         "severity": "critical"
       },
       {
         "type": "high_complexity",
         "function": "check_file_restrictions",
-        "complexity": 16,
-        "line": 303,
-        "severity": "high"
+        "complexity": 23,
+        "line": 655,
+        "severity": "critical"
       },
       {
         "type": "high_complexity",
         "function": "analyze_ast_patterns",
-        "complexity": 19,
-        "line": 389,
+        "complexity": 18,
+        "line": 770,
         "severity": "high"
       }
     ],
     "metrics": {
-      "lines_of_code": 798,
-      "comment_ratio": 0.114,
-      "avg_line_length": 44.7,
+      "lines_of_code": 1291,
+      "comment_ratio": 0.099,
+      "avg_line_length": 42.4,
       "is_test_file": false
     },
-    "description": "Defines 1 classes and 17 functions"
+    "description": "Defines 7 classes and 24 functions"
   },
   ".claude/hooks/hook_handlers/SessionStart.py": {
     "functions": [
@@ -461,16 +507,16 @@
     "complexity": 28,
     "function_calls": {
       "handle": [
-        "get_all_sessions",
-        "open",
-        "append",
-        "items",
-        "len",
-        "exists",
+        "load",
         "cleanup_old_sessions",
-        "initialize_session",
-        "cleanup_old_memories",
-        "join"
+        "keys",
+        "get_all_sessions",
+        "strip",
+        "truncate_for_memory",
+        "run",
+        "print",
+        "sort",
+        "cleanup_old_memories"
       ]
     },
     "type_hints": {
@@ -522,38 +568,38 @@
     "complexity": 37,
     "function_calls": {
       "calculate_session_duration": [
-        "total_seconds",
-        "now",
         "fromisoformat",
-        "get"
+        "total_seconds",
+        "get",
+        "now"
       ],
       "archive_session_data": [
-        "now",
-        "dump",
-        "mkdir",
-        "open",
         "with_suffix",
         "isoformat",
+        "dump",
+        "now",
         "strftime",
-        "replace"
+        "mkdir",
+        "replace",
+        "open"
       ],
       "cleanup_session_state": [
+        "isoformat",
         "calculate_session_duration",
         "now",
         "get_session_info",
-        "archive_session_data",
+        "str",
         "Path",
-        "isoformat",
-        "str"
+        "archive_session_data"
       ],
       "cleanup_old_archives": [
-        "unlink",
-        "now",
+        "glob",
         "timedelta",
-        "exists",
         "stat",
         "fromtimestamp",
-        "glob"
+        "unlink",
+        "now",
+        "exists"
       ],
       "save_session_summary_to_memory": [
         "min",
@@ -618,24 +664,58 @@
   },
   ".claude/hooks/hook_handlers/SubagentStop.py": {
     "functions": [
+      "extract_continuation_from_subagent(subagent_info)",
+      "calculate_duration(start_time)",
       "handle(data)"
     ],
     "classes": [],
-    "docstring": "Generic SubagentStop hook handler.\nThis hook is called when a subagent stops processing.",
+    "docstring": "Enhanced SubagentStop hook handler.\nThis hook is called when a subagent stops processing.\nProvides comprehensive tracking of subagent lifecycle events, performance metrics,\nand integration with continuation/memory management systems.",
     "imports": [
       "sys",
-      "typing"
+      "json",
+      "datetime",
+      "typing",
+      "hook_tools.state_manager"
     ],
     "todos": [],
-    "complexity": 2,
+    "complexity": 33,
     "function_calls": {
+      "extract_continuation_from_subagent": [
+        "startswith",
+        "get",
+        "isinstance"
+      ],
+      "calculate_duration": [
+        "fromisoformat",
+        "total_seconds",
+        "now"
+      ],
       "handle": [
-        "exit",
-        "print",
-        "get"
+        "calculate_duration",
+        "any",
+        "update_session",
+        "bool",
+        "save_enhanced_memory",
+        "set_continuation_id",
+        "isoformat",
+        "dumps",
+        "get",
+        "append"
       ]
     },
     "type_hints": {
+      "extract_continuation_from_subagent": {
+        "args": {
+          "subagent_info": "Dict[str, Any]"
+        },
+        "return": "Optional[str]"
+      },
+      "calculate_duration": {
+        "args": {
+          "start_time": "Optional[str]"
+        },
+        "return": "Optional[float]"
+      },
       "handle": {
         "args": {
           "data": "Dict[str, Any]"
@@ -643,13 +723,22 @@
         "return": "None"
       }
     },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "handle",
+        "complexity": 28,
+        "line": 70,
+        "severity": "critical"
+      }
+    ],
     "metrics": {
-      "lines_of_code": 20,
-      "comment_ratio": 0.289,
-      "avg_line_length": 29.1,
+      "lines_of_code": 178,
+      "comment_ratio": 0.126,
+      "avg_line_length": 37.7,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 1 functions"
+    "description": "Defines 0 classes and 3 functions"
   },
   ".claude/hooks/hook_handlers/UserPromptSubmit.py": {
     "functions": [
@@ -687,47 +776,47 @@
     "complexity": 212,
     "function_calls": {
       "_compute_git_context": [
-        "lower",
+        "any",
         "splitlines",
         "strip",
-        "any",
         "run",
+        "lower",
         "validate_subprocess_args"
       ],
       "get_git_context": [
-        "get_or_compute",
-        "log_event"
+        "log_event",
+        "get_or_compute"
       ],
       "_compute_error_context": [
-        "exists",
         "splitlines",
-        "validate_file_path",
         "strip",
-        "open",
+        "validate_file_path",
         "readlines",
-        "match",
-        "append",
         "run",
-        "validate_subprocess_args"
+        "append",
+        "validate_subprocess_args",
+        "exists",
+        "match",
+        "open"
       ],
       "get_error_context": [
-        "get_or_compute",
-        "log_event",
         "splitlines",
+        "log_event",
         "extend",
-        "run"
+        "run",
+        "get_or_compute"
       ],
       "_compute_project_config": [
-        "split",
-        "open",
-        "str",
-        "append",
-        "readlines",
-        "startswith",
-        "exists",
-        "read",
+        "load",
+        "search",
+        "keys",
+        "strip",
+        "validate_file_path",
         "findall",
-        "extend"
+        "startswith",
+        "list",
+        "readlines",
+        "append"
       ]
     },
     "type_hints": {
@@ -787,44 +876,6 @@
     },
     "description": "Defines 2 classes and 17 functions"
   },
-  ".claude/hooks/hook_handlers/performance_test.py": {
-    "functions": [
-      "test_hook_performance(iterations)"
-    ],
-    "classes": [],
-    "docstring": "Performance test for UserPromptSubmit hook optimization.",
-    "imports": [
-      "time",
-      "json",
-      "subprocess",
-      "sys",
-      "os"
-    ],
-    "todos": [],
-    "complexity": 5,
-    "function_calls": {
-      "test_hook_performance": [
-        "max",
-        "getcwd",
-        "len",
-        "sum",
-        "time",
-        "print",
-        "min",
-        "append",
-        "range",
-        "run"
-      ]
-    },
-    "type_hints": {},
-    "metrics": {
-      "lines_of_code": 50,
-      "comment_ratio": 0.06,
-      "avg_line_length": 28.4,
-      "is_test_file": true
-    },
-    "description": "Defines 0 classes and 1 functions"
-  },
   ".claude/hooks/hook_logger.py": {
     "functions": [],
     "classes": [
@@ -842,37 +893,37 @@
     "complexity": 9,
     "function_calls": {
       "__init__": [
-        "mkdir",
-        "Path",
+        "defaultdict",
         "uuid4",
+        "Path",
         "str",
-        "defaultdict"
+        "mkdir"
       ],
       "_cleanup_old_logs": [
-        "unlink",
-        "now",
+        "glob",
         "timedelta",
         "stat",
-        "fromtimestamp",
         "is_file",
-        "glob"
-      ],
-      "_get_log_filename": [
-        "strftime",
+        "fromtimestamp",
+        "unlink",
         "now"
       ],
-      "log_event": [
+      "_get_log_filename": [
         "now",
+        "strftime"
+      ],
+      "log_event": [
+        "write",
         "_get_log_filename",
-        "_cleanup_old_logs",
-        "open",
         "isoformat",
         "dumps",
-        "write"
+        "now",
+        "_cleanup_old_logs",
+        "open"
       ],
       "log_gemini_request": [
-        "log_event",
         "truncate_for_preview",
+        "log_event",
         "len"
       ]
     },
@@ -940,31 +991,31 @@
     "complexity": 38,
     "function_calls": {
       "extract_imports": [
+        "extend",
         "walk",
         "isinstance",
-        "extend",
         "append"
       ],
       "extract_todos": [
         "findall"
       ],
       "extract_function_calls": [
-        "set",
-        "walk",
         "_extract_call_name",
         "list",
-        "isinstance",
-        "append"
+        "set",
+        "walk",
+        "append",
+        "isinstance"
       ],
       "_extract_call_name": [
         "hasattr",
-        "isinstance",
-        "getattr"
+        "getattr",
+        "isinstance"
       ],
       "extract_type_hints": [
+        "_annotation_to_string",
         "walk",
-        "isinstance",
-        "_annotation_to_string"
+        "isinstance"
       ]
     },
     "type_hints": {
@@ -1023,25 +1074,25 @@
     "complexity": 20,
     "function_calls": {
       "detect_code_quality_issues": [
-        "len",
-        "walk",
         "parse",
-        "isinstance",
         "count",
+        "walk",
+        "len",
         "append",
-        "hasattr"
+        "hasattr",
+        "isinstance"
       ],
       "calculate_file_metrics": [
-        "len",
-        "lower",
-        "splitlines",
-        "strip",
         "any",
-        "Path",
-        "count",
         "int",
+        "splitlines",
+        "endswith",
+        "strip",
+        "count",
+        "len",
         "round",
-        "startswith"
+        "lower",
+        "Path"
       ]
     },
     "type_hints": {
@@ -1092,16 +1143,16 @@
     "complexity": 18,
     "function_calls": {
       "calculate_context_depth": [
-        "lower",
-        "any"
+        "any",
+        "lower"
       ],
       "aggregate_cross_file_patterns": [
-        "items",
-        "lower",
-        "str",
-        "append",
+        "defaultdict",
         "dict",
-        "defaultdict"
+        "append",
+        "str",
+        "lower",
+        "items"
       ]
     },
     "type_hints": {
@@ -1162,31 +1213,31 @@
     "complexity": 80,
     "function_calls": {
       "detect_performance_hotspots": [
-        "_get_complexity_severity",
+        "calculate_complexity",
         "search",
-        "walk",
-        "_get_loop_severity",
         "getattr",
-        "isinstance",
         "append",
+        "walk",
         "_get_loop_depth",
-        "calculate_complexity"
+        "_get_loop_severity",
+        "isinstance",
+        "_get_complexity_severity"
       ],
       "detect_performance_hotspots_comprehensive": [
-        "items",
-        "_analyze_potential_bottlenecks",
         "_analyze_memory_intensive_operations",
-        "walk",
-        "_get_risk_level",
-        "isinstance",
         "_analyze_function_complexity",
+        "_calculate_risk_score",
         "_analyze_sync_io_operations",
-        "_calculate_risk_score"
+        "walk",
+        "_analyze_potential_bottlenecks",
+        "items",
+        "isinstance",
+        "_get_risk_level"
       ],
       "_get_loop_depth": [
-        "iter_child_nodes",
         "max",
         "isinstance",
+        "iter_child_nodes",
         "_get_loop_depth"
       ],
       "_get_complexity_severity": [],
@@ -1287,9 +1338,9 @@
         "_get_architecture_patterns"
       ],
       "_get_file_structure_patterns": [
-        "Path",
         "splitlines",
-        "len"
+        "len",
+        "Path"
       ],
       "_get_security_patterns": [],
       "_get_architecture_patterns": [
@@ -1365,52 +1416,52 @@
     "complexity": 182,
     "function_calls": {
       "extract_database_schemas": [
-        "len",
-        "set",
         "_find_migration_files",
+        "_extract_sqlalchemy_models",
         "get",
-        "sum",
         "list",
-        "_find_schema_files",
-        "_extract_prisma_schemas",
+        "_extract_django_models",
         "extend",
-        "_extract_sqlalchemy_models"
+        "append",
+        "set",
+        "len",
+        "str"
       ],
       "extract_api_endpoints": [
-        "open",
-        "str",
-        "append",
-        "validate_subprocess_args",
-        "items",
-        "_extract_express_endpoints",
-        "len",
-        "read",
+        "any",
+        "_extract_fastapi_endpoints",
+        "validate_file_path",
         "run",
-        "extend"
+        "set",
+        "_group_endpoints_by_prefix",
+        "_extract_express_endpoints",
+        "splitlines",
+        "list",
+        "append"
       ],
       "_extract_flask_endpoints": [
-        "groups",
-        "split",
-        "len",
+        "upper",
         "strip",
-        "append",
+        "split",
         "finditer",
-        "upper"
+        "len",
+        "append",
+        "groups"
       ],
       "_extract_fastapi_endpoints": [
-        "groups",
-        "split",
-        "len",
-        "strip",
-        "append",
-        "finditer",
         "upper",
-        "endswith"
+        "endswith",
+        "strip",
+        "split",
+        "finditer",
+        "len",
+        "append",
+        "groups"
       ],
       "_extract_django_endpoints": [
-        "groups",
-        "append",
         "finditer",
+        "append",
+        "groups",
         "startswith",
         "replace"
       ]
@@ -1504,18 +1555,18 @@
     "function_calls": {
       "_run_git_command": [
         "splitlines",
-        "len",
-        "run"
+        "run",
+        "len"
       ],
       "get_git_context": [
-        "_run_git_command",
-        "lower",
-        "strip",
-        "ThreadPoolExecutor",
-        "result",
         "submit",
+        "result",
         "any",
+        "_run_git_command",
+        "strip",
         "join",
+        "ThreadPoolExecutor",
+        "lower",
         "as_completed"
       ]
     },
@@ -1572,57 +1623,57 @@
     "complexity": 73,
     "function_calls": {
       "get_error_context": [
-        "exists",
         "splitlines",
         "strip",
-        "open",
+        "readlines",
         "run",
         "append",
-        "readlines"
+        "exists",
+        "open"
       ],
       "get_project_config": [
-        "split",
-        "open",
-        "append",
-        "readlines",
-        "startswith",
-        "exists",
-        "read",
+        "load",
+        "search",
+        "keys",
+        "strip",
         "findall",
-        "extend",
-        "load"
+        "startswith",
+        "list",
+        "readlines",
+        "append",
+        "getcwd"
       ],
       "get_project_documentation": [
-        "exists",
-        "isdir",
         "splitlines",
         "extend",
+        "run",
+        "isdir",
         "append",
-        "run"
+        "exists"
       ],
       "get_test_context": [
-        "items",
-        "len",
-        "exists",
-        "set",
-        "read",
         "splitlines",
-        "open",
         "list",
+        "read",
         "extend",
-        "append"
+        "set",
+        "len",
+        "run",
+        "append",
+        "items",
+        "exists"
       ],
       "get_environment_context": [
-        "split",
-        "exists",
-        "machine",
-        "basename",
-        "which",
-        "splitlines",
-        "strip",
         "system",
+        "splitlines",
+        "machine",
+        "strip",
+        "split",
+        "basename",
+        "run",
         "append",
-        "run"
+        "which",
+        "hasattr"
       ]
     },
     "type_hints": {
@@ -1707,10 +1758,10 @@
         "get_continuation_id"
       ],
       "extract_and_store_continuation": [
-        "set_continuation_id",
-        "isinstance",
         "startswith",
-        "get"
+        "set_continuation_id",
+        "get",
+        "isinstance"
       ]
     },
     "type_hints": {
@@ -1867,16 +1918,16 @@
         "open"
       ],
       "get_agent_info": [
-        "split",
-        "exists",
-        "find",
-        "read",
-        "strip",
-        "open",
         "listdir",
+        "startswith",
+        "find",
+        "endswith",
+        "strip",
+        "split",
         "join",
         "append",
-        "startswith"
+        "read",
+        "exists"
       ]
     },
     "type_hints": {
@@ -1922,23 +1973,23 @@
     "complexity": 77,
     "function_calls": {
       "format_outline": [
-        "items",
-        "isinstance",
+        "join",
         "extend",
         "append",
-        "join"
+        "items",
+        "isinstance"
       ],
       "call_gemini": [
-        "split",
+        "post",
+        "keys",
         "log_error",
-        "str",
+        "strip",
+        "raise_for_status",
         "format_outline",
-        "items",
-        "len",
-        "ValueError",
-        "basename",
+        "get_current_continuation_id",
+        "list",
         "join",
-        "raise_for_status"
+        "str"
       ]
     },
     "type_hints": {
@@ -2009,6 +2060,7 @@
     "functions": [],
     "classes": [
       "MemoryType",
+      "MemoryConfiguration",
       "MemoryManager"
     ],
     "docstring": "Comprehensive memory management system for Claude Code hooks.\nProvides project-based isolation, session tracking, and relevance-based retrieval.",
@@ -2020,10 +2072,11 @@
       "uuid"
     ],
     "todos": [],
-    "complexity": 58,
+    "complexity": 82,
     "function_calls": {
       "__init__": [
         "_ensure_memory_directory",
+        "MemoryConfiguration",
         "RLock",
         "Path"
       ],
@@ -2078,51 +2131,51 @@
         "type": "high_complexity",
         "function": "retrieve_memories",
         "complexity": 15,
-        "line": 206,
+        "line": 442,
         "severity": "medium"
       },
       {
         "type": "high_complexity",
         "function": "get_relevant_memories",
         "complexity": 12,
-        "line": 286,
+        "line": 522,
         "severity": "medium"
       },
       {
         "type": "high_complexity",
         "function": "cleanup_old_memories",
         "complexity": 12,
-        "line": 391,
+        "line": 637,
         "severity": "medium"
       }
     ],
     "quality_issues": [
       {
+        "type": "god_class",
+        "name": "MemoryManager",
+        "method_count": 22,
+        "suggestion": "Consider splitting into smaller, focused classes"
+      },
+      {
+        "type": "too_many_parameters",
+        "name": "save_enhanced_memory",
+        "count": 11,
+        "suggestion": "Consider using configuration object or builder pattern"
+      },
+      {
         "type": "too_many_parameters",
         "name": "save_memory",
         "count": 8,
         "suggestion": "Consider using configuration object or builder pattern"
-      },
-      {
-        "type": "too_many_parameters",
-        "name": "retrieve_memories",
-        "count": 8,
-        "suggestion": "Consider using configuration object or builder pattern"
-      },
-      {
-        "type": "too_many_parameters",
-        "name": "get_relevant_memories",
-        "count": 7,
-        "suggestion": "Consider using configuration object or builder pattern"
       }
     ],
     "metrics": {
-      "lines_of_code": 427,
-      "comment_ratio": 0.09,
-      "avg_line_length": 38.8,
+      "lines_of_code": 611,
+      "comment_ratio": 0.088,
+      "avg_line_length": 40.1,
       "is_test_file": false
     },
-    "description": "Defines 2 classes and 0 functions"
+    "description": "Defines 3 classes and 0 functions"
   },
   ".claude/hooks/hook_tools/metrics/relevance_scorer.py": {
     "functions": [
@@ -2149,34 +2202,34 @@
         "SemanticRelevanceScorer"
       ],
       "extract_keywords": [
-        "len",
-        "lower",
         "any",
-        "findall"
+        "findall",
+        "len",
+        "lower"
       ],
       "score_file_relevance": [
-        "lower",
-        "get",
-        "_save_cached_embedding",
-        "reshape",
-        "dirname",
-        "basename",
         "_load_cached_embedding",
-        "filter",
-        "isinstance",
-        "min"
+        "_get_embedding",
+        "min",
+        "get",
+        "dirname",
+        "reshape",
+        "detect_task_type",
+        "join",
+        "extend",
+        "basename"
       ],
       "filter_relevant_files": [
         "score_file_relevance",
         "items",
-        "detect_task_type",
-        "sort"
+        "sort",
+        "detect_task_type"
       ],
       "__init__": [
-        "ImportError",
         "dirname",
-        "SentenceTransformer",
         "join",
+        "SentenceTransformer",
+        "ImportError",
         "makedirs"
       ]
     },
@@ -2249,15 +2302,15 @@
     "complexity": 12,
     "function_calls": {
       "extract_test_metrics": [
-        "lower",
-        "walk",
-        "read",
-        "parse",
-        "open",
         "_extract_call_name",
-        "isinstance",
+        "parse",
+        "walk",
         "str",
-        "startswith"
+        "lower",
+        "read",
+        "startswith",
+        "isinstance",
+        "open"
       ]
     },
     "type_hints": {
@@ -2317,32 +2370,32 @@
     "complexity": 149,
     "function_calls": {
       "should_process_file": [
-        "str",
-        "lower",
+        "endswith",
         "any",
-        "endswith"
+        "str",
+        "lower"
       ],
       "run_auto_fixer": [
-        "should_process_file",
-        "exists",
-        "OptimizedPythonFixer",
-        "isinstance",
-        "append",
-        "join",
-        "isabs",
+        "fix_file",
         "_log",
-        "fix_file"
+        "join",
+        "OptimizedPythonFixer",
+        "should_process_file",
+        "append",
+        "isinstance",
+        "exists",
+        "isabs"
       ],
       "__init__": [
-        "_check_external_tools",
-        "_initialize_fixers"
+        "_initialize_fixers",
+        "_check_external_tools"
       ],
       "_compile_patterns": [
         "compile"
       ],
       "can_fix_line": [
-        "strip",
-        "endswith"
+        "endswith",
+        "strip"
       ]
     },
     "type_hints": {
@@ -2445,44 +2498,44 @@
     "complexity": 45,
     "function_calls": {
       "sanitize_string": [
-        "len",
-        "type",
-        "strip",
-        "sub",
-        "decode",
-        "isinstance",
-        "encode",
         "SecurityValidationError",
-        "replace"
+        "replace",
+        "type",
+        "decode",
+        "strip",
+        "len",
+        "encode",
+        "isinstance",
+        "sub"
       ],
       "validate_session_id": [
         "SecurityValidationError",
-        "match",
+        "len",
         "isinstance",
-        "len"
+        "match"
       ],
       "validate_file_path": [
-        "resolve",
-        "search",
-        "len",
-        "exists",
         "relative_to",
+        "SecurityValidationError",
         "absolute",
+        "search",
+        "resolve",
+        "len",
         "Path",
-        "isinstance",
         "str",
-        "SecurityValidationError"
+        "exists",
+        "isinstance"
       ],
       "validate_json_input": [
-        "len",
         "SecurityValidationError",
-        "isinstance",
+        "dumps",
+        "len",
         "encode",
-        "dumps"
+        "isinstance"
       ],
       "validate_command_input": [
-        "SecurityValidationError",
         "search",
+        "SecurityValidationError",
         "isinstance"
       ]
     },
@@ -2558,39 +2611,39 @@
       "datetime"
     ],
     "todos": [],
-    "complexity": 27,
+    "complexity": 28,
     "function_calls": {
       "migrate_from_settings_json": [
-        "Path",
         "migrate_from_settings",
+        "print",
         "exists",
-        "print"
+        "Path"
       ],
       "__init__": [
-        "Path",
         "_ensure_state_directory",
-        "RLock"
+        "RLock",
+        "Path"
       ],
       "_ensure_state_directory": [
         "mkdir"
       ],
       "_read_state": [
+        "load",
+        "isoformat",
         "now",
         "exists",
-        "open",
-        "isoformat",
-        "load"
+        "open"
       ],
       "_write_state": [
+        "with_suffix",
+        "isoformat",
         "unlink",
         "setdefault",
         "now",
-        "exists",
         "dump",
-        "open",
-        "with_suffix",
-        "isoformat",
-        "replace"
+        "exists",
+        "replace",
+        "open"
       ]
     },
     "type_hints": {
@@ -2618,9 +2671,9 @@
       }
     },
     "metrics": {
-      "lines_of_code": 273,
-      "comment_ratio": 0.069,
-      "avg_line_length": 34.2,
+      "lines_of_code": 297,
+      "comment_ratio": 0.07,
+      "avg_line_length": 32.7,
       "is_test_file": false
     },
     "description": "Defines 1 classes and 1 functions"
@@ -2653,41 +2706,41 @@
         "open"
       ],
       "detect_code_quality_issues": [
-        "len",
-        "walk",
         "parse",
-        "isinstance",
         "count",
+        "walk",
+        "len",
         "append",
-        "hasattr"
+        "hasattr",
+        "isinstance"
       ],
       "calculate_file_metrics": [
-        "len",
-        "lower",
-        "splitlines",
-        "strip",
         "any",
-        "Path",
-        "count",
         "int",
+        "splitlines",
+        "endswith",
+        "strip",
+        "count",
+        "len",
         "round",
-        "startswith"
+        "lower",
+        "Path"
       ],
       "summarize_python_file": [
-        "detect_code_quality_issues",
-        "open",
+        "get_docstring",
+        "dict",
         "calculate_file_metrics",
-        "append",
-        "extract_imports",
-        "calculate_complexity",
-        "items",
-        "len",
-        "extract_type_hints",
-        "read"
+        "extract_function_calls",
+        "extract_todos",
+        "detect_code_quality_issues",
+        "parse",
+        "list",
+        "join",
+        "append"
       ],
       "summarize_text_file": [
-        "strip",
         "len",
+        "strip",
         "open"
       ]
     },
@@ -2758,22 +2811,22 @@
     "complexity": 9,
     "function_calls": {
       "generate_outline": [
-        "summarize_file",
         "min",
-        "len",
-        "exists"
+        "summarize_file",
+        "exists",
+        "len"
       ],
       "bootstrap_summary": [
-        "exists",
         "getmtime",
-        "dirname",
-        "splitlines",
-        "dump",
-        "generate_outline",
-        "open",
+        "load",
         "time",
+        "generate_outline",
+        "splitlines",
+        "dirname",
+        "dump",
         "print",
-        "load"
+        "open",
+        "exists"
       ]
     },
     "type_hints": {
@@ -2808,8 +2861,8 @@
     "function_calls": {
       "synthesize_tool_outputs": [
         "items",
-        "time",
-        "get"
+        "get",
+        "time"
       ]
     },
     "type_hints": {
@@ -2889,16 +2942,16 @@
     "complexity": 11,
     "function_calls": {
       "build_import_graph": [
-        "exists",
-        "walk",
-        "read",
+        "isinstance",
         "splitlines",
         "parse",
-        "open",
-        "isinstance",
         "extend",
+        "walk",
         "append",
-        "check_output"
+        "read",
+        "exists",
+        "check_output",
+        "open"
       ]
     },
     "type_hints": {
@@ -2957,12 +3010,12 @@
         "open"
       ],
       "load_env": [
+        "startswith",
+        "get_env_file_path",
+        "strip",
         "split",
         "exists",
-        "strip",
-        "open",
-        "startswith",
-        "get_env_file_path"
+        "open"
       ]
     },
     "type_hints": {
@@ -3013,16 +3066,16 @@
     "complexity": 9,
     "function_calls": {
       "smart_truncate": [
-        "len",
         "int",
         "_trim_to_word_boundary",
         "lstrip",
-        "rstrip"
+        "rstrip",
+        "len"
       ],
       "_trim_to_word_boundary": [
-        "len",
         "rfind",
-        "find"
+        "find",
+        "len"
       ],
       "truncate_for_memory": [
         "smart_truncate"
@@ -3091,6 +3144,33 @@
       "metadata"
     ]
   },
+  ".claude/hooks/memory/7fcc7e1c3ea47442/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/a6d651f02c329cdc/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/b05dc30c99b043a2/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
   ".claude/hooks/memory/bae5091757d27948/memories.json": {
     "description": "JSON config",
     "keys": [
@@ -3101,6 +3181,15 @@
     ]
   },
   ".claude/hooks/memory/c1185c73da7fc6d1/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/c7f27a2efa7fa3a3/memories.json": {
     "description": "JSON config",
     "keys": [
       "project_hash",

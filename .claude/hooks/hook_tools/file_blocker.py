@@ -520,17 +520,46 @@ def check_file_creation_simple(file_path: str) -> bool:
     return blocker.check_file_creation(file_path, raise_on_block=False)
 
 
-def block_file_creation_if_restricted(file_path: str):
+def block_file_creation_if_restricted(file_path: str, check_exemptions: bool = True):
     """Check and block file creation if restricted by rules.
     
     Args:
         file_path: Path to the file being created
+        check_exemptions: Whether to check exemptions before blocking
         
     Raises:
         SystemExit: If file creation is blocked
     """
     blocker = FileBlocker()
-    blocker.check_file_creation(file_path, raise_on_block=True)
+    result = blocker.is_blocked(file_path)
+    
+    if result.is_blocked and check_exemptions:
+        # Check if this rule is exempted
+        try:
+            import json
+            import os
+            exemptions_file = os.path.join(
+                os.environ.get("CLAUDE_PROJECT_DIR", "/home/devcontainers/simple-claude"),
+                ".claude", "exemptions.json"
+            )
+            
+            if os.path.exists(exemptions_file):
+                with open(exemptions_file, 'r') as f:
+                    exemptions = json.load(f)
+                
+                # Check file-specific exemptions
+                file_exemptions = exemptions.get("file_exemptions", {})
+                for path_pattern, patterns in file_exemptions.items():
+                    if path_pattern in file_path:
+                        if result.rule_name in patterns:
+                            # This rule is exempted for this path
+                            return
+        except Exception:
+            # If exemption checking fails, continue with blocking
+            pass
+    
+    if result.is_blocked:
+        blocker.check_file_creation(file_path, raise_on_block=True)
 
 
 # Master block convenience functions

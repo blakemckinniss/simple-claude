@@ -1615,7 +1615,7 @@ def get_relevant_memories_context(user_prompt: str, session_id: str = "") -> str
 
         # Only return if we have actual content
         if len(formatted_output) > 2:  # More than just the header
-            return "\n".join(formatted_output) + "\n"
+            return str("\n".join(formatted_output) + "\n")
 
         return ""
 

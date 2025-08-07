@@ -14,9 +14,8 @@ from hook_logger import logger  # type: ignore  # noqa: E402
 ENABLE_USER_PROMPT_SUBMIT = True
 ENABLE_PRE_TOOL_USE = True
 ENABLE_POST_TOOL_USE = True
-ENABLE_NOTIFICATION = False
 ENABLE_STOP = True
-ENABLE_SUBAGENT_STOP = False
+ENABLE_SUBAGENT_STOP = True
 ENABLE_PRE_COMPACT = True
 ENABLE_SESSION_START = True
 
@@ -28,7 +27,6 @@ HOOK_SWITCHES = {
     "UserPromptSubmit": ENABLE_USER_PROMPT_SUBMIT,
     "PreToolUse": ENABLE_PRE_TOOL_USE,
     "PostToolUse": ENABLE_POST_TOOL_USE,
-    "Notification": ENABLE_NOTIFICATION,
     "Stop": ENABLE_STOP,
     "SubagentStop": ENABLE_SUBAGENT_STOP,
     "PreCompact": ENABLE_PRE_COMPACT,

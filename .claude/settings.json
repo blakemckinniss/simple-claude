@@ -49,16 +49,6 @@
         ]
       }
     ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python $CLAUDE_PROJECT_DIR/.claude/hooks/hook_handler.py"
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [

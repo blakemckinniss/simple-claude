@@ -10,14 +10,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:17:58.484591",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "bash",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "c71e9644-2b13-422f-8375-5b99ff15aa47": {
       "memory_id": "c71e9644-2b13-422f-8375-5b99ff15aa47",
@@ -27,14 +28,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:17:58.702927",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "grep",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "b573bbe9-9e22-4f58-9633-dc6fe261ce87": {
       "memory_id": "b573bbe9-9e22-4f58-9633-dc6fe261ce87",
@@ -44,14 +46,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:18:00.902052",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "edit",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "080da3ea-5856-47b7-a12b-0082bace57e4": {
       "memory_id": "080da3ea-5856-47b7-a12b-0082bace57e4",
@@ -61,14 +64,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:18:01.448933",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "read",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "a2f58b1e-39f5-48c2-9859-02eed5793ecd": {
       "memory_id": "a2f58b1e-39f5-48c2-9859-02eed5793ecd",
@@ -78,14 +82,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:18:04.817472",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "grep",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "7d7eb7fc-494e-4f8c-90f3-9b078213926c": {
       "memory_id": "7d7eb7fc-494e-4f8c-90f3-9b078213926c",
@@ -95,14 +100,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:18:10.362533",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "read",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "842a5959-e754-4cd7-b86e-e821fb8730c5": {
       "memory_id": "842a5959-e754-4cd7-b86e-e821fb8730c5",
@@ -112,14 +118,15 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:18:11.679643",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "edit",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     },
     "bcd63d03-d680-4c84-9acc-2e4d2c9e5c56": {
       "memory_id": "bcd63d03-d680-4c84-9acc-2e4d2c9e5c56",
@@ -129,20 +136,21 @@
       "session_id": "d5383e78-0c57-402d-8564-b09cc67957a7",
       "continuation_id": null,
       "relevance_score": 0.6,
-      "access_count": 0,
-      "last_accessed": "2025-08-06T20:18:12.027078",
+      "access_count": 2,
+      "last_accessed": "2025-08-07T11:36:51.552220",
       "tags": [
         "tool_usage",
         "task",
         "patterns"
       ],
-      "project_hash": "6cfc54f812dfd213"
+      "project_hash": "6cfc54f812dfd213",
+      "current_relevance": 0.7999999999999999
     }
   },
   "metadata": {
     "created_at": "2025-08-06T20:17:58.484570",
     "version": "1.0",
     "memory_count": 8,
-    "last_updated": "2025-08-06T20:18:12.027112"
+    "last_updated": "2025-08-07T11:36:51.552246"
   }
 }

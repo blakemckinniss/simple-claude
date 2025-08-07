@@ -104,5 +104,301 @@
     "relevant_files_format": "## Relevant Files\nfilename: reason",
     "mcp_tools_format": "## MUST USE MCP Tools  \ntool_name: explanation of relevance",
     "agents_format": "## MUST USE Agents\nagent_name: explanation of relevance"
+  },
+  "post_tool_use": {
+    "severity_config": {
+      "critical": {
+        "frequency": 1,
+        "bypass_rate_limit": true
+      },
+      "high": {
+        "frequency": 2,
+        "bypass_rate_limit": false
+      },
+      "medium": {
+        "frequency_with_continuation": 3,
+        "frequency_without_continuation": 5,
+        "bypass_rate_limit": false
+      },
+      "low": {
+        "frequency": 7,
+        "bypass_rate_limit": false
+      }
+    },
+    "thresholds": {
+      "error_count_critical": 3,
+      "error_count_medium": 2,
+      "multi_edit_high_complexity": 5,
+      "multi_edit_medium_complexity": 3,
+      "test_coverage_threshold": 0.3,
+      "performance_risk_score_high": 30,
+      "performance_risk_score_medium": 15,
+      "recommendation_count_limit": 3,
+      "memory_relevance_threshold": 0.6,
+      "memory_search_limit": 3,
+      "context_tags_limit": 15,
+      "agent_recommendations_limit": 5,
+      "complexity_risk_cap": 1.0,
+      "relevance_score_cap": 1.0,
+      "risk_score_cap": 1.0,
+      "recommendation_confidence_cap": 1.0
+    },
+    "rate_limiting": {
+      "anti_pattern_critical_max_requests": 1,
+      "anti_pattern_critical_window_seconds": 30,
+      "performance_hotspot_max_requests": 2,
+      "performance_hotspot_window_seconds": 60,
+      "modern_cli_tool_max_requests": 5,
+      "modern_cli_tool_window_seconds": 120,
+      "python_auto_fixer_max_requests": 3,
+      "python_auto_fixer_window_seconds": 60,
+      "zen_continuation_max_requests": 3,
+      "zen_continuation_window_seconds": 60
+    },
+    "file_tools": [
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "write_to_file",
+      "apply_diff",
+      "insert_content"
+    ],
+    "high_priority_tools": [
+      "Task",
+      "Bash",
+      "Grep",
+      "Edit",
+      "MultiEdit",
+      "TodoWrite"
+    ],
+    "debug_patterns": [
+      "grep",
+      "rg",
+      "find",
+      "fd",
+      "trace",
+      "strace",
+      "gdb",
+      "debug",
+      "log",
+      "error",
+      "crash",
+      "fail"
+    ],
+    "security_patterns": [
+      "auth",
+      "password",
+      "token",
+      "secret",
+      "key",
+      "security",
+      "vuln",
+      "exploit",
+      "inject",
+      "xss",
+      "sql",
+      "csrf"
+    ],
+    "git_patterns": [
+      "git diff",
+      "git status",
+      "git log",
+      "git add",
+      "git commit"
+    ],
+    "performance_patterns": [
+      "benchmark",
+      "profile",
+      "perf",
+      "time",
+      "memory",
+      "cpu",
+      "optimize",
+      "performance"
+    ],
+    "test_patterns": [
+      "test",
+      "spec",
+      "pytest",
+      "jest",
+      "unittest",
+      "_test",
+      "tests/"
+    ],
+    "architecture_patterns": [
+      "design",
+      "architect",
+      "pattern",
+      "structure",
+      "framework",
+      "library"
+    ],
+    "trace_patterns": [
+      "function",
+      "method",
+      "class",
+      "import",
+      "dependency",
+      "call",
+      "invoke"
+    ],
+    "code_extensions": [
+      ".py",
+      ".js",
+      ".ts",
+      ".java",
+      ".cpp",
+      ".c",
+      ".go",
+      ".rs",
+      ".php",
+      ".rb"
+    ],
+    "web_frameworks": [
+      "flask",
+      "django",
+      "fastapi",
+      "express",
+      "react",
+      "vue",
+      "angular"
+    ],
+    "key_frameworks": [
+      "flask",
+      "django",
+      "fastapi",
+      "pytest",
+      "jest",
+      "react",
+      "vue"
+    ],
+    "key_dependencies": [
+      "flask",
+      "django",
+      "fastapi",
+      "requests",
+      "pandas",
+      "numpy",
+      "react",
+      "vue",
+      "angular",
+      "express",
+      "pytest",
+      "jest"
+    ],
+    "modern_cli_replacements": {
+      "grep": {
+        "new_tool": "rg",
+        "reason": "ripgrep is 10x faster with better defaults and colored output"
+      },
+      "find": {
+        "new_tool": "fd",
+        "reason": "fd is faster with intuitive syntax and respects .gitignore"
+      },
+      "ls": {
+        "new_tool": "lsd",
+        "reason": "lsd provides beautiful colored output with icons"
+      },
+      "sed": {
+        "new_tool": "sd",
+        "reason": "sd has simpler regex syntax and better error messages"
+      },
+      "du": {
+        "new_tool": "dust",
+        "reason": "dust shows disk usage with visual tree and faster scanning"
+      },
+      "df": {
+        "new_tool": "duf",
+        "reason": "duf displays disk usage with colors and human-readable format"
+      },
+      "ps": {
+        "new_tool": "procs",
+        "reason": "procs shows processes with colors and additional info"
+      },
+      "curl": {
+        "new_tool": "xh",
+        "reason": "xh has simpler syntax and JSON support built-in"
+      },
+      "dig": {
+        "new_tool": "dog",
+        "reason": "dog provides colored output and modern DNS lookups"
+      },
+      "diff": {
+        "new_tool": "delta",
+        "reason": "delta shows beautiful side-by-side diffs with syntax highlighting"
+      }
+    },
+    "skip_patterns": [
+      "hook_handlers",
+      "hook_tools",
+      "test_",
+      "_test.py",
+      "__pycache__"
+    ],
+    "severity_indicators": {
+      "critical_patterns": [
+        "CRITICAL:",
+        "security",
+        "secaudit",
+        "hardcoded",
+        "credentials",
+        "injection",
+        "vulnerability"
+      ],
+      "high_patterns": [
+        "debug",
+        "performance",
+        "O(n²)",
+        "O(n³)",
+        "nested loop",
+        "sync I/O",
+        "architecture",
+        "violation"
+      ]
+    },
+    "risk_scoring": {
+      "anti_pattern_severity_weights": {
+        "CRITICAL": 0.3,
+        "HIGH": 0.2,
+        "MEDIUM": 0.1,
+        "LOW": 0.05
+      },
+      "performance_risk_weights": {
+        "critical": 0.4,
+        "high": 0.3,
+        "medium": 0.2,
+        "low": 0.1
+      },
+      "error_context_weight": 0.2,
+      "no_venv_weight": 0.1
+    },
+    "agent_keyword_patterns": {
+      "backend": "\\b(api|server|database|backend|rest|graphql|microservice|endpoint)\\b",
+      "frontend": "\\b(ui|frontend|react|vue|angular|component|styling|css|tailwind|scss)\\b",
+      "testing": "\\b(test|testing|unit|integration|e2e|pytest|jest|cypress|spec)\\b",
+      "devops": "\\b(deploy|docker|kubernetes|ci/cd|pipeline|build|infrastructure)\\b",
+      "database": "\\b(database|sql|postgres|mysql|mongodb|migration|schema|query)\\b",
+      "security": "\\b(security|auth|oauth|jwt|encryption|vulnerability|audit)\\b",
+      "mobile": "\\b(mobile|ios|android|react native|flutter|app)\\b",
+      "documentation": "\\b(doc|documentation|readme|guide|manual|wiki)\\b",
+      "performance": "\\b(performance|optimize|speed|benchmark|profiling|memory)\\b",
+      "refactor": "\\b(refactor|clean|improve|restructure|organize|simplify)\\b"
+    },
+    "default_agent_fallback": [
+      "project-orchestrator.md - Complex multi-phase projects",
+      "project-planner.md - Comprehensive project planning",
+      "task-dispatch-director.md - Task coordination"
+    ],
+    "messages": {
+      "zen_continuation_available": "🔗 ZEN CONTINUATION AVAILABLE: Use continuation_id='{continuation_id}' with mcp__zen__* tools for context continuity",
+      "zen_workflow_start": "🚀 ZEN WORKFLOW MUST USE: Start with mcp__zen__* tools for enhanced analysis (200k token allowance + expert validation)",
+      "modern_cli_error": "⚡💥 YOU MUST USE {new_tool} INSTEAD OF {old_tool}! 🚫❌",
+      "todo_write_error": "🔥⚡ VERY IMPORTANT: YOU ABSOLUTELY **MUST** HIRE AN AGENT **OR AGENTS FOR INDEPENDENT PARALLEL/BATCH TASK ITEMS** TO COMPLETE THIS CORRECTLY. PARALLELIZE HIRES (PER CLAUDE.md PATTERN_CONTRACT LAWS D2-D6)!!! 💥🚫",
+      "memory_notification": "📝 RELEVANT MEMORIES: Found {memory_count} related memories (max relevance: {highest_relevance:.2f}) - consider using mcp__zen tools for enhanced context",
+      "anti_pattern_critical": "🚨 CRITICAL ANTI-PATTERNS DETECTED in {file_path}:",
+      "anti_pattern_blocked": "🚫 File operation blocked due to {pattern_count} critical security/architecture violations.\nReview and fix these issues before proceeding.",
+      "performance_hotspots": "⚡ PERFORMANCE HOTSPOTS DETECTED in {file_path}:\n📊 Risk Score: {risk_score} ({risk_level})\n🔥 Issues: {issues}\n💡 Consider using mcp__zen__analyze for optimization recommendations"
+    },
+    "debug_log_path": "/tmp/posttooluse_debug.log"
   }
 }
