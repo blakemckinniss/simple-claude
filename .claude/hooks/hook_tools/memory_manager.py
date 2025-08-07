@@ -21,27 +21,77 @@ paths = PathResolver()
 
 
 class MemoryType(Enum):
-    """Memory categorization types."""
+    """Memory categorization types with analysis-specific extensions."""
+    # Existing types
     CRITICAL_CONTEXT = "critical_context"
     TOOL_PATTERNS = "tool_patterns"
     DECISIONS = "decisions"
     ERRORS = "errors"
     DISCOVERIES = "discoveries"
+    
+    # Analysis-specific types for enhanced memory capabilities
+    ANTI_PATTERNS = "anti_patterns"
+    PERFORMANCE_ANALYSIS = "performance_analysis"
+    PROJECT_CONTEXT = "project_context"
+    CODE_QUALITY = "code_quality"
+    SECURITY_ANALYSIS = "security_analysis"
+    ARCHITECTURE_PATTERNS = "architecture_patterns"
+    INTEGRATION_PATTERNS = "integration_patterns"
+
+
+class MemoryConfiguration:
+    """Configuration constants for memory management system."""
+    # Storage limits
+    MAX_MEMORIES_PER_PROJECT = 1000
+    MAX_MEMORY_AGE_DAYS = 30
+    CLEANUP_RETENTION_RATIO = 0.8
+    
+    # Relevance scoring
+    RELEVANCE_DECAY_FACTOR = 0.95
+    MIN_RELEVANCE_THRESHOLD = 0.1
+    ACCESS_BOOST_FACTOR = 0.1
+    MAX_ACCESS_BOOST = 0.5
+    
+    # Memory type importance weights
+    TYPE_BOOST_WEIGHTS = {
+        MemoryType.CRITICAL_CONTEXT.value: 0.4,
+        MemoryType.SECURITY_ANALYSIS.value: 0.35,
+        MemoryType.ANTI_PATTERNS.value: 0.3,
+        MemoryType.ERRORS.value: 0.25,
+        MemoryType.PERFORMANCE_ANALYSIS.value: 0.2,
+        MemoryType.CODE_QUALITY.value: 0.18,
+        MemoryType.DECISIONS.value: 0.15,
+        MemoryType.ARCHITECTURE_PATTERNS.value: 0.12,
+        MemoryType.TOOL_PATTERNS.value: 0.1,
+        MemoryType.PROJECT_CONTEXT.value: 0.08,
+        MemoryType.INTEGRATION_PATTERNS.value: 0.05,
+        MemoryType.DISCOVERIES.value: 0.0
+    }
+    
+    # Relevance calculation weights
+    BASE_RELEVANCE_WEIGHT = 0.3
+    CONTENT_SIMILARITY_WEIGHT = 0.25
+    TAG_SIMILARITY_WEIGHT = 0.15
+    ANALYSIS_SIMILARITY_WEIGHT = 0.2
+    CONTEXT_SIMILARITY_WEIGHT = 0.1
+    
+    # Schema versioning
+    CURRENT_SCHEMA_VERSION = "2.0"
+    LEGACY_SCHEMA_VERSION = "1.0"
 
 
 class MemoryManager:
-    """Thread-safe memory management with project isolation and relevance scoring."""
+    """Thread-safe memory management with project isolation and enhanced analysis-aware relevance scoring."""
     
     def __init__(self):
         self._lock = threading.RLock()
         self._base_dir = Path(__file__).parent.parent / "memory"
         self._ensure_memory_directory()
+        self._config = MemoryConfiguration()
         
-        # Memory configuration
-        self._max_memories_per_project = 1000
-        self._max_memory_age_days = 30
-        self._relevance_decay_factor = 0.95  # Daily decay
-        self._min_relevance_threshold = 0.1
+        # Performance optimizations
+        self._relevance_cache = {}
+        self._cache_expiry = {}
     
     def _ensure_memory_directory(self) -> None:
         """Ensure memory directory structure exists."""
@@ -76,15 +126,17 @@ class MemoryManager:
         except (json.JSONDecodeError, OSError, UnicodeDecodeError):
             pass
         
-        # Return default structure
+        # Return default structure with enhanced schema
         return {
             "project_hash": project_hash,
             "project_path": os.getcwd(),
             "memories": {},
             "metadata": {
                 "created_at": datetime.now().isoformat(),
-                "version": "1.0",
-                "memory_count": 0
+                "version": self._config.CURRENT_SCHEMA_VERSION,
+                "memory_count": 0,
+                "schema_migrations": [],
+                "last_migration": None
             }
         }
     
@@ -119,11 +171,11 @@ class MemoryManager:
             base_score = memory_entry.get("relevance_score", 1.0)
             
             # Apply time decay
-            decayed_score = base_score * (self._relevance_decay_factor ** days_old)
+            decayed_score = base_score * (self._config.RELEVANCE_DECAY_FACTOR ** days_old)
             
             # Boost score based on access count
             access_count = memory_entry.get("access_count", 0)
-            access_boost = min(access_count * 0.1, 0.5)  # Max 0.5 boost
+            access_boost = min(access_count * self._config.ACCESS_BOOST_FACTOR, self._config.MAX_ACCESS_BOOST)
             
             # Boost score based on memory type importance
             memory_type = memory_entry.get("memory_type", MemoryType.DISCOVERIES.value)
@@ -144,7 +196,111 @@ class MemoryManager:
         """Generate unique memory identifier."""
         return str(uuid.uuid4())
     
-    def save_memory(
+    def _create_enhanced_metadata(self, custom_metadata: Optional[Dict[str, Any]], risk_score: float) -> Dict[str, Any]:
+        """Create enhanced metadata structure for memory entries."""
+        metadata = {
+            "risk_score": max(0.0, min(1.0, risk_score)),
+            "complexity_score": 0.0,
+            "confidence_score": 1.0,
+            "file_paths": [],
+            "tool_context": {},
+            "recommendation_confidence": 1.0,
+            "created_at": datetime.now().isoformat()
+        }
+        
+        if custom_metadata:
+            metadata.update(custom_metadata)
+        
+        return metadata
+    
+    def _migrate_memory_entry(self, memory_entry: Dict[str, Any]) -> Dict[str, Any]:
+        """Migrate memory entry from legacy schema to current version."""
+        current_version = memory_entry.get("schema_version", self._config.LEGACY_SCHEMA_VERSION)
+        
+        if current_version == self._config.CURRENT_SCHEMA_VERSION:
+            return memory_entry  # Already current
+        
+        # Migrate from v1.0 to v2.0
+        if current_version == self._config.LEGACY_SCHEMA_VERSION:
+            migrated_entry = memory_entry.copy()
+            migrated_entry.update({
+                "schema_version": self._config.CURRENT_SCHEMA_VERSION,
+                "analysis_data": {},  # Empty for legacy entries
+                "metadata": self._create_enhanced_metadata(None, 0.5)  # Default moderate risk
+            })
+            return migrated_entry
+        
+        # Unknown version - treat as legacy
+        return self._migrate_memory_entry({**memory_entry, "schema_version": self._config.LEGACY_SCHEMA_VERSION})
+    
+    def _calculate_analysis_similarity(self, memory_entry: Dict[str, Any], context_words: set) -> float:
+        """Calculate similarity based on analysis data content."""
+        analysis_data = memory_entry.get("analysis_data", {})
+        if not analysis_data:
+            return 0.0
+        
+        similarity = 0.0
+        
+        # Anti-pattern similarity
+        anti_patterns = analysis_data.get("anti_patterns", [])
+        if anti_patterns:
+            pattern_words = set()
+            for pattern in anti_patterns:
+                pattern_name = pattern.get("pattern_name", "").lower()
+                description = pattern.get("description", "").lower()
+                pattern_words.update(pattern_name.split() + description.split())
+            
+            if pattern_words and context_words:
+                overlap = len(context_words.intersection(pattern_words))
+                similarity += overlap / len(context_words) * 0.4
+        
+        # Performance metrics similarity
+        perf_metrics = analysis_data.get("performance_metrics", {})
+        if perf_metrics and any(word in " ".join(perf_metrics.keys()).lower() for word in context_words):
+            similarity += 0.3
+        
+        # Tool context similarity
+        tool_context = analysis_data.get("tool_context", {})
+        tool_name = tool_context.get("tool_name", "").lower()
+        if tool_name and tool_name in context_words:
+            similarity += 0.3
+        
+        return min(similarity, 1.0)
+    
+    def _calculate_context_similarity(self, memory_entry: Dict[str, Any], context_words: set) -> float:
+        """Calculate similarity based on project context."""
+        analysis_data = memory_entry.get("analysis_data", {})
+        project_context = analysis_data.get("project_context", {})
+        
+        if not project_context:
+            return 0.0
+        
+        similarity = 0.0
+        
+        # Framework/dependency similarity
+        dependencies = project_context.get("config", {}).get("dependencies", [])
+        test_frameworks = project_context.get("tests", {}).get("frameworks", [])
+        all_context_terms = [dep.lower() for dep in dependencies] + [fw.lower() for fw in test_frameworks]
+        
+        if all_context_terms:
+            context_term_set = set(all_context_terms)
+            overlap = len(context_words.intersection(context_term_set))
+            if context_words:
+                similarity += overlap / len(context_words) * 0.5
+        
+        # Environment similarity
+        environment = project_context.get("environment", {})
+        python_version = environment.get("python_version", "")
+        if python_version and any(f"python{python_version.split('.')[0]}" in word for word in context_words):
+            similarity += 0.3
+        
+        # Error context similarity
+        if project_context.get("errors", {}).get("recent_errors", []) and "error" in context_words:
+            similarity += 0.2
+        
+        return min(similarity, 1.0)
+    
+    def save_enhanced_memory(
         self,
         content: str,
         memory_type: Union[MemoryType, str],
@@ -152,18 +308,24 @@ class MemoryManager:
         continuation_id: Optional[str] = None,
         relevance_score: float = 1.0,
         tags: Optional[List[str]] = None,
+        analysis_data: Optional[Dict[str, Any]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        risk_score: float = 0.5,
         cwd: Optional[str] = None
     ) -> str:
         """
-        Save memory entry with project isolation.
+        Save enhanced memory entry with comprehensive analysis data.
         
         Args:
-            content: Memory content
+            content: Human-readable memory summary
             memory_type: Type of memory (MemoryType enum or string)
             session_id: Optional session identifier
             continuation_id: Optional continuation identifier
             relevance_score: Initial relevance score (0.0-1.0)
             tags: Optional list of tags for categorization
+            analysis_data: Comprehensive analysis results (anti-patterns, performance, etc.)
+            metadata: Additional metadata (tool context, file paths, complexity scores)
+            risk_score: Calculated risk score based on analysis findings (0.0-1.0)
             cwd: Override current working directory
             
         Returns:
@@ -180,6 +342,7 @@ class MemoryManager:
             memory_id = self._generate_memory_id()
             timestamp = datetime.now().isoformat()
             
+            # Create enhanced memory entry with analysis integration
             memory_entry = {
                 "memory_id": memory_id,
                 "content": content,
@@ -191,13 +354,86 @@ class MemoryManager:
                 "access_count": 0,
                 "last_accessed": timestamp,
                 "tags": tags or [],
-                "project_hash": project_hash
+                "project_hash": project_hash,
+                
+                # Enhanced schema v2.0 fields
+                "schema_version": self._config.CURRENT_SCHEMA_VERSION,
+                "analysis_data": analysis_data or {},
+                "metadata": self._create_enhanced_metadata(metadata, risk_score),
             }
             
             memories[memory_id] = memory_entry
             
             # Clean up if too many memories
-            if len(memories) > self._max_memories_per_project:
+            if len(memories) > self._config.MAX_MEMORIES_PER_PROJECT:
+                self._cleanup_low_relevance_memories(project_hash, memory_data)
+            
+            self._write_project_memories(project_hash, memory_data)
+            return memory_id
+
+    def save_memory(
+        self,
+        content: str,
+        memory_type: Union[MemoryType, str],
+        session_id: Optional[str] = None,
+        continuation_id: Optional[str] = None,
+        relevance_score: float = 1.0,
+        tags: Optional[List[str]] = None,
+        cwd: Optional[str] = None
+    ) -> str:
+        """
+        Save enhanced memory entry with comprehensive analysis data.
+        
+        Args:
+            content: Human-readable memory summary
+            memory_type: Type of memory (MemoryType enum or string)
+            session_id: Optional session identifier
+            continuation_id: Optional continuation identifier
+            relevance_score: Initial relevance score (0.0-1.0)
+            tags: Optional list of tags for categorization
+            analysis_data: Comprehensive analysis results (anti-patterns, performance, etc.)
+            metadata: Additional metadata (tool context, file paths, complexity scores)
+            risk_score: Calculated risk score based on analysis findings (0.0-1.0)
+            cwd: Override current working directory
+            
+        Returns:
+            Generated memory_id
+        """
+        if isinstance(memory_type, MemoryType):
+            memory_type = memory_type.value
+        
+        with self._lock:
+            project_hash = self._get_project_hash(cwd)
+            memory_data = self._read_project_memories(project_hash)
+            memories = memory_data.setdefault("memories", {})
+            
+            memory_id = self._generate_memory_id()
+            timestamp = datetime.now().isoformat()
+            
+            # Create enhanced memory entry with analysis integration
+            memory_entry = {
+                "memory_id": memory_id,
+                "content": content,
+                "memory_type": memory_type,
+                "timestamp": timestamp,
+                "session_id": session_id,
+                "continuation_id": continuation_id,
+                "relevance_score": max(0.0, min(1.0, relevance_score)),
+                "access_count": 0,
+                "last_accessed": timestamp,
+                "tags": tags or [],
+                "project_hash": project_hash,
+                
+                # Enhanced schema v2.0 fields
+                "schema_version": self._config.CURRENT_SCHEMA_VERSION,
+                "analysis_data": analysis_data or {},
+                "metadata": self._create_enhanced_metadata(metadata, risk_score),
+            }
+            
+            memories[memory_id] = memory_entry
+            
+            # Clean up if too many memories
+            if len(memories) > self._config.MAX_MEMORIES_PER_PROJECT:
                 self._cleanup_low_relevance_memories(project_hash, memory_data)
             
             self._write_project_memories(project_hash, memory_data)
@@ -259,7 +495,7 @@ class MemoryManager:
                 current_relevance = self._calculate_relevance_score(memory_entry)
                 
                 # Apply relevance threshold
-                relevance_threshold = min_relevance or self._min_relevance_threshold
+                relevance_threshold = min_relevance or self._config.MIN_RELEVANCE_THRESHOLD
                 if current_relevance < relevance_threshold:
                     continue
                 
@@ -350,11 +586,21 @@ class MemoryManager:
                         tag_overlap = len(context_words.intersection(memory_tags))
                         tag_similarity = tag_overlap / len(context_words)
                 
-                # Combined relevance score
+                # Enhanced multi-dimensional relevance scoring
+                analysis_similarity = self._calculate_analysis_similarity(
+                    memory_entry, context_words
+                )
+                context_similarity = self._calculate_context_similarity(
+                    memory_entry, context_words
+                )
+                
+                # Weighted combined relevance score
                 combined_relevance = (
-                    base_relevance * 0.4 +
-                    content_similarity * 0.4 +
-                    tag_similarity * 0.2
+                    base_relevance * self._config.BASE_RELEVANCE_WEIGHT +
+                    content_similarity * self._config.CONTENT_SIMILARITY_WEIGHT +
+                    tag_similarity * self._config.TAG_SIMILARITY_WEIGHT +
+                    analysis_similarity * self._config.ANALYSIS_SIMILARITY_WEIGHT +
+                    context_similarity * self._config.CONTEXT_SIMILARITY_WEIGHT
                 )
                 
                 if combined_relevance >= min_relevance:
@@ -383,7 +629,7 @@ class MemoryManager:
         memory_scores.sort(key=lambda x: x[1])
         
         # Remove lowest relevance memories
-        remove_count = len(memories) - int(self._max_memories_per_project * 0.8)  # Keep 80%
+        remove_count = len(memories) - int(self._config.MAX_MEMORIES_PER_PROJECT * self._config.CLEANUP_RETENTION_RATIO)
         for i in range(min(remove_count, len(memory_scores))):
             memory_id = memory_scores[i][0]
             del memories[memory_id]
@@ -400,7 +646,7 @@ class MemoryManager:
             Number of memories cleaned up
         """
         if days is None:
-            days = self._max_memory_age_days
+            days = self._config.MAX_MEMORY_AGE_DAYS
         
         with self._lock:
             total_cleaned = 0
@@ -432,7 +678,7 @@ class MemoryManager:
                             
                             # Check relevance
                             current_relevance = self._calculate_relevance_score(memory_entry)
-                            if current_relevance < self._min_relevance_threshold:
+                            if current_relevance < self._config.MIN_RELEVANCE_THRESHOLD:
                                 memories_to_remove.append(memory_id)
                             
                         except (ValueError, TypeError):

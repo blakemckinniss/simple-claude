@@ -209,7 +209,7 @@ class AntiPatternDetector:
             {
                 "name": "database_access_violation",
                 "regex": r"""(
-                    (?<!models/|repositories/|dal/|dao/).*\b(
+                    \b(
                         SELECT\s+.*FROM|
                         INSERT\s+INTO|
                         UPDATE\s+.*SET|
@@ -221,8 +221,8 @@ class AntiPatternDetector:
                     )
                 )""",
                 "severity": Severity.HIGH,
-                "description": "Database access outside data layer",
-                "suggestion": "Move database operations to repository/DAO layer"
+                "description": "Database access detected (review if in appropriate layer)",
+                "suggestion": "Move database operations to repository/DAO layer if not already there"
             },
             {
                 "name": "cross_module_violation",

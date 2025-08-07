@@ -4,14 +4,14 @@
     "keys": [
       ".claude/.semantic_outline_verbose.json",
       ".claude/docs/exemption-mechanism.md",
+      ".claude/docs/project-memory-isolation.md",
       ".claude/exemptions.json",
       ".claude/file_blocker_config.json",
       ".claude/hooks/hook_handler.py",
       ".claude/hooks/hook_handlers/Notification.py",
       ".claude/hooks/hook_handlers/PostToolUse.py",
       ".claude/hooks/hook_handlers/PreCompact.py",
-      ".claude/hooks/hook_handlers/PreToolUse.py",
-      ".claude/hooks/hook_handlers/SessionStart.py"
+      ".claude/hooks/hook_handlers/PreToolUse.py"
     ]
   },
   ".claude/docs/exemption-mechanism.md": {
@@ -56,22 +56,22 @@
     "complexity": 12,
     "function_calls": {
       "load_handler": [
+        "abspath",
         "exists",
         "dirname",
-        "join",
-        "abspath",
-        "module_from_spec",
         "exec_module",
-        "spec_from_file_location"
+        "spec_from_file_location",
+        "module_from_spec",
+        "join"
       ],
       "main": [
-        "log_hook_call",
-        "print",
-        "load",
         "get",
-        "exit",
-        "hasattr",
+        "print",
         "handle",
+        "log_hook_call",
+        "load",
+        "hasattr",
+        "exit",
         "load_handler"
       ]
     },
@@ -98,9 +98,9 @@
     "complexity": 2,
     "function_calls": {
       "handle": [
-        "get",
         "exit",
-        "print"
+        "print",
+        "get"
       ]
     },
     "type_hints": {
@@ -150,28 +150,28 @@
     "complexity": 157,
     "function_calls": {
       "extract_continuation_id": [
-        "startswith",
+        "len",
+        "get",
         "loads",
         "isinstance",
-        "len",
-        "get"
+        "startswith"
       ],
       "detect_zen_usage_patterns": [
-        "append",
         "lower",
-        "set",
         "len",
-        "join",
+        "set",
         "get",
-        "endswith",
-        "add",
+        "any",
         "str",
-        "any"
+        "append",
+        "join",
+        "add",
+        "endswith"
       ],
       "generate_zen_prompt_template": [
-        "join",
+        "enumerate",
         "append",
-        "enumerate"
+        "join"
       ],
       "store_continuation_id": [
         "set_continuation_id"
@@ -179,7 +179,8 @@
       "save_tool_pattern_to_memory": [
         "get",
         "save_memory",
-        "lower"
+        "lower",
+        "truncate_for_preview"
       ]
     },
     "type_hints": {
@@ -231,28 +232,28 @@
         "type": "high_complexity",
         "function": "extract_continuation_id",
         "complexity": 14,
-        "line": 25,
+        "line": 26,
         "severity": "medium"
       },
       {
         "type": "high_complexity",
         "function": "detect_zen_usage_patterns",
         "complexity": 40,
-        "line": 81,
+        "line": 82,
         "severity": "critical"
       },
       {
         "type": "high_complexity",
         "function": "should_trigger_python_fixer",
         "complexity": 14,
-        "line": 368,
+        "line": 369,
         "severity": "medium"
       }
     ],
     "metrics": {
-      "lines_of_code": 536,
+      "lines_of_code": 537,
       "comment_ratio": 0.123,
-      "avg_line_length": 42.0,
+      "avg_line_length": 42.1,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 15 functions"
@@ -274,12 +275,12 @@
     "function_calls": {
       "handle": [
         "items",
-        "print",
-        "isinstance",
         "get",
-        "exit",
+        "isinstance",
+        "print",
         "save_memory",
-        "str"
+        "str",
+        "exit"
       ]
     },
     "type_hints": {
@@ -335,47 +336,47 @@
     "complexity": 296,
     "function_calls": {
       "handle": [
-        "check_file_restrictions",
-        "print",
-        "isinstance",
+        "is_master_block_enabled",
         "get",
         "FileBlocker",
-        "is_master_block_enabled",
+        "print",
+        "isinstance",
+        "_is_claude_directory_operation",
         "exit",
-        "_is_claude_directory_operation"
+        "check_file_restrictions"
       ],
       "check_file_restrictions": [
-        "detect_anti_patterns",
-        "append",
-        "lower",
-        "startswith",
-        "print",
-        "is_pattern_exempt",
+        "log_exemption",
         "abspath",
+        "lower",
         "get",
-        "endswith",
-        "ExemptionManager"
+        "basename",
+        "detect_anti_patterns",
+        "print",
+        "append",
+        "join",
+        "is_pattern_exempt"
       ],
       "analyze_ast_patterns": [
-        "_find_unused_imports",
-        "append",
         "items",
-        "_analyze_parameter_counts",
+        "_calculate_function_complexities",
         "_analyze_return_complexity",
-        "_analyze_inheritance_depth",
-        "_analyze_nested_function_depth",
+        "_find_unused_variables",
+        "strip",
+        "parse",
+        "append",
         "join",
-        "_count_class_methods",
-        "parse"
+        "_analyze_inheritance_depth",
+        "_analyze_parameter_counts"
       ],
       "_calculate_function_complexities": [
-        "isinstance",
         "walk",
+        "isinstance",
         "len"
       ],
       "_count_class_methods": [
-        "isinstance",
-        "walk"
+        "walk",
+        "isinstance"
       ]
     },
     "type_hints": {
@@ -460,16 +461,16 @@
     "complexity": 28,
     "function_calls": {
       "handle": [
-        "list",
-        "sort",
-        "load",
+        "get_all_sessions",
+        "open",
+        "append",
+        "items",
+        "len",
+        "exists",
+        "cleanup_old_sessions",
+        "initialize_session",
         "cleanup_old_memories",
-        "get",
-        "exit",
-        "generate_session_id",
-        "run",
-        "_ensure_memory_directory",
-        "open"
+        "join"
       ]
     },
     "type_hints": {
@@ -485,14 +486,14 @@
         "type": "high_complexity",
         "function": "handle",
         "complexity": 24,
-        "line": 21,
+        "line": 22,
         "severity": "critical"
       }
     ],
     "metrics": {
-      "lines_of_code": 165,
+      "lines_of_code": 166,
       "comment_ratio": 0.133,
-      "avg_line_length": 39.3,
+      "avg_line_length": 39.2,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 1 functions"
@@ -521,43 +522,43 @@
     "complexity": 37,
     "function_calls": {
       "calculate_session_duration": [
-        "get",
+        "total_seconds",
         "now",
         "fromisoformat",
-        "total_seconds"
+        "get"
       ],
       "archive_session_data": [
-        "isoformat",
+        "now",
         "dump",
         "mkdir",
-        "now",
         "open",
         "with_suffix",
-        "replace",
-        "strftime"
+        "isoformat",
+        "strftime",
+        "replace"
       ],
       "cleanup_session_state": [
-        "archive_session_data",
-        "isoformat",
-        "Path",
-        "get_session_info",
-        "now",
         "calculate_session_duration",
+        "now",
+        "get_session_info",
+        "archive_session_data",
+        "Path",
+        "isoformat",
         "str"
       ],
       "cleanup_old_archives": [
-        "exists",
-        "timedelta",
-        "stat",
-        "now",
-        "fromtimestamp",
         "unlink",
+        "now",
+        "timedelta",
+        "exists",
+        "stat",
+        "fromtimestamp",
         "glob"
       ],
       "save_session_summary_to_memory": [
         "min",
-        "get",
-        "save_memory"
+        "save_memory",
+        "get"
       ]
     },
     "type_hints": {
@@ -629,9 +630,9 @@
     "complexity": 2,
     "function_calls": {
       "handle": [
-        "get",
         "exit",
-        "print"
+        "print",
+        "get"
       ]
     },
     "type_hints": {
@@ -652,16 +653,28 @@
   },
   ".claude/hooks/hook_handlers/UserPromptSubmit.py": {
     "functions": [
+      "_compute_git_context(keywords)",
       "get_git_context(keywords)",
+      "_compute_error_context()",
       "get_error_context()",
+      "_compute_project_config()",
       "get_project_config()",
+      "_compute_project_documentation()",
       "get_project_documentation()",
+      "_compute_test_context()",
+      "get_performance_context()",
+      "parse_coverage_xml(coverage_file)",
+      "map_tests_to_implementations(test_files)",
       "get_test_context()",
+      "_compute_environment_context()",
       "get_environment_context()",
       "get_relevant_memories_context(user_prompt, session_id)",
       "handle(data)"
     ],
-    "classes": [],
+    "classes": [
+      "CacheEntry",
+      "ContextCache"
+    ],
     "docstring": "",
     "imports": [
       "os",
@@ -671,83 +684,74 @@
       "re"
     ],
     "todos": [],
-    "complexity": 111,
+    "complexity": 212,
     "function_calls": {
-      "get_git_context": [
+      "_compute_git_context": [
         "lower",
         "splitlines",
-        "validate_subprocess_args",
         "strip",
+        "any",
         "run",
-        "any"
+        "validate_subprocess_args"
+      ],
+      "get_git_context": [
+        "get_or_compute",
+        "log_event"
+      ],
+      "_compute_error_context": [
+        "exists",
+        "splitlines",
+        "validate_file_path",
+        "strip",
+        "open",
+        "readlines",
+        "match",
+        "append",
+        "run",
+        "validate_subprocess_args"
       ],
       "get_error_context": [
-        "exists",
-        "match",
-        "validate_file_path",
-        "append",
-        "readlines",
+        "get_or_compute",
+        "log_event",
         "splitlines",
-        "validate_subprocess_args",
-        "strip",
-        "run",
-        "open"
-      ],
-      "get_project_config": [
-        "group",
-        "list",
-        "load",
-        "open",
-        "update",
-        "exists",
-        "read",
-        "fromkeys",
-        "str",
-        "validate_file_path"
-      ],
-      "get_project_documentation": [
-        "exists",
-        "match",
-        "append",
-        "isdir",
         "extend",
-        "validate_subprocess_args",
-        "splitlines",
         "run"
       ],
-      "get_test_context": [
-        "exists",
-        "match",
-        "list",
+      "_compute_project_config": [
+        "split",
+        "open",
+        "str",
         "append",
-        "items",
-        "set",
-        "len",
-        "extend",
+        "readlines",
+        "startswith",
+        "exists",
         "read",
-        "validate_subprocess_args"
+        "findall",
+        "extend"
       ]
     },
     "type_hints": {
+      "_compute_git_context": {
+        "args": {
+          "keywords": "Optional[List[str]]"
+        },
+        "return": "dict"
+      },
       "get_git_context": {
         "args": {
           "keywords": "Optional[List[str]]"
         },
         "return": "dict"
       },
+      "_compute_error_context": {
+        "args": {},
+        "return": "dict"
+      },
       "get_error_context": {
         "args": {},
         "return": "dict"
       },
-      "get_project_config": {
-        "args": {},
-        "return": "dict"
-      },
-      "get_project_documentation": {
-        "args": {},
-        "return": "dict"
-      },
-      "get_test_context": {
+      "_compute_project_config": {
         "args": {},
         "return": "dict"
       }
@@ -755,33 +759,33 @@
     "performance_hotspots": [
       {
         "type": "high_complexity",
-        "function": "get_error_context",
+        "function": "_compute_error_context",
         "complexity": 15,
-        "line": 197,
+        "line": 409,
         "severity": "medium"
       },
       {
         "type": "high_complexity",
-        "function": "get_project_config",
+        "function": "_compute_project_config",
         "complexity": 24,
-        "line": 270,
+        "line": 517,
         "severity": "critical"
       },
       {
         "type": "high_complexity",
-        "function": "get_test_context",
-        "complexity": 15,
-        "line": 441,
-        "severity": "medium"
+        "function": "_compute_test_context",
+        "complexity": 18,
+        "line": 760,
+        "severity": "high"
       }
     ],
     "metrics": {
-      "lines_of_code": 721,
-      "comment_ratio": 0.117,
-      "avg_line_length": 36.4,
+      "lines_of_code": 1504,
+      "comment_ratio": 0.103,
+      "avg_line_length": 35.8,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 8 functions"
+    "description": "Defines 2 classes and 17 functions"
   },
   ".claude/hooks/hook_handlers/performance_test.py": {
     "functions": [
@@ -800,16 +804,16 @@
     "complexity": 5,
     "function_calls": {
       "test_hook_performance": [
-        "getcwd",
-        "dumps",
-        "sum",
-        "append",
         "max",
-        "print",
-        "time",
+        "getcwd",
         "len",
-        "run",
-        "range"
+        "sum",
+        "time",
+        "print",
+        "min",
+        "append",
+        "range",
+        "run"
       ]
     },
     "type_hints": {},
@@ -838,36 +842,37 @@
     "complexity": 9,
     "function_calls": {
       "__init__": [
-        "defaultdict",
-        "uuid4",
+        "mkdir",
         "Path",
+        "uuid4",
         "str",
-        "mkdir"
+        "defaultdict"
       ],
       "_cleanup_old_logs": [
+        "unlink",
+        "now",
         "timedelta",
         "stat",
-        "now",
-        "is_file",
         "fromtimestamp",
-        "unlink",
+        "is_file",
         "glob"
       ],
       "_get_log_filename": [
-        "now",
-        "strftime"
+        "strftime",
+        "now"
       ],
       "log_event": [
-        "_get_log_filename",
-        "dumps",
-        "isoformat",
-        "_cleanup_old_logs",
         "now",
+        "_get_log_filename",
+        "_cleanup_old_logs",
         "open",
+        "isoformat",
+        "dumps",
         "write"
       ],
       "log_gemini_request": [
         "log_event",
+        "truncate_for_preview",
         "len"
       ]
     },
@@ -904,9 +909,9 @@
       }
     },
     "metrics": {
-      "lines_of_code": 92,
-      "comment_ratio": 0.079,
-      "avg_line_length": 36.3,
+      "lines_of_code": 93,
+      "comment_ratio": 0.077,
+      "avg_line_length": 36.4,
       "is_test_file": false
     },
     "description": "Defines 1 classes and 0 functions"
@@ -935,21 +940,21 @@
     "complexity": 38,
     "function_calls": {
       "extract_imports": [
-        "extend",
+        "walk",
         "isinstance",
-        "append",
-        "walk"
+        "extend",
+        "append"
       ],
       "extract_todos": [
         "findall"
       ],
       "extract_function_calls": [
-        "list",
-        "append",
+        "set",
         "walk",
         "_extract_call_name",
-        "set",
-        "isinstance"
+        "list",
+        "isinstance",
+        "append"
       ],
       "_extract_call_name": [
         "hasattr",
@@ -957,9 +962,9 @@
         "getattr"
       ],
       "extract_type_hints": [
-        "_annotation_to_string",
+        "walk",
         "isinstance",
-        "walk"
+        "_annotation_to_string"
       ]
     },
     "type_hints": {
@@ -1018,25 +1023,25 @@
     "complexity": 20,
     "function_calls": {
       "detect_code_quality_issues": [
-        "append",
-        "walk",
-        "isinstance",
         "len",
+        "walk",
         "parse",
-        "hasattr",
-        "count"
+        "isinstance",
+        "count",
+        "append",
+        "hasattr"
       ],
       "calculate_file_metrics": [
-        "int",
-        "lower",
-        "count",
-        "Path",
-        "startswith",
         "len",
-        "endswith",
+        "lower",
         "splitlines",
+        "strip",
+        "any",
+        "Path",
+        "count",
+        "int",
         "round",
-        "strip"
+        "startswith"
       ]
     },
     "type_hints": {
@@ -1087,16 +1092,16 @@
     "complexity": 18,
     "function_calls": {
       "calculate_context_depth": [
-        "any",
-        "lower"
+        "lower",
+        "any"
       ],
       "aggregate_cross_file_patterns": [
-        "defaultdict",
-        "append",
-        "lower",
         "items",
+        "lower",
         "str",
-        "dict"
+        "append",
+        "dict",
+        "defaultdict"
       ]
     },
     "type_hints": {
@@ -1157,32 +1162,32 @@
     "complexity": 80,
     "function_calls": {
       "detect_performance_hotspots": [
-        "calculate_complexity",
-        "_get_loop_depth",
+        "_get_complexity_severity",
         "search",
-        "append",
         "walk",
-        "isinstance",
         "_get_loop_severity",
         "getattr",
-        "_get_complexity_severity"
+        "isinstance",
+        "append",
+        "_get_loop_depth",
+        "calculate_complexity"
       ],
       "detect_performance_hotspots_comprehensive": [
-        "_get_risk_level",
-        "walk",
         "items",
+        "_analyze_potential_bottlenecks",
+        "_analyze_memory_intensive_operations",
+        "walk",
+        "_get_risk_level",
+        "isinstance",
         "_analyze_function_complexity",
         "_analyze_sync_io_operations",
-        "_analyze_memory_intensive_operations",
-        "isinstance",
-        "_analyze_potential_bottlenecks",
         "_calculate_risk_score"
       ],
       "_get_loop_depth": [
-        "_get_loop_depth",
+        "iter_child_nodes",
         "max",
         "isinstance",
-        "iter_child_nodes"
+        "_get_loop_depth"
       ],
       "_get_complexity_severity": [],
       "_get_loop_severity": []
@@ -1276,10 +1281,10 @@
         "_initialize_patterns"
       ],
       "_initialize_patterns": [
-        "_get_architecture_patterns",
-        "_get_file_structure_patterns",
         "_get_security_patterns",
-        "_get_code_quality_patterns"
+        "_get_file_structure_patterns",
+        "_get_code_quality_patterns",
+        "_get_architecture_patterns"
       ],
       "_get_file_structure_patterns": [
         "Path",
@@ -1331,28 +1336,197 @@
     },
     "description": "Defines 3 classes and 0 functions"
   },
+  ".claude/hooks/hook_tools/context/api_database_context.py": {
+    "functions": [
+      "extract_database_schemas(project_root)",
+      "extract_api_endpoints()",
+      "_extract_flask_endpoints(content, file_path)",
+      "_extract_fastapi_endpoints(content, file_path)",
+      "_extract_django_endpoints(content, file_path)",
+      "_extract_express_endpoints(content, file_path)",
+      "_group_endpoints_by_prefix(endpoints)",
+      "get_database_context(user_prompt)"
+    ],
+    "classes": [
+      "FieldInfo",
+      "RelationshipInfo",
+      "TableSchema",
+      "DatabaseSchemaExtractor"
+    ],
+    "docstring": "Database schema extraction utilities for database optimization tasks.\nExtracts schema information from SQLAlchemy models, Django models, Prisma schemas, and migrations.",
+    "imports": [
+      "os",
+      "re",
+      "json",
+      "ast",
+      "subprocess"
+    ],
+    "todos": [],
+    "complexity": 182,
+    "function_calls": {
+      "extract_database_schemas": [
+        "len",
+        "set",
+        "_find_migration_files",
+        "get",
+        "sum",
+        "list",
+        "_find_schema_files",
+        "_extract_prisma_schemas",
+        "extend",
+        "_extract_sqlalchemy_models"
+      ],
+      "extract_api_endpoints": [
+        "open",
+        "str",
+        "append",
+        "validate_subprocess_args",
+        "items",
+        "_extract_express_endpoints",
+        "len",
+        "read",
+        "run",
+        "extend"
+      ],
+      "_extract_flask_endpoints": [
+        "groups",
+        "split",
+        "len",
+        "strip",
+        "append",
+        "finditer",
+        "upper"
+      ],
+      "_extract_fastapi_endpoints": [
+        "groups",
+        "split",
+        "len",
+        "strip",
+        "append",
+        "finditer",
+        "upper",
+        "endswith"
+      ],
+      "_extract_django_endpoints": [
+        "groups",
+        "append",
+        "finditer",
+        "startswith",
+        "replace"
+      ]
+    },
+    "type_hints": {
+      "extract_database_schemas": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "extract_api_endpoints": {
+        "args": {},
+        "return": "Dict[str, Any]"
+      },
+      "_extract_flask_endpoints": {
+        "args": {
+          "content": "str",
+          "file_path": "str"
+        },
+        "return": "List[Dict[str, Any]]"
+      },
+      "_extract_fastapi_endpoints": {
+        "args": {
+          "content": "str",
+          "file_path": "str"
+        },
+        "return": "List[Dict[str, Any]]"
+      },
+      "_extract_django_endpoints": {
+        "args": {
+          "content": "str",
+          "file_path": "str"
+        },
+        "return": "List[Dict[str, Any]]"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "extract_api_endpoints",
+        "complexity": 15,
+        "line": 741,
+        "severity": "medium"
+      },
+      {
+        "type": "nested_loops",
+        "function": "_extract_flask_endpoints",
+        "depth": 3,
+        "line": 836,
+        "complexity_estimate": "O(n^3)",
+        "severity": "high"
+      },
+      {
+        "type": "nested_loops",
+        "function": "_extract_fastapi_endpoints",
+        "depth": 2,
+        "line": 869,
+        "complexity_estimate": "O(n^2)",
+        "severity": "medium"
+      }
+    ],
+    "quality_issues": [
+      {
+        "type": "god_class",
+        "name": "DatabaseSchemaExtractor",
+        "method_count": 22,
+        "suggestion": "Consider splitting into smaller, focused classes"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 801,
+      "comment_ratio": 0.074,
+      "avg_line_length": 38.4,
+      "is_test_file": false
+    },
+    "description": "Defines 4 classes and 8 functions"
+  },
   ".claude/hooks/hook_tools/context/git_context.py": {
     "functions": [
+      "_run_git_command(command, timeout)",
       "get_git_context(keywords)"
     ],
     "classes": [],
     "docstring": "Git context extraction utilities.",
     "imports": [
       "subprocess",
+      "concurrent.futures",
       "typing"
     ],
     "todos": [],
-    "complexity": 12,
+    "complexity": 21,
     "function_calls": {
-      "get_git_context": [
-        "lower",
+      "_run_git_command": [
         "splitlines",
+        "len",
+        "run"
+      ],
+      "get_git_context": [
+        "_run_git_command",
+        "lower",
         "strip",
-        "run",
-        "any"
+        "ThreadPoolExecutor",
+        "result",
+        "submit",
+        "any",
+        "join",
+        "as_completed"
       ]
     },
     "type_hints": {
+      "_run_git_command": {
+        "args": {
+          "command": "List[str]",
+          "timeout": "float"
+        },
+        "return": "Tuple[str, List[str], int]"
+      },
       "get_git_context": {
         "args": {
           "keywords": "Optional[List[str]]"
@@ -1364,18 +1538,18 @@
       {
         "type": "high_complexity",
         "function": "get_git_context",
-        "complexity": 12,
-        "line": 8,
-        "severity": "medium"
+        "complexity": 19,
+        "line": 31,
+        "severity": "high"
       }
     ],
     "metrics": {
-      "lines_of_code": 82,
-      "comment_ratio": 0.09,
-      "avg_line_length": 33.9,
+      "lines_of_code": 84,
+      "comment_ratio": 0.115,
+      "avg_line_length": 36.8,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 1 functions"
+    "description": "Defines 0 classes and 2 functions"
   },
   ".claude/hooks/hook_tools/context/project_context.py": {
     "functions": [
@@ -1399,56 +1573,56 @@
     "function_calls": {
       "get_error_context": [
         "exists",
-        "append",
-        "readlines",
         "splitlines",
         "strip",
+        "open",
         "run",
-        "open"
+        "append",
+        "readlines"
       ],
       "get_project_config": [
-        "group",
-        "list",
-        "load",
+        "split",
         "open",
-        "update",
+        "append",
+        "readlines",
+        "startswith",
         "exists",
         "read",
-        "fromkeys",
-        "Path",
-        "extend"
+        "findall",
+        "extend",
+        "load"
       ],
       "get_project_documentation": [
         "exists",
-        "append",
         "isdir",
-        "extend",
         "splitlines",
+        "extend",
+        "append",
         "run"
       ],
       "get_test_context": [
-        "exists",
-        "list",
-        "append",
         "items",
-        "set",
         "len",
-        "extend",
+        "exists",
+        "set",
         "read",
         "splitlines",
-        "run"
+        "open",
+        "list",
+        "extend",
+        "append"
       ],
       "get_environment_context": [
-        "__import__",
-        "exists",
-        "append",
-        "system",
-        "machine",
-        "which",
         "split",
-        "hasattr",
+        "exists",
+        "machine",
+        "basename",
+        "which",
         "splitlines",
-        "strip"
+        "strip",
+        "system",
+        "append",
+        "run"
       ]
     },
     "type_hints": {
@@ -1533,10 +1707,10 @@
         "get_continuation_id"
       ],
       "extract_and_store_continuation": [
-        "get",
-        "startswith",
         "set_continuation_id",
-        "isinstance"
+        "isinstance",
+        "startswith",
+        "get"
       ]
     },
     "type_hints": {
@@ -1612,16 +1786,16 @@
     "complexity": 69,
     "function_calls": {
       "is_file_blocked": [
-        "FileBlocker",
-        "is_blocked"
+        "is_blocked",
+        "FileBlocker"
       ],
       "check_file_creation_simple": [
-        "FileBlocker",
-        "check_file_creation"
+        "check_file_creation",
+        "FileBlocker"
       ],
       "block_file_creation_if_restricted": [
-        "FileBlocker",
-        "check_file_creation"
+        "check_file_creation",
+        "FileBlocker"
       ],
       "enable_master_block": [
         "_save_master_block_setting"
@@ -1688,21 +1862,21 @@
     "complexity": 16,
     "function_calls": {
       "load_constants": [
-        "open",
         "RuntimeError",
-        "load"
+        "load",
+        "open"
       ],
       "get_agent_info": [
+        "split",
         "exists",
-        "append",
-        "startswith",
+        "find",
+        "read",
+        "strip",
+        "open",
         "listdir",
         "join",
-        "endswith",
-        "read",
-        "find",
-        "split",
-        "strip"
+        "append",
+        "startswith"
       ]
     },
     "type_hints": {
@@ -1733,7 +1907,7 @@
   ".claude/hooks/hook_tools/integration/gemini_client.py": {
     "functions": [
       "format_outline(outline)",
-      "call_gemini(user_prompt, verbose_outline, mcp_servers, agents, session_id, git_context, error_context, project_config, project_docs, test_context, env_context, import_graph, cross_file_patterns, test_metrics, context_depth, memory_context)"
+      "call_gemini(user_prompt, verbose_outline, mcp_servers, agents, session_id, git_context, error_context, project_config, project_docs, test_context, env_context, import_graph, cross_file_patterns, test_metrics, context_depth, memory_context, database_context, performance_context)"
     ],
     "classes": [],
     "docstring": "Gemini API client module extracted from UserPromptSubmit.py\nHandles Gemini API integration for context-aware responses.",
@@ -1745,26 +1919,26 @@
       "hook_logger"
     ],
     "todos": [],
-    "complexity": 57,
+    "complexity": 77,
     "function_calls": {
       "format_outline": [
-        "append",
         "items",
         "isinstance",
-        "join",
-        "extend"
+        "extend",
+        "append",
+        "join"
       ],
       "call_gemini": [
-        "list",
-        "log_gemini_response",
-        "get",
-        "json",
-        "len",
-        "join",
-        "log_gemini_request",
+        "split",
+        "log_error",
         "str",
-        "raise_for_status",
-        "basename"
+        "format_outline",
+        "items",
+        "len",
+        "ValueError",
+        "basename",
+        "join",
+        "raise_for_status"
       ]
     },
     "type_hints": {
@@ -1791,7 +1965,9 @@
           "cross_file_patterns": "Optional[Dict]",
           "test_metrics": "Optional[Dict]",
           "context_depth": "Optional[Dict]",
-          "memory_context": "Optional[str]"
+          "memory_context": "Optional[str]",
+          "database_context": "Optional[Dict]",
+          "performance_context": "Optional[Dict]"
         },
         "return": "str"
       }
@@ -1808,7 +1984,7 @@
       {
         "type": "high_complexity",
         "function": "call_gemini",
-        "complexity": 54,
+        "complexity": 74,
         "line": 47,
         "severity": "critical"
       }
@@ -1817,14 +1993,14 @@
       {
         "type": "too_many_parameters",
         "name": "call_gemini",
-        "count": 16,
+        "count": 18,
         "suggestion": "Consider using configuration object or builder pattern"
       }
     ],
     "metrics": {
-      "lines_of_code": 196,
-      "comment_ratio": 0.099,
-      "avg_line_length": 44.4,
+      "lines_of_code": 250,
+      "comment_ratio": 0.115,
+      "avg_line_length": 47.4,
       "is_test_file": false
     },
     "description": "Defines 0 classes and 2 functions"
@@ -1855,10 +2031,10 @@
         "mkdir"
       ],
       "_get_project_hash": [
-        "getcwd",
-        "encode",
+        "hexdigest",
         "sha256",
-        "hexdigest"
+        "getcwd",
+        "encode"
       ],
       "_get_project_memory_dir": [
         "mkdir"
@@ -1950,40 +2126,65 @@
   },
   ".claude/hooks/hook_tools/metrics/relevance_scorer.py": {
     "functions": [
+      "_get_scorer()",
       "extract_keywords(prompt)",
       "score_file_relevance(prompt, filepath, summary)",
       "filter_relevant_files(prompt, outline, top_k)"
     ],
-    "classes": [],
-    "docstring": "Relevance Scoring Module\nProvides file relevance scoring functions for context filtering.",
+    "classes": [
+      "SemanticRelevanceScorer"
+    ],
+    "docstring": "Enhanced Relevance Scoring Module with Semantic Embeddings\nProvides advanced file relevance scoring using semantic understanding.",
     "imports": [
       "re",
+      "os",
+      "json",
+      "numpy",
       "typing"
     ],
     "todos": [],
-    "complexity": 2,
+    "complexity": 32,
     "function_calls": {
+      "_get_scorer": [
+        "SemanticRelevanceScorer"
+      ],
       "extract_keywords": [
+        "len",
         "lower",
-        "findall",
-        "len"
+        "any",
+        "findall"
       ],
       "score_file_relevance": [
         "lower",
-        "set",
-        "len",
-        "findall",
-        "extract_keywords",
-        "str",
-        "update"
+        "get",
+        "_save_cached_embedding",
+        "reshape",
+        "dirname",
+        "basename",
+        "_load_cached_embedding",
+        "filter",
+        "isinstance",
+        "min"
       ],
       "filter_relevant_files": [
-        "items",
         "score_file_relevance",
+        "items",
+        "detect_task_type",
         "sort"
+      ],
+      "__init__": [
+        "ImportError",
+        "dirname",
+        "SentenceTransformer",
+        "join",
+        "makedirs"
       ]
     },
     "type_hints": {
+      "_get_scorer": {
+        "args": {},
+        "return": "SemanticRelevanceScorer"
+      },
       "extract_keywords": {
         "args": {
           "prompt": "str"
@@ -1994,7 +2195,8 @@
         "args": {
           "prompt": "str",
           "filepath": "str",
-          "summary": "Dict[str, Any]"
+          "summary": "Dict[str, Any]",
+          "task_type": "Optional[str]"
         },
         "return": "float"
       },
@@ -2002,18 +2204,35 @@
         "args": {
           "prompt": "str",
           "outline": "Dict[str, Any]",
-          "top_k": "int"
+          "top_k": "int",
+          "task_type": "Optional[str]"
         },
         "return": "Dict[str, Any]"
+      },
+      "__init__": {
+        "args": {
+          "model_name": "str",
+          "cache_dir": "Optional[str]"
+        },
+        "return": null
       }
     },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "score_file_relevance",
+        "complexity": 11,
+        "line": 131,
+        "severity": "medium"
+      }
+    ],
     "metrics": {
-      "lines_of_code": 47,
-      "comment_ratio": 0.061,
-      "avg_line_length": 34.4,
+      "lines_of_code": 218,
+      "comment_ratio": 0.11,
+      "avg_line_length": 35.6,
       "is_test_file": false
     },
-    "description": "Defines 0 classes and 3 functions"
+    "description": "Defines 1 classes and 4 functions"
   },
   ".claude/hooks/hook_tools/metrics/testing_metrics.py": {
     "functions": [
@@ -2030,15 +2249,15 @@
     "complexity": 12,
     "function_calls": {
       "extract_test_metrics": [
-        "walk",
-        "_extract_call_name",
         "lower",
-        "startswith",
-        "isinstance",
+        "walk",
         "read",
         "parse",
         "open",
-        "str"
+        "_extract_call_name",
+        "isinstance",
+        "str",
+        "startswith"
       ]
     },
     "type_hints": {
@@ -2098,20 +2317,20 @@
     "complexity": 149,
     "function_calls": {
       "should_process_file": [
-        "endswith",
         "str",
         "lower",
-        "any"
+        "any",
+        "endswith"
       ],
       "run_auto_fixer": [
-        "_log",
-        "exists",
-        "append",
         "should_process_file",
-        "isabs",
-        "isinstance",
-        "join",
+        "exists",
         "OptimizedPythonFixer",
+        "isinstance",
+        "append",
+        "join",
+        "isabs",
+        "_log",
         "fix_file"
       ],
       "__init__": [
@@ -2122,8 +2341,8 @@
         "compile"
       ],
       "can_fix_line": [
-        "endswith",
-        "strip"
+        "strip",
+        "endswith"
       ]
     },
     "type_hints": {
@@ -2196,6 +2415,133 @@
     },
     "description": "Defines 13 classes and 2 functions"
   },
+  ".claude/hooks/hook_tools/security_validator.py": {
+    "functions": [
+      "sanitize_string(value, max_length, allow_newlines, allow_unicode)",
+      "validate_session_id(session_id)",
+      "validate_file_path(path, base_dir, must_exist, allow_symlinks)",
+      "validate_json_input(data, max_size)",
+      "validate_command_input(command)",
+      "check_rate_limit(identifier, max_requests, window_seconds)",
+      "rate_limit_decorator(max_requests, window_seconds, identifier_func)",
+      "validate_user_prompt(prompt)",
+      "create_security_context()",
+      "validate_subprocess_args(args, allowed_commands)",
+      "sanitize_error_message(error, include_type)"
+    ],
+    "classes": [
+      "SecurityValidationError",
+      "RateLimitExceeded"
+    ],
+    "docstring": "Security validation and sanitization module for hook handlers.\nImplements OWASP security best practices for input validation.",
+    "imports": [
+      "re",
+      "os",
+      "sys",
+      "hashlib",
+      "time"
+    ],
+    "todos": [],
+    "complexity": 45,
+    "function_calls": {
+      "sanitize_string": [
+        "len",
+        "type",
+        "strip",
+        "sub",
+        "decode",
+        "isinstance",
+        "encode",
+        "SecurityValidationError",
+        "replace"
+      ],
+      "validate_session_id": [
+        "SecurityValidationError",
+        "match",
+        "isinstance",
+        "len"
+      ],
+      "validate_file_path": [
+        "resolve",
+        "search",
+        "len",
+        "exists",
+        "relative_to",
+        "absolute",
+        "Path",
+        "isinstance",
+        "str",
+        "SecurityValidationError"
+      ],
+      "validate_json_input": [
+        "len",
+        "SecurityValidationError",
+        "isinstance",
+        "encode",
+        "dumps"
+      ],
+      "validate_command_input": [
+        "SecurityValidationError",
+        "search",
+        "isinstance"
+      ]
+    },
+    "type_hints": {
+      "sanitize_string": {
+        "args": {
+          "value": "str",
+          "max_length": "int",
+          "allow_newlines": "bool",
+          "allow_unicode": "bool"
+        },
+        "return": "str"
+      },
+      "validate_session_id": {
+        "args": {
+          "session_id": "str"
+        },
+        "return": "str"
+      },
+      "validate_file_path": {
+        "args": {
+          "path": "str",
+          "base_dir": "Optional[str]",
+          "must_exist": "bool",
+          "allow_symlinks": "bool"
+        },
+        "return": "Path"
+      },
+      "validate_json_input": {
+        "args": {
+          "data": "Any",
+          "max_size": "int"
+        },
+        "return": "Dict"
+      },
+      "validate_command_input": {
+        "args": {
+          "command": "str"
+        },
+        "return": "str"
+      }
+    },
+    "performance_hotspots": [
+      {
+        "type": "high_complexity",
+        "function": "validate_file_path",
+        "complexity": 11,
+        "line": 156,
+        "severity": "medium"
+      }
+    ],
+    "metrics": {
+      "lines_of_code": 355,
+      "comment_ratio": 0.112,
+      "avg_line_length": 28.0,
+      "is_test_file": false
+    },
+    "description": "Defines 2 classes and 11 functions"
+  },
   ".claude/hooks/hook_tools/state_manager.py": {
     "functions": [
       "migrate_from_settings_json()"
@@ -2216,35 +2562,35 @@
     "function_calls": {
       "migrate_from_settings_json": [
         "Path",
+        "migrate_from_settings",
         "exists",
-        "print",
-        "migrate_from_settings"
+        "print"
       ],
       "__init__": [
         "Path",
-        "RLock",
-        "_ensure_state_directory"
+        "_ensure_state_directory",
+        "RLock"
       ],
       "_ensure_state_directory": [
         "mkdir"
       ],
       "_read_state": [
-        "exists",
-        "isoformat",
-        "load",
         "now",
-        "open"
+        "exists",
+        "open",
+        "isoformat",
+        "load"
       ],
       "_write_state": [
-        "exists",
-        "isoformat",
         "unlink",
-        "dump",
-        "now",
         "setdefault",
+        "now",
+        "exists",
+        "dump",
+        "open",
         "with_suffix",
-        "replace",
-        "open"
+        "isoformat",
+        "replace"
       ]
     },
     "type_hints": {
@@ -2302,47 +2648,47 @@
     "complexity": 45,
     "function_calls": {
       "load_constants": [
-        "open",
         "RuntimeError",
-        "load"
+        "load",
+        "open"
       ],
       "detect_code_quality_issues": [
-        "append",
-        "walk",
-        "isinstance",
         "len",
+        "walk",
         "parse",
-        "hasattr",
-        "count"
+        "isinstance",
+        "count",
+        "append",
+        "hasattr"
       ],
       "calculate_file_metrics": [
-        "int",
-        "lower",
-        "count",
-        "Path",
-        "startswith",
         "len",
-        "endswith",
+        "lower",
         "splitlines",
+        "strip",
+        "any",
+        "Path",
+        "count",
+        "int",
         "round",
-        "strip"
+        "startswith"
       ],
       "summarize_python_file": [
-        "list",
-        "format",
-        "isinstance",
-        "open",
-        "extract_type_hints",
-        "extract_function_calls",
-        "detect_performance_hotspots",
         "detect_code_quality_issues",
+        "open",
+        "calculate_file_metrics",
+        "append",
+        "extract_imports",
+        "calculate_complexity",
+        "items",
         "len",
-        "join"
+        "extract_type_hints",
+        "read"
       ],
       "summarize_text_file": [
-        "open",
+        "strip",
         "len",
-        "strip"
+        "open"
       ]
     },
     "type_hints": {
@@ -2412,22 +2758,22 @@
     "complexity": 9,
     "function_calls": {
       "generate_outline": [
-        "min",
-        "exists",
         "summarize_file",
-        "len"
+        "min",
+        "len",
+        "exists"
       ],
       "bootstrap_summary": [
         "exists",
-        "dirname",
         "getmtime",
-        "print",
-        "time",
-        "makedirs",
-        "dump",
-        "load",
+        "dirname",
         "splitlines",
-        "open"
+        "dump",
+        "generate_outline",
+        "open",
+        "time",
+        "print",
+        "load"
       ]
     },
     "type_hints": {
@@ -2462,8 +2808,8 @@
     "function_calls": {
       "synthesize_tool_outputs": [
         "items",
-        "get",
-        "time"
+        "time",
+        "get"
       ]
     },
     "type_hints": {
@@ -2499,8 +2845,8 @@
     "complexity": 1,
     "function_calls": {
       "load_constants": [
-        "warn",
-        "load_constants"
+        "load_constants",
+        "warn"
       ],
       "load_env": [
         "load_env",
@@ -2544,14 +2890,14 @@
     "function_calls": {
       "build_import_graph": [
         "exists",
-        "append",
         "walk",
-        "isinstance",
-        "extend",
-        "parse",
         "read",
         "splitlines",
+        "parse",
         "open",
+        "isinstance",
+        "extend",
+        "append",
         "check_output"
       ]
     },
@@ -2606,16 +2952,16 @@
       "get_hooks_dir": [],
       "get_hook_tools_dir": [],
       "load_constants": [
-        "open",
         "RuntimeError",
-        "load"
+        "load",
+        "open"
       ],
       "load_env": [
-        "exists",
-        "startswith",
         "split",
+        "exists",
         "strip",
         "open",
+        "startswith",
         "get_env_file_path"
       ]
     },
@@ -2651,7 +2997,101 @@
     },
     "description": "Defines 1 classes and 5 functions"
   },
+  ".claude/hooks/hook_tools/utilities/smart_truncate.py": {
+    "functions": [
+      "smart_truncate(content, max_length, preserve_ratio, separator)",
+      "_trim_to_word_boundary(text, from_end)",
+      "truncate_for_memory(content)",
+      "truncate_for_preview(content, max_length)"
+    ],
+    "classes": [],
+    "docstring": "Smart truncation utilities for preserving context while limiting content length.\nImplements intelligent truncation that keeps beginning and end portions.",
+    "imports": [
+      "typing"
+    ],
+    "todos": [],
+    "complexity": 9,
+    "function_calls": {
+      "smart_truncate": [
+        "len",
+        "int",
+        "_trim_to_word_boundary",
+        "lstrip",
+        "rstrip"
+      ],
+      "_trim_to_word_boundary": [
+        "len",
+        "rfind",
+        "find"
+      ],
+      "truncate_for_memory": [
+        "smart_truncate"
+      ],
+      "truncate_for_preview": [
+        "smart_truncate"
+      ]
+    },
+    "type_hints": {
+      "smart_truncate": {
+        "args": {
+          "content": "str",
+          "max_length": "int",
+          "preserve_ratio": "float",
+          "separator": "str"
+        },
+        "return": "str"
+      },
+      "_trim_to_word_boundary": {
+        "args": {
+          "text": "str",
+          "from_end": "bool"
+        },
+        "return": "str"
+      },
+      "truncate_for_memory": {
+        "args": {
+          "content": "str"
+        },
+        "return": "str"
+      },
+      "truncate_for_preview": {
+        "args": {
+          "content": "str",
+          "max_length": "int"
+        },
+        "return": "str"
+      }
+    },
+    "metrics": {
+      "lines_of_code": 77,
+      "comment_ratio": 0.068,
+      "avg_line_length": 30.4,
+      "is_test_file": false
+    },
+    "description": "Defines 0 classes and 4 functions"
+  },
   ".claude/hooks/memory/1216ffe196a78793/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/174c6e0ce26a047f/memories.json": {
+    "description": "Unreadable JSON file"
+  },
+  ".claude/hooks/memory/6cfc54f812dfd213/memories.json": {
+    "description": "JSON config",
+    "keys": [
+      "project_hash",
+      "project_path",
+      "memories",
+      "metadata"
+    ]
+  },
+  ".claude/hooks/memory/bae5091757d27948/memories.json": {
     "description": "JSON config",
     "keys": [
       "project_hash",
@@ -2719,6 +3159,9 @@
   },
   ".gitignore": {
     "description": "Skipped unhandled file: .gitignore"
+  },
+  ".serena/cache/python/document_symbols_cache_v23-06-25.pkl": {
+    "description": "Skipped unhandled file: .serena/cache/python/document_symbols_cache_v23-06-25.pkl"
   },
   ".serena/project.yml": {
     "description": "Skipped unhandled file: .serena/project.yml"

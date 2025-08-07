@@ -1,0 +1,120 @@
+{
+  "project_hash": "a6d651f02c329cdc",
+  "project_path": "/home/devcontainers/simple-claude",
+  "memories": {
+    "30b0059f-c6ab-4789-96df-f3d86ea85d05": {
+      "memory_id": "30b0059f-c6ab-4789-96df-f3d86ea85d05",
+      "content": "Tool: Read, Read: /tmp/test/example.py, Recommended: Test recommendation, HIGH: 1 high-risk patterns detected",
+      "memory_type": "anti_patterns",
+      "timestamp": "2025-08-06T21:53:41.429406",
+      "session_id": "test-session",
+      "continuation_id": null,
+      "relevance_score": 0.8999999999999999,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T21:53:41.429406",
+      "tags": [
+        "Read",
+        "anti_patterns_detected",
+        "antipattern_test_high_pattern_0",
+        "severity_high",
+        "antipattern_test_medium_pattern_0",
+        "severity_medium",
+        "antipattern_test_medium_pattern_1",
+        "performance_medium",
+        "framework_pytest",
+        "pytest",
+        "requests",
+        "numpy",
+        "python3.9",
+        "errors_1"
+      ],
+      "project_hash": "a6d651f02c329cdc",
+      "schema_version": "2.0",
+      "analysis_data": {
+        "anti_patterns": [
+          {
+            "severity": "HIGH",
+            "pattern_name": "test_high_pattern_0",
+            "description": "Test HIGH severity pattern 0"
+          },
+          {
+            "severity": "MEDIUM",
+            "pattern_name": "test_medium_pattern_0",
+            "description": "Test MEDIUM severity pattern 0"
+          },
+          {
+            "severity": "MEDIUM",
+            "pattern_name": "test_medium_pattern_1",
+            "description": "Test MEDIUM severity pattern 1"
+          }
+        ],
+        "performance_metrics": {
+          "risk_level": "medium",
+          "nested_loops": [],
+          "sync_io_operations": [
+            {
+              "operation": "file_read",
+              "severity": "medium"
+            }
+          ],
+          "aggregate_risk_score": 20
+        },
+        "project_context": {
+          "config": {
+            "dependencies": [
+              "requests",
+              "numpy"
+            ],
+            "python_version": "3.9"
+          },
+          "environment": {
+            "virtual_env": "venv",
+            "python_version": "3.9.7"
+          },
+          "errors": {
+            "recent_errors": [
+              "test_error_0"
+            ]
+          },
+          "tests": {
+            "frameworks": [
+              "pytest",
+              "unittest"
+            ]
+          }
+        },
+        "tool_context": {
+          "tool_name": "Read",
+          "file_paths": [
+            "/tmp/test.py"
+          ]
+        }
+      },
+      "metadata": {
+        "risk_score": 0.6000000000000001,
+        "complexity_score": 0.32000000000000006,
+        "confidence_score": 1.0,
+        "file_paths": [],
+        "tool_context": {
+          "tool_name": "Read",
+          "file_paths": [
+            "/tmp/test/example.py",
+            "/tmp/test/helper.py",
+            "/tmp/test/utils.py"
+          ],
+          "operation_type": "file_read"
+        },
+        "recommendation_confidence": 0.6900000000000001,
+        "created_at": "2025-08-06T21:53:41.429408"
+      }
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-06T21:53:41.429394",
+    "version": "2.0",
+    "memory_count": 1,
+    "schema_migrations": [],
+    "last_migration": null,
+    "last_updated": "2025-08-06T21:53:41.429425"
+  }
+}

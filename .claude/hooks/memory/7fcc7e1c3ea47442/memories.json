@@ -1,0 +1,83 @@
+{
+  "project_hash": "7fcc7e1c3ea47442",
+  "project_path": "/home/devcontainers/simple-claude",
+  "memories": {
+    "69f05580-2b66-457b-9261-a98134f5a573": {
+      "memory_id": "69f05580-2b66-457b-9261-a98134f5a573",
+      "content": "Tool: Read, Read: /tmp/test/example.py, Recommended: Test recommendation",
+      "memory_type": "tool_patterns",
+      "timestamp": "2025-08-06T21:53:11.533271",
+      "session_id": "test-session",
+      "continuation_id": null,
+      "relevance_score": 0.44999999999999996,
+      "access_count": 0,
+      "last_accessed": "2025-08-06T21:53:11.533271",
+      "tags": [
+        "Read",
+        "framework_pytest",
+        "pytest",
+        "requests",
+        "numpy",
+        "python3.9",
+        "errors_1"
+      ],
+      "project_hash": "7fcc7e1c3ea47442",
+      "schema_version": "2.0",
+      "analysis_data": {
+        "project_context": {
+          "config": {
+            "dependencies": [
+              "requests",
+              "numpy"
+            ],
+            "python_version": "3.9"
+          },
+          "environment": {
+            "virtual_env": "venv",
+            "python_version": "3.9.7"
+          },
+          "errors": {
+            "recent_errors": [
+              "test_error_0"
+            ]
+          },
+          "tests": {
+            "frameworks": [
+              "pytest",
+              "unittest"
+            ]
+          }
+        },
+        "tool_context": {
+          "tool_name": "Read",
+          "input_summary": "Read: /tmp/test/example.py"
+        }
+      },
+      "metadata": {
+        "risk_score": 0.0,
+        "complexity_score": 0.02,
+        "confidence_score": 1.0,
+        "file_paths": [],
+        "tool_context": {
+          "tool_name": "Read",
+          "file_paths": [
+            "/tmp/test/example.py",
+            "/tmp/test/helper.py",
+            "/tmp/test/utils.py"
+          ],
+          "operation_type": "file_read"
+        },
+        "recommendation_confidence": 0.33000000000000007,
+        "created_at": "2025-08-06T21:53:11.533273"
+      }
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-06T21:53:11.533260",
+    "version": "2.0",
+    "memory_count": 1,
+    "schema_migrations": [],
+    "last_migration": null,
+    "last_updated": "2025-08-06T21:53:11.533288"
+  }
+}
